@@ -1,6 +1,6 @@
 # Bookie — Project Context
 
-> Soul & identity: see global ~/.claude/CLAUDE.md
+> Soul & identity: see ~/.claude/CLAUDE.md or ~/.gemini/GEMINI.md
 
 ## About
 
@@ -29,7 +29,7 @@ Bookie/
 ### Sub-project Conventions
 
 - Mỗi sub-project nằm trong `projects/<name>/`
-- Dùng `/new-subproject <name>` để tạo sub-project mới với structure chuẩn
+- Tạo sub-project mới theo structure trên
 - Large media files tracked bằng Git LFS (video, PSD, audio, etc.)
 - Output cuối cùng đặt trong `output/`, không commit output vào git trừ khi cần thiết
 
@@ -51,7 +51,7 @@ Auto-loaded at session start (brief, context, tech). Full files in `.memory-bank
 - `architecture.md` — System architecture
 - `tech.md` — Tech stack and tooling
 
-After major tasks or architectural changes, update relevant Memory Bank files (use `/update-mb`).
+After major tasks or architectural changes, update relevant Memory Bank files.
 
 ## Security
 **CRITICAL**: NEVER commit, push, or expose secrets, API keys, tokens, or credentials to version control.
