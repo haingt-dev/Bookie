@@ -1,56 +1,62 @@
 # Current Context
 
-> **Last Updated**: [YYYY-MM-DD]
-> **Updated By**: [Agent name or human]
+> **Last Updated**: 2026-03-03
+> **Updated By**: Claude Code (với Hải)
 
 ## 🎯 Current Sprint/Focus
-**Goal**: [What are we trying to achieve in the next 1-2 weeks?]
-**Deadline**: [If any]
-**Progress**: [0-100%] or [On Track / At Risk / Blocked]
+**Goal**: Setup automated video production pipeline cho kênh Bookie
+**Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
+**Progress**: 75% — Voice generation working, evaluate script ready, cần chọn voice + init Remotion
 
 ## 🏗️ Active Workstreams
-1. **[Workstream Name]**
-   - **Status**: [In Progress / Blocked / Review / Done]
-   - **Owner**: [If team project]
-   - **Priority**: [High / Medium / Low]
-   - **Blockers**: [What's blocking progress, if any]
-   - **Next Action**: [Immediate next step]
-
-2. **[Workstream Name]**
-   - [Same structure as above]
+1. **AI Book Video Pipeline**
+   - **Status**: In Progress
+   - **Owner**: Hải
+   - **Priority**: High
+   - **Blockers**:
+     - Remotion template chưa init
+   - **Next Action**: Evaluate 30 WAV samples → chọn speaker/temperature → init Remotion template
 
 ## 📝 Recent Changes (Last 30 Days)
-- **[YYYY-MM-DD]** `feat`: [Description of change]
-  - Files: `path/to/file.ext`
-  - Impact: [What changed and why it matters]
-
-- **[YYYY-MM-DD]** `refactor`: [Description]
-  - Commit: `abc123` or PR #123
+- **2026-03-03** `feat`: Voice matrix test — 30 WAV files generated
+  - Files: `scripts/test-voice-matrix.sh`, `scripts/evaluate-matrix.sh`, `assets/test-sach/voice-matrix/`
+  - Impact: viXTTS server working, voice generation pipeline validated
+- **2026-03-03** `feat`: Add viXTTS server scripts và expressiveness tests
+  - Files: `scripts/vixtts-server.sh`, `scripts/test-expressiveness/`, `scripts/test-sach/`
+  - Impact: TTS infrastructure ready, multiple voice samples available
+- **2026-03-02** `feat`: Setup pipeline scripts và templates
+  - Files: `scripts/init-video.sh`, `scripts/generate-voice.sh`, `scripts/templates/checklist.md`, `scripts/content-calendar.md`
+  - Impact: Automation framework cho toàn bộ video production
+- **2026-03-02** `docs`: Rewrite WORKFLOW.md với automation details
+  - Files: `WORKFLOW.md`
+  - Impact: Thêm NotebookLM MCP, Fish Speech, PhoWhisper, feedback loop
 
 ## 🔄 Context Carry-Forward
-**From Last Session**:
-- [What agents should know from previous work session]
-- [Unfinished items or thoughts-in-progress]
+**From This Session (2026-03-03)**:
+- viXTTS server running via Podman container on port 8020
+- Voice matrix: 30 WAV files (6 speakers × 5 temperatures) generated thành công
+- `evaluate-matrix.sh` — interactive script để nghe + đánh giá từng sample
+- Reference audio đã record và đặt trong `assets/brand/voice-reference/`
 
 **For Next Session**:
-- [What to remember for next time]
-- [Ideas to explore later]
+- Chạy `evaluate-matrix.sh` để chọn best speaker + temperature combo
+- Init Remotion template project
+- Chọn sách đầu tiên và chạy thử end-to-end
 
 ## ⚠️ Known Issues & Workarounds
-- **Issue**: [Description of problem]
-  - **Workaround**: [Temporary solution until fixed]
-  - **Tracking**: [Link to issue or TODO]
-
-## 💡 Quick Wins Identified
-- [Low-effort improvements noticed but not yet implemented]
-- [Tech debt items that could be tackled quickly]
+- **Issue**: NotebookLM MCP dùng internal APIs — có thể thay đổi không báo trước
+  - **Workaround**: Fallback: dùng NotebookLM web UI nếu MCP lỗi
+- **Issue**: viXTTS Podman container cần start thủ công mỗi session
+  - **Workaround**: Dùng `scripts/vixtts-server.sh` để start/manage container
 
 ## 📂 Key Files & Locations
-- `path/to/file.ext` — [Purpose and why it's important]
-- `path/to/another.ext` — [Context about this file]
-- `folder/` — [What lives here]
-
-## 🔗 Related Resources
-- [Link to documentation]
-- [Link to design docs or specs]
-- [External references]
+- `WORKFLOW.md` — Master workflow document
+- `scripts/init-video.sh` — Tạo folder structure cho video mới
+- `scripts/generate-voice.sh` — Script → WAV bằng viXTTS API
+- `scripts/vixtts-server.sh` — Start/manage viXTTS Podman container
+- `scripts/test-voice-matrix.sh` — Generate voice matrix (speakers × temperatures)
+- `scripts/evaluate-matrix.sh` — Interactive voice evaluation script
+- `scripts/templates/` — Claude prompts, script template, image prompts, checklist
+- `scripts/content-calendar.md` — Tracking sản xuất và metrics
+- `assets/brand/voice-reference/` — Voice reference audio cho viXTTS
+- `assets/brand/style-guide.md` — Visual style guide

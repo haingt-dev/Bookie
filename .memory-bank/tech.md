@@ -2,176 +2,93 @@
 
 ## 🛠️ Core Technologies
 
-### Language & Runtime
-- **Primary Language**: [e.g., Python 3.11, JavaScript/Node.js 20]
-- **Language Version**: [Specific version with reasoning]
-- **Runtime Environment**: [e.g., Node.js, Python venv, etc.]
+### AI & Content Creation
+| Tool | Purpose | Type |
+|------|---------|------|
+| **NotebookLM** (MCP) | Book extraction, research | Cloud (MCP: `notebooklm-mcp-cli`) |
+| **Claude** | Script writing, analysis, metadata | Cloud |
+| **viXTTS** | AI voice clone → voiceover | Self-host (Podman, local GPU) |
+| **PhoWhisper** | Vietnamese speech-to-text → SRT | Self-host (local) |
+| **Midjourney/Leonardo AI** | Flat illustration generation | Cloud |
 
-### Framework
-- **Main Framework**: [e.g., React 18, FastAPI, Godot 4.x]
-- **Version**: [Specific version]
-- **Why Chosen**: [Brief justification]
+### Video Production
+| Tool | Purpose | Type |
+|------|---------|------|
+| **Remotion** | React-based video framework | OSS, local |
+| **Antigravity** | IDE + visual editor for Remotion | Local |
+| **Canva** | Thumbnail design | Cloud (free tier) |
+| **ffmpeg** | Audio/video processing | Local |
+
+### Distribution
+| Tool | Purpose |
+|------|---------|
+| YouTube Studio | Upload + schedule video |
+| Meta Business Suite | Facebook video + Reels |
 
 ## 📦 Key Dependencies
 
-### Production Dependencies
-| Dependency | Version | Purpose | Why This One? |
-|------------|---------|---------|---------------|
-| [package-name] | [^1.2.3] | [What it does] | [Why chosen over alternatives] |
-| [package-name] | [^2.0.0] | [What it does] | [Reasoning] |
+### viXTTS (Self-hosted)
+- **GPU**: RTX 4070 Super Ti (16GB VRAM) — dư sức
+- **Runtime**: Podman container (`ghcr.io/vixtts`)
+- **API**: REST API tại `localhost:8020`
+- **Env var**: `VIXTTS_API_URL=http://localhost:8020`
+- **Voice clone**: 10-30s reference audio (WAV)
+- **Start**: `scripts/vixtts-server.sh` (manages Podman container)
+- **Tested**: 30 WAV samples generated successfully (6 speakers × 5 temps)
 
-### Development Dependencies
-| Dependency | Version | Purpose |
-|------------|---------|---------|
-| [dev-tool] | [^1.0.0] | [Testing / Linting / Build / etc.] |
+### PhoWhisper
+- **Model**: `vinai/PhoWhisper-large` (Whisper fine-tuned cho tiếng Việt)
+- **Install**: `pip install transformers` + download model
+- **Accuracy**: State-of-the-art cho Vietnamese ASR
+
+### NotebookLM MCP
+- **Package**: `jacob-bd/notebooklm-mcp-cli`
+- **Install**: `uv tool install notebooklm-mcp-cli`
+- **Auth**: `nlm auth login` (browser-based, 1 lần)
+- **Setup**: `nlm setup add antigravity`
+- **⚠️**: Dùng undocumented APIs, 29 tools chiếm context window
+
+### Remotion
+- **Version**: Latest (create-video)
+- **Runtime**: Node.js 18+
+- **Render**: CLI (`npx remotion render`)
+- **Config**: `remotion.config.ts`
 
 ## 🖥️ Development Environment
 
 ### Required System
-- **OS**: [macOS / Linux / Windows / Cross-platform]
-- **Minimum Version**: [If specific]
-- **Shell**: [bash / zsh / etc.]
+- **OS**: Linux
+- **GPU**: NVIDIA RTX 4070 Super Ti (16GB VRAM)
+- **Shell**: zsh
 
 ### Required Tools
-- [Tool 1]: [Version] — [Purpose]
-- [Tool 2]: [Version] — [Purpose]
-
-### Setup Instructions
-```bash
-# Quick setup commands
-[Commands to get started]
-```
-
-See `README.md` or `docs/setup.md` for full setup guide.
-
-## 🗄️ Data Storage
-
-### Database
-- **Type**: [PostgreSQL / MongoDB / SQLite / etc.]
-- **Version**: [Specific version]
-- **ORM/Driver**: [If applicable]
-
-### Caching
-- **System**: [Redis / in-memory / etc.]
-- **Purpose**: [What's cached and why]
-
-### File Storage
-- **Local**: [Where files are stored]
-- **Cloud**: [If using S3, GCS, etc.]
-
-## 🔧 Build & Deployment
-
-### Build System
-- **Build Tool**: [Webpack / Vite / Make / etc.]
-- **Package Manager**: [npm / yarn / pnpm / pip / etc.]
-- **Build Time**: [Typical build duration]
-
-### Deployment
-- **Platform**: [Heroku / Vercel / AWS / Self-hosted / etc.]
-- **CI/CD**: [GitHub Actions / GitLab CI / etc.]
-- **Deployment Process**: [Brief overview or link to docs]
-
-## 🧪 Testing
-
-### Test Framework
-- **Unit Tests**: [Jest / pytest / etc.]
-- **Integration Tests**: [Framework/approach]
-- **E2E Tests**: [Playwright / Cypress / etc.]
-
-### Coverage
-- **Current Coverage**: [%]
-- **Target Coverage**: [%]
-
-## 📝 Code Quality
-
-### Linting & Formatting
-- **Linter**: [ESLint / Ruff / etc.]
-- **Formatter**: [Prettier / Black / etc.]
-- **Config**: [Location of config files]
-
-### Pre-commit Hooks
-- **Tool**: [pre-commit / husky / etc.]
-- **Checks**: [What runs before commit]
+- Node.js 18+ — Remotion
+- Python 3.10+ — Fish Speech, PhoWhisper
+- ffmpeg — Audio/video concatenation
+- jq — JSON processing in scripts
+- uv — Python package manager (for NotebookLM MCP)
 
 ## 🔐 Security & Secrets
 
 ### Secrets Management
-- **Method**: [.env files / Vault / etc.]
-- **Location**: [Where secrets are stored - NOT the actual secrets!]
-- **Required Secrets**: [List of secret names needed, NO values]
+- **Method**: Environment variables + `.env` files
+- **Required Secrets**:
+  - `VIXTTS_API_URL` — viXTTS server URL (default: `http://localhost:8020`)
+  - Google account auth cookie (managed by `nlm auth` — stored locally)
 
-### Security Tools
-- [Dependency scanning tool]
-- [Security linting tool]
-
-## 📊 Monitoring & Logging
-
-### Logging
-- **Library**: [Winston / logging / etc.]
-- **Format**: [JSON / plain text / etc.]
-- **Destinations**: [Console / File / Cloud service]
-
-### Error Tracking
-- **Service**: [Sentry / Rollbar / etc.]
-- **Alert Threshold**: [When to notify]
-
-### Performance Monitoring
-- **Tool**: [If any - New Relic / custom / etc.]
-
-## 🚀 Performance Considerations
-
-### Optimization Strategies
-- [Key optimization approach 1]
-- [Key optimization approach 2]
-
-### Known Bottlenecks
-- [Performance bottleneck 1 + mitigation]
-- [Performance bottleneck 2 + mitigation]
+### .gitignore
+- `.env*`, `*.wav`, `*.mp3`, `*.mp4` (media files tracked via Git LFS)
+- Voice reference files
+- Output renders
 
 ## 🔄 Version Control
 
 ### Git Strategy
-- **Branching Model**: [Git Flow / Trunk-based / etc.]
-- **Main Branch**: [main / master]
-- **Protected Branches**: [Which branches require review]
+- **Main Branch**: `main`
+- **Large Files**: Git LFS for media (video, audio, PSD, high-res images)
+- **Output**: Not committed (generated, can be re-rendered)
 
 ### Commit Convention
-- **Format**: [Conventional Commits / Custom / etc.]
-- **Example**: `feat(auth): add password reset flow`
-
-## 📚 Documentation
-
-### Code Documentation
-- **Standard**: [JSDoc / Sphinx / etc.]
-- **Coverage**: [What's documented]
-
-### API Documentation
-- **Format**: [OpenAPI / Swagger / etc.]
-- **Location**: [Where to find API docs]
-
-## 🔧 Development Workflow
-
-### Local Development
-```bash
-# Start dev environment
-[command]
-
-# Run tests
-[command]
-
-# Build for production
-[command]
-```
-
-### Debugging
-- **Tools**: [Debugger tools used]
-- **Tips**: [Project-specific debugging tips]
-
-## ⚠️ Known Technical Debt
-- [Tech debt item 1] — Priority: [High/Medium/Low]
-- [Tech debt item 2] — Priority: [High/Medium/Low]
-
-## 🔮 Future Tech Considerations
-- [Planned migration or upgrade]
-- [Technology being evaluated]
-- [Technical improvements on roadmap]
+- `feat(video): add init-video script`
+- `docs: update WORKFLOW with automation details`
+- `fix(voice): adjust chunk splitting for Fish Speech`

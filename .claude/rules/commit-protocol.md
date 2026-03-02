@@ -1,7 +1,3 @@
----
-description: Commit message format and conventions
----
-
 # Commit Message Format
 `<type>(<scope>): <description>`
 

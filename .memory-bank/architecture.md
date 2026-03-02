@@ -1,82 +1,91 @@
 # Architecture
 
 ## 🏛️ System Overview
-[2-3 sentence high-level description of the system architecture]
+Pipeline-based production system cho video sách. Không phải application code — là một chuỗi tools + scripts + templates orchestrated bởi bash scripts và AI agents.
 
-**Architecture Style**: [e.g., Monolith / Microservices / Layered / Event-Driven / etc.]
+**Architecture Style**: Pipeline / Workflow automation
 
 ## 📁 Project Structure
 ```
-project-root/
-├── src/               — [Purpose]
-│   ├── components/    — [Purpose]
-│   ├── services/      — [Purpose]
-│   └── utils/         — [Purpose]
-├── tests/             — [Purpose]
-├── docs/              — [Purpose]
-└── config/            — [Purpose]
+projects/ai-book-video/
+├── WORKFLOW.md               — Master workflow documentation
+├── assets/
+│   ├── brand/
+│   │   ├── style-guide.md    — Visual brand guidelines
+│   │   └── voice-reference/  — AI voice clone reference audio
+│   ├── test-sach/
+│   │   └── voice-matrix/     — Voice test samples (speakers × temperatures)
+│   ├── test-expressiveness/  — Expressiveness test samples
+│   └── <book-slug>/          — Per-video assets (scenes, thumbnails, audio)
+├── scripts/
+│   ├── init-video.sh         — Scaffold new video project
+│   ├── generate-voice.sh     — Script → WAV (viXTTS API)
+│   ├── generate-subtitle.sh  — WAV → SRT (PhoWhisper)
+│   ├── vixtts-server.sh      — Start/manage viXTTS Podman container
+│   ├── test-voice-matrix.sh  — Generate voice matrix for evaluation
+│   ├── evaluate-matrix.sh    — Interactive voice sample evaluation
+│   ├── content-calendar.md   — Production tracking
+│   └── templates/            — Reusable templates (prompts, script, checklist)
+└── output/
+    └── <book-slug>/          — Final renders (MP4, SRT)
+```
+
+## 🔄 Data Flow
+
+```
+[Sách (PDF/ebook)]
+    ↓
+[NotebookLM MCP] → Raw notes + insights
+    ↓
+[Claude] → Script + Storyboard + Image prompts
+    ↓
+[AI Image Gen] → Scene illustrations (PNG)
+    ↓
+[viXTTS] → Voiceover (WAV) ← script text
+    ↓
+[PhoWhisper] → Subtitles (SRT) ← voiceover WAV
+    ↓
+[Remotion] → Final video (MP4) ← illustrations + voiceover + SRT
+    ↓
+[YouTube / Facebook] → Published content
+    ↓
+[Analytics] → Feedback → Phase 1 adjustments
 ```
 
 ## 🧩 Key Components
-### [Component 1 Name]
-- **Location**: `path/to/component`
-- **Purpose**: [What it does]
-- **Dependencies**: [What it depends on]
-- **Consumers**: [What uses it]
 
-### [Component 2 Name]
-- [Same structure as above]
+### NotebookLM MCP Integration
+- **Location**: MCP server config (managed by `nlm setup`)
+- **Purpose**: Extract book insights without leaving Antigravity
+- **Dependencies**: Google account, internet
+- **Used by**: Phase 1 (PICK)
 
-## 🔄 Data Flow
-```
-[User/Client]
-    ↓
-[Entry Point: e.g., API Gateway]
-    ↓
-[Processing Layer: e.g., Controllers/Services]
-    ↓
-[Data Layer: e.g., Database/Storage]
-```
+### viXTTS (Self-hosted)
+- **Location**: Podman container on local GPU, port 8020
+- **Purpose**: AI voice cloning → Vietnamese voiceover
+- **Dependencies**: RTX 4070 Super Ti, Podman, CUDA
+- **Used by**: Phase 4 (BUILD) via `generate-voice.sh`
+- **Management**: `scripts/vixtts-server.sh`
 
-**Key Flows**:
-1. **[Flow Name]**: [Description of how data moves]
-2. **[Flow Name]**: [Another important flow]
+### Remotion Template (planned)
+- **Location**: `remotion-template/` (yet to be created)
+- **Purpose**: Programmatic video composition + CLI rendering
+- **Dependencies**: Node.js, React/TypeScript
+- **Used by**: Phase 4 (BUILD)
 
-## 🎨 Design Patterns & Principles
-- **[Pattern Name]**: [Where and why it's used]
-  - Example: `Singleton` for database connection
-- **[Pattern Name]**: [Another pattern]
-  - Example: `Factory` for creating service instances
+### Automation Scripts
+- **Location**: `scripts/`
+- **Purpose**: Orchestrate pipeline steps, reduce manual work
+- **Dependencies**: bash, ffmpeg, jq, curl
 
 ## 🔌 External Integrations
-- **[Service Name]**: [Purpose, how integrated]
-  - Location: `path/to/integration`
-  - Auth: [How authentication works]
-
-## 🗄️ Data Architecture
-**Database**: [Type: PostgreSQL / MongoDB / etc.]
-**Key Tables/Collections**:
-- `table_name`: [Purpose, key fields]
-- `another_table`: [Purpose]
-
-**Caching**: [If any - Redis, in-memory, etc.]
-
-## 🔐 Security & Authentication
-- **Auth Method**: [JWT / Session / OAuth / etc.]
-- **Secrets Management**: [How secrets are stored]
-- **Key Security Patterns**: [Important security considerations]
-
-## 📊 Monitoring & Observability
-- **Logging**: [Where logs go, format]
-- **Metrics**: [What's tracked]
-- **Tracing**: [If distributed tracing is used]
+- **NotebookLM**: MCP via `notebooklm-mcp-cli` (unofficial API)
+- **viXTTS**: REST API at localhost:8020 (Podman container, self-hosted)
+- **AI Image Gen**: Manual via Midjourney/Leonardo web UI
+- **YouTube/Facebook**: Manual upload via web UI (potential future API integration)
 
 ## 🚨 Critical Constraints
-- [Important architectural constraints or limitations]
-- [Performance requirements]
-- [Scalability considerations]
-
-## 🔮 Future Considerations
-- [Planned architectural changes]
-- [Tech debt to address]
-- [Scalability plans]
+- **1-person operation**: Everything must be automatable or very fast manually
+- **GPU bound**: Fish Speech runs on local GPU — can't run while gaming/training
+- **NotebookLM MCP instability**: Uses undocumented APIs, may break on updates
+- **No CI/CD**: This is a content pipeline, not a software deployment pipeline

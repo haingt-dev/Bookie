@@ -20,12 +20,12 @@ Resource hub cho Book!e Inspires Everyone — cộng đồng người đọc sá
 - Content writing/blog posts
 
 ## Active Sub-projects
-1. **ai-book-video**: AI video animation nói về sách (demo project)
+1. **ai-book-video**: Video sách với AI automation (Fish Speech voice, Remotion render, NotebookLM MCP)
 
 ## Target Users
-- **Primary**: Hải và team Bookie — dùng để quản lý resources
-- **Secondary**: Contributors tham gia các sub-projects
+- **Primary**: Hải — producer duy nhất, vận hành toàn bộ pipeline
+- **Secondary**: Bookie audience (người Việt 20-35, self-improvement)
 
 ## Status
 - **Start Date**: 2026-03-02
-- **Status**: Planning
+- **Status**: In Progress — voice generation tested (30 samples), evaluating best voice config
