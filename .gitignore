@@ -13,6 +13,9 @@ Thumbs.db
 # Uncomment below to ignore specific output dirs:
 # projects/*/output/
 
+# MCP config (local paths)
+.mcp.json
+
 # Temporary files
 *.tmp
 *.bak

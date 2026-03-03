@@ -10,13 +10,25 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # --- Configuration ---
 VIXTTS_API_URL="${VIXTTS_API_URL:-http://127.0.0.1:8020}"
-SPEAKER_NAME="${VIXTTS_SPEAKER:-bookie-hai}"
+SPEAKER_NAME="${VIXTTS_SPEAKER:-fonos}"
 SILENCE_SENTENCE=0.15     # 150ms between sentences (same paragraph)
 SILENCE_PARAGRAPH=0.4     # 400ms between paragraphs/sections
 FADE_DURATION=0.02        # minimal fade to prevent clicks
 MIN_BATCH_CHARS=100       # batch sentences shorter than this with neighbor
-VIXTTS_TEMPERATURE="${VIXTTS_TEMPERATURE:-0.85}"             # XTTS default — pitch/intonation variation
+VIXTTS_TEMPERATURE="${VIXTTS_TEMPERATURE:-0.85}"             # Best from voice matrix eval — consistent across tones
 VIXTTS_REPETITION_PENALTY="${VIXTTS_REPETITION_PENALTY:-2.0}" # XTTS default — natural prosody patterns
+
+# --- Helper: apply TTS voice settings ---
+apply_voice_settings() {
+  local temp="$1" rep="$2"
+  local settings
+  settings=$(curl -s "$VIXTTS_API_URL/get_tts_settings" | \
+    jq --argjson temp "$temp" --argjson rep "$rep" \
+       '.enable_text_splitting = false | .temperature = $temp | .repetition_penalty = $rep')
+  curl -s -X POST "$VIXTTS_API_URL/set_tts_settings" \
+    -H "Content-Type: application/json" \
+    -d "$settings" > /dev/null
+}
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -55,13 +67,7 @@ echo -e "${GREEN}Server connected${NC}"
 echo -e "  Speaker: ${GREEN}$SPEAKER_NAME${NC}"
 
 # Tune viXTTS settings: disable internal splitting + expressiveness params
-TTS_SETTINGS=$(curl -s "$VIXTTS_API_URL/get_tts_settings" | \
-  jq --argjson temp "$VIXTTS_TEMPERATURE" \
-     --argjson rep "$VIXTTS_REPETITION_PENALTY" \
-     '.enable_text_splitting = false | .temperature = $temp | .repetition_penalty = $rep')
-curl -s -X POST "$VIXTTS_API_URL/set_tts_settings" \
-  -H "Content-Type: application/json" \
-  -d "$TTS_SETTINGS" > /dev/null
+apply_voice_settings "$VIXTTS_TEMPERATURE" "$VIXTTS_REPETITION_PENALTY"
 echo -e "  Text splitting: ${GREEN}disabled${NC} (handled by script)"
 echo -e "  Temperature: ${GREEN}$VIXTTS_TEMPERATURE${NC} | Repetition penalty: ${GREEN}$VIXTTS_REPETITION_PENALTY${NC}"
 
@@ -116,17 +122,27 @@ split_into_units() {
   local output_dir="$3"
   local unit_num=0
   local paragraph_breaks=""
+  local pending_voice=""
 
-  # Split text into paragraphs by blank lines
+  # Split text into paragraphs by blank lines, extracting voice markers
   local para=""
   local para_num=0
   local paragraphs=()
+  local para_voices=()  # voice override for each paragraph (empty = no override)
 
   while IFS= read -r line || [[ -n "$line" ]]; do
+    # Detect voice markers: <!-- voice: ... -->
+    if [[ "$line" =~ ^\<\!--\ voice:\ (.+)\ --\>$ ]]; then
+      pending_voice="${BASH_REMATCH[1]}"
+      continue
+    fi
+
     if [[ -z "$line" ]]; then
       # Blank line = paragraph boundary
       if [[ -n "$para" ]]; then
         paragraphs+=("$para")
+        para_voices+=("$pending_voice")
+        pending_voice=""
         para=""
       fi
     else
@@ -135,9 +151,14 @@ split_into_units() {
     fi
   done <<< "$text"
   # Flush last paragraph
-  [[ -n "$para" ]] && paragraphs+=("$para")
+  if [[ -n "$para" ]]; then
+    paragraphs+=("$para")
+    para_voices+=("$pending_voice")
+  fi
 
-  for para in "${paragraphs[@]}"; do
+  for i in "${!paragraphs[@]}"; do
+    para="${paragraphs[$i]}"
+    local voice="${para_voices[$i]}"
     para_num=$((para_num + 1))
     local is_first_in_para=1
 
@@ -202,6 +223,11 @@ split_into_units() {
       printf -v padded "%03d" "$unit_num"
       echo "$unit_text" > "$output_dir/unit-$padded.txt"
 
+      # Write voice override for first unit of paragraph
+      if [[ $is_first_in_para -eq 1 ]] && [[ -n "$voice" ]]; then
+        echo "${unit_num}:${voice}" >> "$output_dir/voice-overrides.txt"
+      fi
+
       # Track paragraph breaks (first unit of each paragraph after the first)
       if [[ $is_first_in_para -eq 1 ]] && [[ $para_num -gt 1 ]]; then
         paragraph_breaks="${paragraph_breaks}${unit_num}\n"
@@ -226,10 +252,50 @@ mkdir -p "$OUTPUT_DIR"
 AUDIO_PARTS_DIR=$(mktemp -d)
 trap "rm -rf $UNITS_DIR $AUDIO_PARTS_DIR" EXIT
 
+# Load voice overrides (per-section voice config)
+declare -A VOICE_OVERRIDES
+OVERRIDE_COUNT=0
+if [[ -f "$UNITS_DIR/voice-overrides.txt" ]]; then
+  while IFS=: read -r num settings; do
+    [[ -n "$num" ]] && VOICE_OVERRIDES[$num]="$settings"
+  done < "$UNITS_DIR/voice-overrides.txt"
+  OVERRIDE_COUNT=${#VOICE_OVERRIDES[@]}
+  if [[ $OVERRIDE_COUNT -gt 0 ]]; then
+    echo -e "  ${YELLOW}Found $OVERRIDE_COUNT voice override(s)${NC}"
+  fi
+fi
+
+current_temp="$VIXTTS_TEMPERATURE"
+current_rep="$VIXTTS_REPETITION_PENALTY"
+
 for unit_file in "$UNITS_DIR"/unit-*.txt; do
   unit_name=$(basename "$unit_file" .txt)
   unit_text=$(cat "$unit_file")
   output_part="$AUDIO_PARTS_DIR/$unit_name.wav"
+
+  # Check for voice override on this unit
+  unit_idx=$(echo "$unit_name" | sed 's/unit-0*//')
+  if [[ -n "${VOICE_OVERRIDES[$unit_idx]:-}" ]]; then
+    override="${VOICE_OVERRIDES[$unit_idx]}"
+    if [[ "$override" == "reset" ]]; then
+      current_temp="$VIXTTS_TEMPERATURE"
+      current_rep="$VIXTTS_REPETITION_PENALTY"
+    else
+      # Parse comma-separated key=value pairs
+      while IFS=',' read -ra pairs; do
+        for pair in "${pairs[@]}"; do
+          key=$(echo "${pair%%=*}" | xargs)
+          val=$(echo "${pair##*=}" | xargs)
+          case "$key" in
+            temp) current_temp="$val" ;;
+            rep) current_rep="$val" ;;
+          esac
+        done
+      done <<< "$override"
+    fi
+    apply_voice_settings "$current_temp" "$current_rep"
+    echo -e "  ${YELLOW}Voice override: temp=$current_temp, rep=$current_rep${NC}"
+  fi
 
   echo -e "  Processing $unit_name..."
 
@@ -330,6 +396,9 @@ if [[ -f "$OUTPUT_FILE" ]]; then
   echo -e "${GREEN}✅ Voiceover generated successfully!${NC}"
   echo -e "  📁 Output: $OUTPUT_FILE"
   echo -e "  📊 Size: $FILE_SIZE$DURATION"
+  if [[ $OVERRIDE_COUNT -gt 0 ]]; then
+    echo -e "  🎛️  Voice overrides applied: $OVERRIDE_COUNT"
+  fi
   echo ""
   echo -e "🚀 Next steps:"
   echo -e "  1. Review voiceover: play $OUTPUT_FILE"

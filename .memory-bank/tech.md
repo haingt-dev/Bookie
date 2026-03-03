@@ -41,12 +41,18 @@
 - **Install**: `pip install transformers` + download model
 - **Accuracy**: State-of-the-art cho Vietnamese ASR
 
-### NotebookLM MCP
-- **Package**: `jacob-bd/notebooklm-mcp-cli`
+### NotebookLM CLI (`nlm`)
+- **Package**: `notebooklm-mcp-cli` v0.3.19
 - **Install**: `uv tool install notebooklm-mcp-cli`
-- **Auth**: `nlm auth login` (browser-based, 1 lần)
-- **Setup**: `nlm setup add antigravity`
-- **⚠️**: Dùng undocumented APIs, 29 tools chiếm context window
+- **Binaries**: `~/.local/bin/nlm` (CLI) + `~/.local/bin/notebooklm-mcp` (MCP server)
+- **Auth**: `nlm login` (mở Chrome, đăng nhập Google — 1 lần)
+- **Auth check**: `nlm login --check`
+- **Account**: thanhhai9x98@gmail.com
+- **Credentials**: `~/.notebooklm-mcp-cli/profiles/default`
+- **Chrome profile**: `~/chrome_profile_notebooklm/` (persistent session)
+- **MCP integration**: Antigravity (via `nlm setup add antigravity`)
+- **MCP config**: `~/.gemini/antigravity/mcp_config.json`
+- **⚠️**: Chrome automation (undocumented APIs) — có thể break khi Google update UI
 
 ### Remotion
 - **Version**: Latest (create-video)
@@ -66,7 +72,7 @@
 - Python 3.10+ — Fish Speech, PhoWhisper
 - ffmpeg — Audio/video concatenation
 - jq — JSON processing in scripts
-- uv — Python package manager (for NotebookLM MCP)
+- uv — Python package/tool manager (`~/.local/bin/uv`)
 
 ## 🔐 Security & Secrets
 

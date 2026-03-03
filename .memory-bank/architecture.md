@@ -17,10 +17,20 @@ projects/ai-book-video/
 │   │   └── voice-matrix/     — Voice test samples (speakers × temperatures)
 │   ├── test-expressiveness/  — Expressiveness test samples
 │   └── <book-slug>/          — Per-video assets (scenes, thumbnails, audio)
+├── remotion/
+│   ├── public/
+│   │   ├── logo.png          — Full Bookie logo (transparent)
+│   │   └── logomark.png      — Bookie logomark (transparent)
+│   └── src/
+│       ├── compositions/     — BookVideo (16:9), BookShort (9:16)
+│       ├── components/       — Scene, Subtitle, Intro, Outro, Logo
+│       ├── data/scenes.json  — Per-video config (swap per video)
+│       └── utils/            — SRT parser, fonts
 ├── scripts/
 │   ├── init-video.sh         — Scaffold new video project
 │   ├── generate-voice.sh     — Script → WAV (viXTTS API)
 │   ├── generate-subtitle.sh  — WAV → SRT (PhoWhisper)
+│   ├── validate-subtitle.sh  — SRT validation (timing, format)
 │   ├── vixtts-server.sh      — Start/manage viXTTS Podman container
 │   ├── test-voice-matrix.sh  — Generate voice matrix for evaluation
 │   ├── evaluate-matrix.sh    — Interactive voice sample evaluation
@@ -67,11 +77,14 @@ projects/ai-book-video/
 - **Used by**: Phase 4 (BUILD) via `generate-voice.sh`
 - **Management**: `scripts/vixtts-server.sh`
 
-### Remotion Template (planned)
-- **Location**: `remotion-template/` (yet to be created)
+### Remotion Template
+- **Location**: `remotion/`
 - **Purpose**: Programmatic video composition + CLI rendering
-- **Dependencies**: Node.js, React/TypeScript
+- **Dependencies**: Node.js, React/TypeScript, Remotion 4.x
 - **Used by**: Phase 4 (BUILD)
+- **Compositions**: BookVideo (16:9), BookShort (9:16)
+- **Components**: Scene, Subtitle (SRT overlay), Intro, Outro, Logo, BGM (ambient audio)
+- **Branding**: Official colors + logo PNGs in `public/`
 
 ### Automation Scripts
 - **Location**: `scripts/`
@@ -86,6 +99,6 @@ projects/ai-book-video/
 
 ## 🚨 Critical Constraints
 - **1-person operation**: Everything must be automatable or very fast manually
-- **GPU bound**: Fish Speech runs on local GPU — can't run while gaming/training
+- **GPU bound**: viXTTS runs on local GPU — can't run while gaming/training
 - **NotebookLM MCP instability**: Uses undocumented APIs, may break on updates
 - **No CI/CD**: This is a content pipeline, not a software deployment pipeline

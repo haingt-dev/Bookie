@@ -16,7 +16,7 @@ MATRIX_DIR="$PROJECT_DIR/assets/test-sach/voice-matrix"
 EVAL_FILE="$MATRIX_DIR/evaluation.md"
 
 # --- Configuration (must match test-voice-matrix.sh) ---
-SPEAKERS=("bookie-hai" "fonos")
+SPEAKERS=("fonos")
 TEMPERATURES=("0.3" "0.65" "0.85")
 TEMP_LABELS=("t03" "t065" "t085")
 TONES=("calm" "excited" "reflective" "heavy" "motivational")
@@ -306,7 +306,9 @@ echo ""
 
 # Load existing ratings for resume
 load_existing_eval
-EXISTING_COUNT=${#RATINGS[@]}
+# ${#assoc[@]} fails with set -u on empty associative arrays in bash
+EXISTING_COUNT="${RATINGS[@]+${#RATINGS[@]}}"
+EXISTING_COUNT=${EXISTING_COUNT:-0}
 
 if [[ $EXISTING_COUNT -gt 0 ]]; then
   echo -e "${YELLOW}Resuming: ${EXISTING_COUNT}/${TOTAL} files already rated, skipping those.${NC}"
@@ -409,5 +411,6 @@ done
 # --- Completion ---
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-TOTAL_RATED=${#RATINGS[@]}
+TOTAL_RATED="${RATINGS[@]+${#RATINGS[@]}}"
+TOTAL_RATED=${TOTAL_RATED:-0}
 echo -e "${GREEN}Done!${NC} ${TOTAL_RATED}/${TOTAL} files rated (${NEW_RATED} new this session)"

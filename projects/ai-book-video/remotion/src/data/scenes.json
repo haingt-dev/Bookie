@@ -1,0 +1,26 @@
+{
+  "title": "Atomic Habits — Thói quen nhỏ, thay đổi lớn",
+  "bookSlug": "test-sach",
+  "hasBgm": true,
+  "subtitleAdjustMs": -400,
+  "intro": {
+    "duration": 4
+  },
+  "outro": {
+    "duration": 10,
+    "ctaText": "Đăng ký để không bỏ lỡ!",
+    "nextBookTitle": "Deep Work — Cal Newport"
+  },
+  "scenes": [
+    {
+      "id": "scene-01",
+      "image": "scene-01-hook.png",
+      "duration": 15
+    },
+    {
+      "id": "scene-02",
+      "image": "scene-02-insight.png",
+      "duration": 20
+    }
+  ]
+}

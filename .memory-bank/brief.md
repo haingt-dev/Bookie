@@ -20,7 +20,7 @@ Resource hub cho Book!e Inspires Everyone — cộng đồng người đọc sá
 - Content writing/blog posts
 
 ## Active Sub-projects
-1. **ai-book-video**: Video sách với AI automation (Fish Speech voice, Remotion render, NotebookLM MCP)
+1. **ai-book-video**: Video sách với AI automation (viXTTS voice, Remotion render, NotebookLM MCP)
 
 ## Target Users
 - **Primary**: Hải — producer duy nhất, vận hành toàn bộ pipeline
@@ -28,4 +28,4 @@ Resource hub cho Book!e Inspires Everyone — cộng đồng người đọc sá
 
 ## Status
 - **Start Date**: 2026-03-02
-- **Status**: In Progress — voice generation tested (30 samples), evaluating best voice config
+- **Status**: Feature-complete — pipeline ready for first production run

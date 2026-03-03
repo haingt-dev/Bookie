@@ -16,7 +16,7 @@ OUTPUT_DIR="$PROJECT_DIR/assets/test-sach/voice-matrix"
 # --- Configuration ---
 VIXTTS_API_URL="${VIXTTS_API_URL:-http://127.0.0.1:8020}"
 
-SPEAKERS=("bookie-hai" "fonos")
+SPEAKERS=("fonos")
 TEMPERATURES=("0.3" "0.65" "0.85")
 TEMP_LABELS=("t03" "t065" "t085")
 TONES=("calm" "excited" "reflective" "heavy" "motivational")
@@ -156,7 +156,6 @@ cat > "$MATRIX_FILE" << 'HEADER'
 ## Speakers
 | Speaker | Description |
 |---------|-------------|
-| `bookie-hai` | Voice reference cua Hai |
 | `fonos` | Fonos audiobook narrator |
 
 ## Temperature Levels

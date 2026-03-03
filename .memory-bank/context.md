@@ -6,18 +6,40 @@
 ## 🎯 Current Sprint/Focus
 **Goal**: Setup automated video production pipeline cho kênh Bookie
 **Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
-**Progress**: 75% — Voice generation working, evaluate script ready, cần chọn voice + init Remotion
+**Progress**: Feature-complete — Voice + Subtitle + Remotion render pipeline ready, cần chọn sách → chạy e2e
 
 ## 🏗️ Active Workstreams
 1. **AI Book Video Pipeline**
    - **Status**: In Progress
    - **Owner**: Hải
    - **Priority**: High
-   - **Blockers**:
-     - Remotion template chưa init
-   - **Next Action**: Evaluate 30 WAV samples → chọn speaker/temperature → init Remotion template
+   - **Blockers**: Cần chọn sách đầu tiên
+   - **Next Action**: Chọn sách → chạy full pipeline e2e
 
 ## 📝 Recent Changes (Last 30 Days)
+- **2026-03-03** `chore`: Project cleanup — remove stale test WAVs, track Remotion + new scripts, update docs
+  - Impact: Git history clean. Pipeline feature-complete and committed.
+- **2026-03-03** `feat`: BGM ambient audio support in Remotion template
+  - Files: `remotion/src/components/BGM.tsx`, `remotion/public/bgm/`
+  - Impact: Ambient background music layer, configurable per video via scenes.json
+- **2026-03-03** `feat`: Subtitle styling tuned — size, positioning, readability
+  - Files: `remotion/src/components/Subtitle.tsx`
+  - Impact: Vietnamese subtitle rendering optimized for YouTube/Reels
+- **2026-03-03** `feat`: Implement `generate-subtitle.sh` (PhoWhisper WAV → SRT)
+  - Files: `scripts/generate-subtitle.sh`
+  - Impact: Subtitle pipeline complete. Uses `vinai/PhoWhisper-large` via `transformers` pipeline. Output SRT compatible with Remotion `srt.ts` parser. Needs `pip install torch transformers` before first use.
+- **2026-03-03** `style`: Remotion template updated with official Bookie branding
+  - Files: `remotion/src/components/`, `remotion/public/logo.png`, `remotion/public/logomark.png`
+  - Impact: Colors synced với brand guideline (#1A1A2E primary, #E94560 accent, #FFD93D highlight). Logo PNGs added to public/
+- **2026-03-03** `feat`: Init Remotion template — BookVideo (16:9) + BookShort (9:16)
+  - Files: `remotion/` (15 files — package.json, components, compositions, SRT parser)
+  - Impact: Video render pipeline ready. scenes.json = source of truth per video. Fonts: Montserrat + Inter (Google) + Be Vietnam Pro (local TTF for subs)
+- **2026-03-03** `feat`: Voice evaluation complete — 15/15 files rated
+  - Files: `assets/test-sach/voice-matrix/evaluation.md`, `matrix.md`
+  - Impact: fonos/temp=0.85 confirmed (avg 4.60). Best: calm (4.67), worst: heavy (3.67). excited-t085 = 5/5
+- **2026-03-03** `feat`: Per-section voice config in generate-voice.sh
+  - Files: `scripts/generate-voice.sh`, `WORKFLOW.md` (Phase 4a)
+  - Impact: Script markers `<!-- voice: temp=X -->` cho dynamic voice tuning per section
 - **2026-03-03** `feat`: Voice matrix test — 30 WAV files generated
   - Files: `scripts/test-voice-matrix.sh`, `scripts/evaluate-matrix.sh`, `assets/test-sach/voice-matrix/`
   - Impact: viXTTS server working, voice generation pipeline validated
@@ -32,20 +54,14 @@
   - Impact: Thêm NotebookLM MCP, Fish Speech, PhoWhisper, feedback loop
 
 ## 🔄 Context Carry-Forward
-**From This Session (2026-03-03)**:
-- viXTTS server running via Podman container on port 8020
-- Voice matrix: 30 WAV files (6 speakers × 5 temperatures) generated thành công
-- `evaluate-matrix.sh` — interactive script để nghe + đánh giá từng sample
-- Reference audio đã record và đặt trong `assets/brand/voice-reference/`
-
 **For Next Session**:
-- Chạy `evaluate-matrix.sh` để chọn best speaker + temperature combo
-- Init Remotion template project
-- Chọn sách đầu tiên và chạy thử end-to-end
+- Chọn sách đầu tiên → chạy full pipeline e2e (script → voice → subtitle → render)
+- Tạo scene illustrations (Midjourney/Leonardo) cho video đầu tiên
+- Test full Remotion render với real content
 
 ## ⚠️ Known Issues & Workarounds
-- **Issue**: NotebookLM MCP dùng internal APIs — có thể thay đổi không báo trước
-  - **Workaround**: Fallback: dùng NotebookLM web UI nếu MCP lỗi
+- **Issue**: NotebookLM CLI (`nlm`) dùng internal APIs — có thể thay đổi không báo trước
+  - **Workaround**: Fallback: dùng NotebookLM web UI nếu CLI lỗi
 - **Issue**: viXTTS Podman container cần start thủ công mỗi session
   - **Workaround**: Dùng `scripts/vixtts-server.sh` để start/manage container
 
@@ -56,7 +72,11 @@
 - `scripts/vixtts-server.sh` — Start/manage viXTTS Podman container
 - `scripts/test-voice-matrix.sh` — Generate voice matrix (speakers × temperatures)
 - `scripts/evaluate-matrix.sh` — Interactive voice evaluation script
+- `scripts/generate-subtitle.sh` — WAV → SRT bằng PhoWhisper
+- `scripts/validate-subtitle.sh` — SRT format validation
 - `scripts/templates/` — Claude prompts, script template, image prompts, checklist
 - `scripts/content-calendar.md` — Tracking sản xuất và metrics
 - `assets/brand/voice-reference/` — Voice reference audio cho viXTTS
 - `assets/brand/style-guide.md` — Visual style guide
+- `remotion/` — Remotion video template (BookVideo + BookShort)
+- `remotion/src/data/scenes.json` — Per-video config (swap per video)
