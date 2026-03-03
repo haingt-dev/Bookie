@@ -6,7 +6,7 @@
 ## 🎯 Current Sprint/Focus
 **Goal**: Setup automated video production pipeline cho kênh Bookie
 **Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
-**Progress**: Feature-complete — Voice + Subtitle + Remotion render pipeline ready, cần chọn sách → chạy e2e
+**Progress**: Feature-complete — Voice + Subtitle + Parallax layers + Remotion render pipeline ready, cần chọn sách → chạy e2e
 
 ## 🏗️ Active Workstreams
 1. **AI Book Video Pipeline**
@@ -17,6 +17,9 @@
    - **Next Action**: Chọn sách → chạy full pipeline e2e
 
 ## 📝 Recent Changes (Last 30 Days)
+- **2026-03-03** `feat`: Parallax layer pipeline — automated illustration → layered animation
+  - Files: `scripts/separate-layers.sh`, `scripts/.venv-layers/`, `remotion/src/compositions/components/SceneSlide.tsx`, `remotion/src/types.ts`, `remotion/src/constants.ts`
+  - Impact: rembg (BiRefNet) → foreground extraction → IOPaint (LaMa) background inpainting → Remotion parallax animation. Backward-compatible: scenes without `layers` use Ken Burns.
 - **2026-03-03** `chore`: Project cleanup — remove stale test WAVs, track Remotion + new scripts, update docs
   - Impact: Git history clean. Pipeline feature-complete and committed.
 - **2026-03-03** `feat`: BGM ambient audio support in Remotion template
@@ -25,12 +28,12 @@
 - **2026-03-03** `feat`: Subtitle styling tuned — size, positioning, readability
   - Files: `remotion/src/components/Subtitle.tsx`
   - Impact: Vietnamese subtitle rendering optimized for YouTube/Reels
-- **2026-03-03** `feat`: Implement `generate-subtitle.sh` (PhoWhisper WAV → SRT)
+- **2026-03-03** `feat`: Implement `generate-subtitle.sh` (Script text → SRT)
   - Files: `scripts/generate-subtitle.sh`
-  - Impact: Subtitle pipeline complete. Uses `vinai/PhoWhisper-large` via `transformers` pipeline. Output SRT compatible with Remotion `srt.ts` parser. Needs `pip install torch transformers` before first use.
+  - Impact: Subtitle pipeline complete. Text-derived timing from script markers + audio duration. Output SRT compatible with Remotion `srt.ts` parser.
 - **2026-03-03** `style`: Remotion template updated with official Bookie branding
   - Files: `remotion/src/components/`, `remotion/public/logo.png`, `remotion/public/logomark.png`
-  - Impact: Colors synced với brand guideline (#1A1A2E primary, #E94560 accent, #FFD93D highlight). Logo PNGs added to public/
+  - Impact: Colors synced với brand guideline (#368C06 primary, #C86108 accent, #FAFDF5 background). Logo PNGs added to public/
 - **2026-03-03** `feat`: Init Remotion template — BookVideo (16:9) + BookShort (9:16)
   - Files: `remotion/` (15 files — package.json, components, compositions, SRT parser)
   - Impact: Video render pipeline ready. scenes.json = source of truth per video. Fonts: Montserrat + Inter (Google) + Be Vietnam Pro (local TTF for subs)
@@ -51,7 +54,7 @@
   - Impact: Automation framework cho toàn bộ video production
 - **2026-03-02** `docs`: Rewrite WORKFLOW.md với automation details
   - Files: `WORKFLOW.md`
-  - Impact: Thêm NotebookLM MCP, Fish Speech, PhoWhisper, feedback loop
+  - Impact: Thêm NotebookLM MCP, viXTTS, subtitle generation, feedback loop
 
 ## 🔄 Context Carry-Forward
 **For Next Session**:
@@ -72,8 +75,10 @@
 - `scripts/vixtts-server.sh` — Start/manage viXTTS Podman container
 - `scripts/test-voice-matrix.sh` — Generate voice matrix (speakers × temperatures)
 - `scripts/evaluate-matrix.sh` — Interactive voice evaluation script
-- `scripts/generate-subtitle.sh` — WAV → SRT bằng PhoWhisper
+- `scripts/generate-subtitle.sh` — Script → SRT (text-derived timing)
 - `scripts/validate-subtitle.sh` — SRT format validation
+- `scripts/separate-layers.sh` — PNG → foreground/background layers (parallax)
+- `scripts/.venv-layers/` — Python 3.12 venv (rembg, IOPaint, torch)
 - `scripts/templates/` — Claude prompts, script template, image prompts, checklist
 - `scripts/content-calendar.md` — Tracking sản xuất và metrics
 - `assets/brand/voice-reference/` — Voice reference audio cho viXTTS

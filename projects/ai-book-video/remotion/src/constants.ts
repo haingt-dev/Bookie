@@ -43,4 +43,10 @@ export const ANIM = {
   fadeFrames: 15,
   kenBurnsScale: 1.05,
   logoOpacity: 0.7,
+  // Parallax — layer animation
+  parallaxBgTravel: 20, // px — background total drift
+  parallaxFgTravel: 50, // px — foreground total drift
+  parallaxBgScale: 1.12, // background overscan (covers edge on drift)
+  parallaxEntryFrames: 25, // foreground entry spring duration
+  parallaxEntryOffset: 60, // px — foreground starts below, springs up
 } as const;

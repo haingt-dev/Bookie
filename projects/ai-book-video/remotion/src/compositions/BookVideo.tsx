@@ -88,7 +88,7 @@ export const BookVideo: React.FC<{ config: VideoConfig }> = ({ config }) => {
       {/* Scenes */}
       {sceneEntries.map(({ scene, from, duration }) => (
         <Sequence key={scene.id} from={from} durationInFrames={duration}>
-          <SceneSlide image={scene.image} />
+          <SceneSlide image={scene.image} layers={scene.layers} />
         </Sequence>
       ))}
 

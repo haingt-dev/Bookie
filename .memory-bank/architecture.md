@@ -29,11 +29,13 @@ projects/ai-book-video/
 ├── scripts/
 │   ├── init-video.sh         — Scaffold new video project
 │   ├── generate-voice.sh     — Script → WAV (viXTTS API)
-│   ├── generate-subtitle.sh  — WAV → SRT (PhoWhisper)
+│   ├── generate-subtitle.sh  — Script → SRT (text-derived timing)
 │   ├── validate-subtitle.sh  — SRT validation (timing, format)
 │   ├── vixtts-server.sh      — Start/manage viXTTS Podman container
 │   ├── test-voice-matrix.sh  — Generate voice matrix for evaluation
 │   ├── evaluate-matrix.sh    — Interactive voice sample evaluation
+│   ├── separate-layers.sh    — PNG → foreground/background layers (rembg + IOPaint)
+│   ├── .venv-layers/         — Python 3.12 venv for layer pipeline (gitignored)
 │   ├── content-calendar.md   — Production tracking
 │   └── templates/            — Reusable templates (prompts, script, checklist)
 └── output/
@@ -51,9 +53,11 @@ projects/ai-book-video/
     ↓
 [AI Image Gen] → Scene illustrations (PNG)
     ↓
+[rembg + IOPaint] → Foreground/Background layers (PNG) ← optional parallax
+    ↓
 [viXTTS] → Voiceover (WAV) ← script text
     ↓
-[PhoWhisper] → Subtitles (SRT) ← voiceover WAV
+[generate-subtitle.sh] → Subtitles (SRT) ← script text + audio duration
     ↓
 [Remotion] → Final video (MP4) ← illustrations + voiceover + SRT
     ↓
@@ -83,7 +87,8 @@ projects/ai-book-video/
 - **Dependencies**: Node.js, React/TypeScript, Remotion 4.x
 - **Used by**: Phase 4 (BUILD)
 - **Compositions**: BookVideo (16:9), BookShort (9:16)
-- **Components**: Scene, Subtitle (SRT overlay), Intro, Outro, Logo, BGM (ambient audio)
+- **Components**: Scene (Ken Burns + parallax), Subtitle (SRT overlay), Intro, Outro, Logo, BGM (ambient audio)
+- **Parallax**: Optional layered animation — foreground/background drift at different speeds + spring entry
 - **Branding**: Official colors + logo PNGs in `public/`
 
 ### Automation Scripts

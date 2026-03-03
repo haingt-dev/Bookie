@@ -186,7 +186,14 @@ assets/<book-slug>/scenes/
 ├── ...
 ```
 
-4. Tạo thumbnail bằng **Canva** (dùng brand template cố định)
+4. Tách layers cho parallax (automated):
+   ```bash
+   ./scripts/separate-layers.sh <book-slug>
+   # ~40-75 giây cho 8-15 scenes (GPU)
+   ```
+   Review: scenes có warning → remove `layers` entry từ `scenes.json` → fallback Ken Burns
+
+5. Tạo thumbnail bằng **Canva** (dùng brand template cố định)
    - Mặt người/biểu cảm mạnh + text to + màu contrast
    - Để trống space cho title text
 
@@ -198,6 +205,9 @@ assets/<book-slug>/scenes/
 - Generate 2-3 variations mỗi scene, chọn cái tốt nhất
 - Hạn chế text trong illustration — text sẽ overlay trong editing
 - Seed locking (Midjourney): note lại seed nếu tìm được style ưng
+- **Parallax-friendly prompts**: subject/nhân vật rõ ràng, tách biệt khỏi nền. Tránh illustration quá abstract — rembg tách không tốt
+- Nền đơn giản (gradient, solid, simple pattern) → LaMa inpaint fill tốt hơn
+- Scenes có warning alpha coverage sau `separate-layers.sh` → bỏ `layers` trong `scenes.json` → fallback Ken Burns tự động
 
 ---
 

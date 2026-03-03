@@ -43,7 +43,7 @@ Bookie community muốn mở rộng reach qua video content (YouTube/Facebook) n
 
 ## 🚧 Constraints & Requirements
 ### Technical Constraints
-- GPU: RTX 4070 Super Ti (16GB VRAM) — đủ cho Fish Speech self-host
+- GPU: RTX 4070 Super Ti (16GB VRAM) — đủ cho viXTTS self-host
 - 1-person operation — phải automate tối đa
 - Internet: cần cho NotebookLM, image gen APIs
 
