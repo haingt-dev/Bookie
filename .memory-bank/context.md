@@ -6,37 +6,37 @@
 ## Current Sprint/Focus
 **Goal**: Sản xuất video đầu tiên (Atomic Habits) cho kênh Bookie
 **Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
-**Progress**: Pipeline restructured và production-ready. Cần viết lại script Atomic Habits + chạy full e2e.
+**Progress**: Script/storyboard/metadata hoàn thành (contrarian angle). Old assets cleaned. Ready for production run.
 
 ## Active Workstreams
 1. **AI Book Video Pipeline**
-   - **Status**: Ready for production
+   - **Status**: Content ready, awaiting production run
    - **Owner**: Hải
    - **Priority**: High
-   - **Next Action**: Viết lại script Atomic Habits → chạy `make all BOOK=atomic-habits`
+   - **Next Action**: Generate scene images → `make all BOOK=atomic-habits`
 
 ## Recent Changes (Last 30 Days)
+- **2026-03-05** `feat`: Rewrite Atomic Habits — contrarian angle "Điều mà Atomic Habits không nói với bạn"
+  - New script: 913 words, 9 scenes, 3 blind spots + positive trade-off
+  - New storyboard: all flat/Ken Burns (no parallax), Bookie style prefix
+  - New metadata: YouTube + Facebook + 3 Shorts
+  - Research: NotebookLM + 7 criticism sources
+- **2026-03-05** `feat`: Gap adjustment pipeline (generate-voice.sh)
+  - Replaces atempo stretch with variable silence gaps
+  - Natural voice is authority, SRT auto-syncs to actual duration
+  - GAP_SENTENCE 0.05-0.40s, GAP_PARAGRAPH 0.15-1.00s
+- **2026-03-05** `chore`: Cleanup old assets
+  - Removed: 13 old scene PNGs, voiceover.wav, subtitles.srt, section-timing.json
+  - Removed: Remotion symlinks, test renders, fish-speech-server Podman image (11.4 GB)
 - **2026-03-05** `refactor`: Major project restructure — unified `books/` layout + Makefile pipeline
-  - Consolidated `scripts/<slug>/` + `assets/<slug>/` + `output/<slug>/` → `books/<slug>/`
-  - Added: Makefile, sync-assets.sh (symlinks), .env.example, .gitignore
-  - Removed: parallax pipeline (separate-layers.sh, .venv-layers 7.4GB), test projects, voice matrix artifacts
-  - Updated scripts: smart subtitle = default, match-srt voice = default, --draft removed
-  - Renamed init-video.sh → init-book.sh
   - Branch: `restructure/clean-pipeline`
-- **2026-03-03** `feat`: SRT-first pipeline — subtitle timing drives voice generation
-  - generate-subtitle.sh --smart: script markers → pace-aware SRT
-  - generate-voice.sh --match-srt: per-scene voice → stretch to match SRT timing
-  - 13 scenes, 7m29s output, stretch ratios 0.68x-1.09x
-- **2026-03-03** `feat`: Remotion visual improvements — Ken Burns + cross-dissolve + subtitle fade
-- **2026-03-03** `feat`: Voice evaluation — fonos/temp=0.85 confirmed best (avg 4.60/5)
 - **2026-03-03** `feat`: Full pipeline infrastructure (viXTTS, Remotion, scripts)
 
 ## Context Carry-Forward
 **For Next Session**:
-- Merge `restructure/clean-pipeline` → master khi sẵn sàng
-- Viết lại script Atomic Habits (script.md) — tối ưu cho 7-8 phút
+- Generate 9 scene illustrations theo storyboard.md prompts
 - Chạy full pipeline: `make all BOOK=atomic-habits` → `make studio`
-- Tạo scene illustrations mới (nếu cần) theo storyboard.md
+- Review voice output quality + gap adjustment deltas
 
 ## Known Issues & Workarounds
 - **Issue**: viXTTS Podman container cần start thủ công mỗi session

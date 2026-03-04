@@ -59,7 +59,7 @@ projects/ai-book-video/
 [YouTube / Facebook] → Published content
 ```
 
-**Key principle**: SRT timing is the authority. Voice generation stretches audio to match SRT, not the other way around.
+**Key principle**: Natural voice is the authority. Gap adjustment (silence between sentences/paragraphs) absorbs timing deltas. SRT auto-syncs to match actual audio duration. No audio stretching — voice stays natural.
 
 ## Key Components
 
