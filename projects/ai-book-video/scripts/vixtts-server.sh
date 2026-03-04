@@ -32,7 +32,7 @@ MODEL_REPO="capleaf/viXTTS"
 HF_BASE_URL="https://huggingface.co/$MODEL_REPO/resolve/main"
 
 SPEAKER_NAME="bookie-hai"
-VOICE_REF_SRC="$PROJECT_DIR/assets/brand/voice-reference/reference.wav"
+VOICE_REF_SRC="$PROJECT_DIR/brand/voice-reference/fonos-reference.wav"
 VOICE_REF_START="${VOICE_REF_START:-5}"
 VOICE_REF_DURATION="${VOICE_REF_DURATION:-8}"
 

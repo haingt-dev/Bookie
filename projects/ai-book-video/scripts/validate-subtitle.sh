@@ -18,13 +18,13 @@ if [[ $# -lt 1 ]]; then
   echo -e "${RED}Usage: $0 <book-slug>${NC}"
   echo "Example: $0 atomic-habits"
   echo ""
-  echo "Validates: output/<slug>/subtitles.srt against assets/<slug>/audio/voiceover.wav"
+  echo "Validates: books/<slug>/output/subtitles.srt against books/<slug>/audio/voiceover.wav"
   exit 1
 fi
 
 SLUG="$1"
-SRT_FILE="$PROJECT_DIR/output/$SLUG/subtitles.srt"
-AUDIO_FILE="$PROJECT_DIR/assets/$SLUG/audio/voiceover.wav"
+SRT_FILE="$PROJECT_DIR/books/$SLUG/output/subtitles.srt"
+AUDIO_FILE="$PROJECT_DIR/books/$SLUG/audio/voiceover.wav"
 
 if [[ ! -f "$SRT_FILE" ]]; then
   echo -e "${RED}Error: SRT file not found: $SRT_FILE${NC}"

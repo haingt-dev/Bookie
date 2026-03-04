@@ -3,7 +3,7 @@ import { Composition, staticFile } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Montserrat";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
 import { loadFont as loadLocalFont } from "@remotion/fonts";
-import { VIDEO, SHORT } from "./constants";
+import { ANIM, VIDEO, SHORT } from "./constants";
 import type { VideoConfig } from "./types";
 import { BookVideo } from "./compositions/BookVideo";
 import { BookShort } from "./compositions/BookShort";
@@ -25,8 +25,9 @@ const config = scenesJson as VideoConfig;
 function calcTotalFrames(cfg: VideoConfig, fps: number): number {
   const intro = cfg.intro.duration * fps;
   const scenes = cfg.scenes.reduce((sum, s) => sum + s.duration * fps, 0);
+  const overlaps = Math.max(0, cfg.scenes.length - 1) * ANIM.fadeFrames;
   const outro = cfg.outro.duration * fps;
-  return intro + scenes + outro;
+  return intro + scenes - overlaps + outro;
 }
 
 export const RemotionRoot: React.FC = () => {

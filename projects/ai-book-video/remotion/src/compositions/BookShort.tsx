@@ -28,19 +28,19 @@ export const BookShort: React.FC<BookShortProps> = ({
   const scenes = config.scenes.slice(startScene, endScene + 1);
 
   let currentFrame = 0;
-  const sceneEntries = scenes.map((scene) => {
+  const sceneEntries = scenes.map((scene, i) => {
     const from = currentFrame;
     const duration = scene.duration * fps;
     currentFrame += duration;
-    return { scene, from, duration };
+    return { scene, from, duration, index: startScene + i };
   });
 
   return (
     <AbsoluteFill>
       {/* Scenes — center-cropped for 9:16 */}
-      {sceneEntries.map(({ scene, from, duration }) => (
+      {sceneEntries.map(({ scene, from, duration, index }) => (
         <Sequence key={scene.id} from={from} durationInFrames={duration}>
-          <SceneSlide image={scene.image} />
+          <SceneSlide image={scene.image} sceneIndex={index} />
         </Sequence>
       ))}
 

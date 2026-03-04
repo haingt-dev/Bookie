@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # generate-voice.sh — Generate voiceover từ script text bằng viXTTS (self-hosted)
 # Usage: ./scripts/generate-voice.sh <book-slug>
+# Generates voiceover per-scene, speed-matched to SRT timing from section-timing.json.
 # Prerequisites: viXTTS server running (./scripts/vixtts-server.sh start)
 
 set -euo pipefail
@@ -15,10 +16,19 @@ SILENCE_SENTENCE=0.15     # 150ms between sentences (same paragraph)
 SILENCE_PARAGRAPH=0.4     # 400ms between paragraphs/sections
 FADE_DURATION=0.02        # minimal fade to prevent clicks
 MIN_BATCH_CHARS=100       # batch sentences shorter than this with neighbor
-VIXTTS_TEMPERATURE="${VIXTTS_TEMPERATURE:-0.85}"             # Best from voice matrix eval — consistent across tones
-VIXTTS_REPETITION_PENALTY="${VIXTTS_REPETITION_PENALTY:-2.0}" # XTTS default — natural prosody patterns
+VIXTTS_TEMPERATURE="${VIXTTS_TEMPERATURE:-0.85}"
+VIXTTS_REPETITION_PENALTY="${VIXTTS_REPETITION_PENALTY:-2.0}"
 
-# --- Helper: apply TTS voice settings ---
+# --- Colors ---
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+# ============================================================
+# FUNCTIONS
+# ============================================================
+
 apply_voice_settings() {
   local temp="$1" rep="$2"
   local settings
@@ -30,92 +40,10 @@ apply_voice_settings() {
     -d "$settings" > /dev/null
 }
 
-# --- Colors ---
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
-
-# --- Validate input ---
-if [[ $# -lt 1 ]]; then
-  echo -e "${RED}Usage: $0 <book-slug>${NC}"
-  echo "Example: $0 atomic-habits"
-  exit 1
-fi
-
-SLUG="$1"
-SCRIPT_FILE="$PROJECT_DIR/scripts/$SLUG/script.md"
-OUTPUT_DIR="$PROJECT_DIR/assets/$SLUG/audio"
-OUTPUT_FILE="$OUTPUT_DIR/voiceover.wav"
-
-if [[ ! -f "$SCRIPT_FILE" ]]; then
-  echo -e "${RED}Error: Script file not found: $SCRIPT_FILE${NC}"
-  echo "Đã chạy init-video.sh chưa? Đã viết script chưa?"
-  exit 1
-fi
-
-# --- Check viXTTS server ---
-echo -e "${YELLOW}Checking viXTTS server at $VIXTTS_API_URL...${NC}"
-if ! curl -s --max-time 5 "$VIXTTS_API_URL/speakers" 2>/dev/null | grep -q "\["; then
-  echo -e "${RED}Error: viXTTS server not reachable at $VIXTTS_API_URL${NC}"
-  echo ""
-  echo "Start the server:"
-  echo "  ./scripts/vixtts-server.sh start"
-  exit 1
-fi
-echo -e "${GREEN}Server connected${NC}"
-echo -e "  Speaker: ${GREEN}$SPEAKER_NAME${NC}"
-
-# Tune viXTTS settings: disable internal splitting + expressiveness params
-apply_voice_settings "$VIXTTS_TEMPERATURE" "$VIXTTS_REPETITION_PENALTY"
-echo -e "  Text splitting: ${GREEN}disabled${NC} (handled by script)"
-echo -e "  Temperature: ${GREEN}$VIXTTS_TEMPERATURE${NC} | Repetition penalty: ${GREEN}$VIXTTS_REPETITION_PENALTY${NC}"
-
-# --- Extract plain text from script.md ---
-echo -e "${YELLOW}📝 Extracting script text...${NC}"
-
-extract_script_text() {
-  local file="$1"
-  
-  # Remove markdown formatting, keep blank lines as paragraph markers
-  sed \
-    -e '/^## Notes/,$d' \
-    -e '/^#/d' \
-    -e '/^>/d' \
-    -e '/^\*\*Visual\*\*/d' \
-    -e '/^---$/d' \
-    -e '/^\*\*\[SHORT\]\*\*/d' \
-    -e '/^```/,/^```/d' \
-    -e '/^\*\*Target length\*\*/d' \
-    -e '/^\*\*Tác giả\*\*/d' \
-    -e '/^\*\*Thể loại\*\*/d' \
-    -e '/^\*\*Ngày tạo\*\*/d' \
-    -e 's/\*\*//g' \
-    -e 's/\*//g' \
-    -e 's/\[SHORT\]//g' \
-    "$file" | cat -s | sed -e '1{/^$/d}' -e '${/^$/d}'
-}
-
-PLAIN_TEXT=$(extract_script_text "$SCRIPT_FILE")
-
-if [[ -z "$PLAIN_TEXT" ]]; then
-  echo -e "${RED}Error: No text extracted from script. Is the script empty?${NC}"
-  exit 1
-fi
-
-WORD_COUNT=$(echo "$PLAIN_TEXT" | wc -w)
-echo -e "  Extracted ${GREEN}$WORD_COUNT${NC} words"
-
-if [[ $WORD_COUNT -lt 50 ]]; then
-  echo -e "${YELLOW}⚠️  Warning: Very short script ($WORD_COUNT words). Expected 900-1050.${NC}"
-fi
-
-# --- Split into units (per-sentence with batching) ---
-echo -e "${YELLOW}✂️  Splitting into units...${NC}"
-
-UNITS_DIR=$(mktemp -d)
-trap "rm -rf $UNITS_DIR" EXIT
-
+# split_into_units <text> <min_chars> <output_dir>
+# Splits text into TTS-friendly units, writes unit-XXX.txt files.
+# Also writes voice-overrides.txt and paragraph-breaks.txt.
+# Prints the total unit count to stdout.
 split_into_units() {
   local text="$1"
   local min_chars="$2"
@@ -124,21 +52,21 @@ split_into_units() {
   local paragraph_breaks=""
   local pending_voice=""
 
-  # Split text into paragraphs by blank lines, extracting voice markers
   local para=""
   local para_num=0
   local paragraphs=()
-  local para_voices=()  # voice override for each paragraph (empty = no override)
+  local para_voices=()
 
   while IFS= read -r line || [[ -n "$line" ]]; do
-    # Detect voice markers: <!-- voice: ... -->
     if [[ "$line" =~ ^\<\!--\ voice:\ (.+)\ --\>$ ]]; then
       pending_voice="${BASH_REMATCH[1]}"
       continue
     fi
-
+    # Skip scene markers
+    if [[ "$line" =~ ^\<\!--\ scene: ]]; then
+      continue
+    fi
     if [[ -z "$line" ]]; then
-      # Blank line = paragraph boundary
       if [[ -n "$para" ]]; then
         paragraphs+=("$para")
         para_voices+=("$pending_voice")
@@ -150,7 +78,6 @@ split_into_units() {
       para="${para}${line}"
     fi
   done <<< "$text"
-  # Flush last paragraph
   if [[ -n "$para" ]]; then
     paragraphs+=("$para")
     para_voices+=("$pending_voice")
@@ -162,10 +89,8 @@ split_into_units() {
     para_num=$((para_num + 1))
     local is_first_in_para=1
 
-    # Split paragraph into sentences (. ! ? followed by space or end)
     local sentences=()
     local remaining="$para"
-
     while [[ -n "$remaining" ]]; do
       local best_pos=-1
       for terminator in ". " "! " "? " ".\n" "!\n" "?\n"; do
@@ -177,7 +102,6 @@ split_into_units() {
           fi
         fi
       done
-
       if [[ $best_pos -ge 0 ]]; then
         local sentence="${remaining:0:$((best_pos + 1))}"
         sentence=$(echo "$sentence" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
@@ -190,13 +114,11 @@ split_into_units() {
       fi
     done
 
-    # Batch short sentences with their neighbor
     local batched=()
     local buffer=""
     for sentence in "${sentences[@]}"; do
       if [[ -n "$buffer" ]]; then
         buffer="$buffer $sentence"
-        # If buffer is now long enough, flush it
         if [[ ${#buffer} -ge $min_chars ]]; then
           batched+=("$buffer")
           buffer=""
@@ -207,28 +129,21 @@ split_into_units() {
         batched+=("$sentence")
       fi
     done
-    # Flush remaining buffer
     if [[ -n "$buffer" ]]; then
       if [[ ${#batched[@]} -gt 0 ]]; then
-        # Append to last batch
         batched[-1]="${batched[-1]} $buffer"
       else
         batched+=("$buffer")
       fi
     fi
 
-    # Write each batched sentence as a unit
     for unit_text in "${batched[@]}"; do
       unit_num=$((unit_num + 1))
       printf -v padded "%03d" "$unit_num"
       echo "$unit_text" > "$output_dir/unit-$padded.txt"
-
-      # Write voice override for first unit of paragraph
       if [[ $is_first_in_para -eq 1 ]] && [[ -n "$voice" ]]; then
         echo "${unit_num}:${voice}" >> "$output_dir/voice-overrides.txt"
       fi
-
-      # Track paragraph breaks (first unit of each paragraph after the first)
       if [[ $is_first_in_para -eq 1 ]] && [[ $para_num -gt 1 ]]; then
         paragraph_breaks="${paragraph_breaks}${unit_num}\n"
       fi
@@ -236,174 +151,322 @@ split_into_units() {
     done
   done
 
-  # Write paragraph breaks file
   echo -e "$paragraph_breaks" | sed '/^$/d' > "$output_dir/paragraph-breaks.txt"
-
   echo "$unit_num"
 }
 
-TOTAL_UNITS=$(split_into_units "$PLAIN_TEXT" "$MIN_BATCH_CHARS" "$UNITS_DIR")
-echo -e "  Split into ${GREEN}$TOTAL_UNITS${NC} units"
+# generate_audio <text> <output_wav> <label>
+# Full pipeline: text → units → TTS → silence-padded concat → wav
+generate_audio() {
+  local text="$1"
+  local output_wav="$2"
+  local label="${3:-section}"
 
-# --- Generate audio for each unit ---
-echo -e "${YELLOW}🎤 Generating voiceover ($TOTAL_UNITS units)...${NC}"
+  local work_dir=$(mktemp -d)
+  local parts_dir=$(mktemp -d)
 
-mkdir -p "$OUTPUT_DIR"
-AUDIO_PARTS_DIR=$(mktemp -d)
-trap "rm -rf $UNITS_DIR $AUDIO_PARTS_DIR" EXIT
+  # Split text into units
+  local n_units
+  n_units=$(split_into_units "$text" "$MIN_BATCH_CHARS" "$work_dir")
+  echo -e "    ${label}: ${GREEN}${n_units}${NC} units"
 
-# Load voice overrides (per-section voice config)
-declare -A VOICE_OVERRIDES
-OVERRIDE_COUNT=0
-if [[ -f "$UNITS_DIR/voice-overrides.txt" ]]; then
-  while IFS=: read -r num settings; do
-    [[ -n "$num" ]] && VOICE_OVERRIDES[$num]="$settings"
-  done < "$UNITS_DIR/voice-overrides.txt"
-  OVERRIDE_COUNT=${#VOICE_OVERRIDES[@]}
-  if [[ $OVERRIDE_COUNT -gt 0 ]]; then
-    echo -e "  ${YELLOW}Found $OVERRIDE_COUNT voice override(s)${NC}"
-  fi
-fi
-
-current_temp="$VIXTTS_TEMPERATURE"
-current_rep="$VIXTTS_REPETITION_PENALTY"
-
-for unit_file in "$UNITS_DIR"/unit-*.txt; do
-  unit_name=$(basename "$unit_file" .txt)
-  unit_text=$(cat "$unit_file")
-  output_part="$AUDIO_PARTS_DIR/$unit_name.wav"
-
-  # Check for voice override on this unit
-  unit_idx=$(echo "$unit_name" | sed 's/unit-0*//')
-  if [[ -n "${VOICE_OVERRIDES[$unit_idx]:-}" ]]; then
-    override="${VOICE_OVERRIDES[$unit_idx]}"
-    if [[ "$override" == "reset" ]]; then
-      current_temp="$VIXTTS_TEMPERATURE"
-      current_rep="$VIXTTS_REPETITION_PENALTY"
-    else
-      # Parse comma-separated key=value pairs
-      while IFS=',' read -ra pairs; do
-        for pair in "${pairs[@]}"; do
-          key=$(echo "${pair%%=*}" | xargs)
-          val=$(echo "${pair##*=}" | xargs)
-          case "$key" in
-            temp) current_temp="$val" ;;
-            rep) current_rep="$val" ;;
-          esac
-        done
-      done <<< "$override"
-    fi
-    apply_voice_settings "$current_temp" "$current_rep"
-    echo -e "  ${YELLOW}Voice override: temp=$current_temp, rep=$current_rep${NC}"
+  # Load voice overrides
+  declare -A overrides=()
+  if [[ -f "$work_dir/voice-overrides.txt" ]]; then
+    while IFS=: read -r num settings; do
+      [[ -n "$num" ]] && overrides[$num]="$settings"
+    done < "$work_dir/voice-overrides.txt"
   fi
 
-  echo -e "  Processing $unit_name..."
+  local cur_temp="$VIXTTS_TEMPERATURE"
+  local cur_rep="$VIXTTS_REPETITION_PENALTY"
 
-  # Call viXTTS API
-  curl -s -X POST "$VIXTTS_API_URL/tts_to_audio/" \
-    -H "Content-Type: application/json" \
-    -d "$(jq -n \
-      --arg text "$unit_text" \
-      --arg speaker "$SPEAKER_NAME" \
-      '{
-        "text": $text,
-        "speaker_wav": $speaker,
-        "language": "vi"
-      }')" \
-    -o "$output_part"
+  # Generate each unit
+  for unit_file in "$work_dir"/unit-*.txt; do
+    local uname=$(basename "$unit_file" .txt)
+    local utext=$(cat "$unit_file")
+    local uout="$parts_dir/$uname.wav"
+    local uidx=$(echo "$uname" | sed 's/unit-0*//')
 
-  if [[ ! -s "$output_part" ]]; then
-    echo -e "${RED}Error: Failed to generate audio for $unit_name${NC}"
-    exit 1
-  fi
-
-  # Apply fade-in/fade-out to smooth edges
-  unit_duration=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$output_part")
-  fade_out_start=$(echo "$unit_duration - $FADE_DURATION" | bc)
-  ffmpeg -y -i "$output_part" \
-    -af "afade=t=in:d=$FADE_DURATION,afade=t=out:st=$fade_out_start:d=$FADE_DURATION" \
-    "${output_part%.wav}-faded.wav" 2>/dev/null
-  mv "${output_part%.wav}-faded.wav" "$output_part"
-done
-
-# --- Concatenate units with variable silence ---
-echo -e "${YELLOW}🔗 Concatenating audio units...${NC}"
-
-if command -v ffmpeg &> /dev/null; then
-  # Get sample rate from first unit
-  FIRST_UNIT="$AUDIO_PARTS_DIR/unit-001.wav"
-  SAMPLE_RATE=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$FIRST_UNIT")
-
-  # Generate two silence files: sentence-level and paragraph-level
-  SILENCE_SENT_FILE="$AUDIO_PARTS_DIR/silence-sentence.wav"
-  SILENCE_PARA_FILE="$AUDIO_PARTS_DIR/silence-paragraph.wav"
-  ffmpeg -y -f lavfi -i "anullsrc=r=$SAMPLE_RATE:cl=mono" \
-    -t "$SILENCE_SENTENCE" -c:a pcm_s16le "$SILENCE_SENT_FILE" 2>/dev/null
-  ffmpeg -y -f lavfi -i "anullsrc=r=$SAMPLE_RATE:cl=mono" \
-    -t "$SILENCE_PARAGRAPH" -c:a pcm_s16le "$SILENCE_PARA_FILE" 2>/dev/null
-
-  # Load paragraph break unit numbers into an associative array
-  declare -A PARA_BREAKS
-  if [[ -f "$UNITS_DIR/paragraph-breaks.txt" ]]; then
-    while IFS= read -r num; do
-      [[ -n "$num" ]] && PARA_BREAKS[$num]=1
-    done < "$UNITS_DIR/paragraph-breaks.txt"
-  fi
-
-  # Build concat list with appropriate silence between units
-  CONCAT_LIST="$AUDIO_PARTS_DIR/concat.txt"
-  unit_idx=0
-  for part in "$AUDIO_PARTS_DIR"/unit-*.wav; do
-    unit_idx=$((unit_idx + 1))
-    if [[ $unit_idx -gt 1 ]]; then
-      # Check if this unit starts a new paragraph
-      if [[ -n "${PARA_BREAKS[$unit_idx]:-}" ]]; then
-        echo "file '$SILENCE_PARA_FILE'" >> "$CONCAT_LIST"
+    # Apply voice override
+    if [[ -n "${overrides[$uidx]:-}" ]]; then
+      local ovr="${overrides[$uidx]}"
+      if [[ "$ovr" == "reset" ]]; then
+        cur_temp="$VIXTTS_TEMPERATURE"
+        cur_rep="$VIXTTS_REPETITION_PENALTY"
       else
-        echo "file '$SILENCE_SENT_FILE'" >> "$CONCAT_LIST"
+        while IFS=',' read -ra pairs; do
+          for pair in "${pairs[@]}"; do
+            local key=$(echo "${pair%%=*}" | xargs)
+            local val=$(echo "${pair##*=}" | xargs)
+            case "$key" in
+              temp) cur_temp="$val" ;;
+              rep) cur_rep="$val" ;;
+            esac
+          done
+        done <<< "$ovr"
       fi
+      apply_voice_settings "$cur_temp" "$cur_rep"
     fi
-    echo "file '$part'" >> "$CONCAT_LIST"
+
+    # TTS call
+    curl -s -X POST "$VIXTTS_API_URL/tts_to_audio/" \
+      -H "Content-Type: application/json" \
+      -d "$(jq -n --arg text "$utext" --arg speaker "$SPEAKER_NAME" \
+        '{"text": $text, "speaker_wav": $speaker, "language": "vi"}')" \
+      -o "$uout"
+
+    if [[ ! -s "$uout" ]]; then
+      echo -e "${RED}Error: TTS failed for $uname${NC}"
+      rm -rf "$work_dir" "$parts_dir"
+      return 1
+    fi
+
+    # Fade in/out
+    local udur=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$uout")
+    local fade_out=$(echo "$udur - $FADE_DURATION" | bc)
+    ffmpeg -y -i "$uout" \
+      -af "afade=t=in:d=$FADE_DURATION,afade=t=out:st=$fade_out:d=$FADE_DURATION" \
+      "${uout%.wav}-f.wav" 2>/dev/null
+    mv "${uout%.wav}-f.wav" "$uout"
   done
 
-  ffmpeg -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$OUTPUT_FILE" 2>/dev/null
-else
-  # Fallback: use sox if available (no variable silence)
-  if command -v sox &> /dev/null; then
-    sox "$AUDIO_PARTS_DIR"/unit-*.wav "$OUTPUT_FILE"
-  else
-    echo -e "${RED}Error: ffmpeg or sox required to concatenate audio${NC}"
-    echo "Install: sudo apt install ffmpeg"
-    exit 1
+  # Concat with variable silence
+  local sample_rate=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$parts_dir/unit-001.wav")
+  local sil_s="$parts_dir/sil-s.wav"
+  local sil_p="$parts_dir/sil-p.wav"
+  ffmpeg -y -f lavfi -i "anullsrc=r=$sample_rate:cl=mono" -t "$SILENCE_SENTENCE" -c:a pcm_s16le "$sil_s" 2>/dev/null
+  ffmpeg -y -f lavfi -i "anullsrc=r=$sample_rate:cl=mono" -t "$SILENCE_PARAGRAPH" -c:a pcm_s16le "$sil_p" 2>/dev/null
+
+  declare -A pbreaks=()
+  if [[ -f "$work_dir/paragraph-breaks.txt" ]]; then
+    while IFS= read -r num; do
+      [[ -n "$num" ]] && pbreaks[$num]=1
+    done < "$work_dir/paragraph-breaks.txt"
   fi
+
+  local concat_list="$parts_dir/concat.txt"
+  local idx=0
+  for part in "$parts_dir"/unit-*.wav; do
+    idx=$((idx + 1))
+    if [[ $idx -gt 1 ]]; then
+      if [[ -n "${pbreaks[$idx]:-}" ]]; then
+        echo "file '$sil_p'" >> "$concat_list"
+      else
+        echo "file '$sil_s'" >> "$concat_list"
+      fi
+    fi
+    echo "file '$part'" >> "$concat_list"
+  done
+
+  ffmpeg -y -f concat -safe 0 -i "$concat_list" -c copy "$output_wav" 2>/dev/null
+  rm -rf "$work_dir" "$parts_dir"
+}
+
+# ============================================================
+# VALIDATION
+# ============================================================
+
+if [[ $# -lt 1 ]]; then
+  echo -e "${RED}Usage: $0 <book-slug>${NC}"
+  echo "Example: $0 atomic-habits"
+  exit 1
 fi
 
-# --- Summary ---
-if [[ -f "$OUTPUT_FILE" ]]; then
-  DURATION=""
-  if command -v ffprobe &> /dev/null; then
-    DURATION=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$OUTPUT_FILE" 2>/dev/null | cut -d. -f1)
-    if [[ -n "$DURATION" ]]; then
-      MINUTES=$((DURATION / 60))
-      SECONDS=$((DURATION % 60))
-      DURATION=" (${MINUTES}m ${SECONDS}s)"
-    fi
-  fi
-  
-  FILE_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
-  
-  echo ""
-  echo -e "${GREEN}✅ Voiceover generated successfully!${NC}"
-  echo -e "  📁 Output: $OUTPUT_FILE"
-  echo -e "  📊 Size: $FILE_SIZE$DURATION"
-  if [[ $OVERRIDE_COUNT -gt 0 ]]; then
-    echo -e "  🎛️  Voice overrides applied: $OVERRIDE_COUNT"
-  fi
-  echo ""
-  echo -e "🚀 Next steps:"
-  echo -e "  1. Review voiceover: play $OUTPUT_FILE"
-  echo -e "  2. Generate subtitles: ./scripts/generate-subtitle.sh $SLUG"
-else
-  echo -e "${RED}❌ Failed to generate voiceover${NC}"
+SLUG="$1"
+SCRIPT_FILE="$PROJECT_DIR/books/$SLUG/script.md"
+OUTPUT_DIR="$PROJECT_DIR/books/$SLUG/audio"
+OUTPUT_FILE="$OUTPUT_DIR/voiceover.wav"
+
+if [[ ! -f "$SCRIPT_FILE" ]]; then
+  echo -e "${RED}Error: Script file not found: $SCRIPT_FILE${NC}"
   exit 1
+fi
+
+# --- Check viXTTS server ---
+echo -e "${YELLOW}Checking viXTTS server at $VIXTTS_API_URL...${NC}"
+if ! curl -s --max-time 5 "$VIXTTS_API_URL/speakers" 2>/dev/null | grep -q "\["; then
+  echo -e "${RED}Error: viXTTS server not reachable at $VIXTTS_API_URL${NC}"
+  echo "  Start: ./scripts/vixtts-server.sh start"
+  exit 1
+fi
+echo -e "${GREEN}Server connected${NC} (speaker: $SPEAKER_NAME)"
+apply_voice_settings "$VIXTTS_TEMPERATURE" "$VIXTTS_REPETITION_PENALTY"
+echo -e "  Settings: temp=${GREEN}$VIXTTS_TEMPERATURE${NC} rep=${GREEN}$VIXTTS_REPETITION_PENALTY${NC}"
+
+mkdir -p "$OUTPUT_DIR"
+
+# ============================================================
+# Per-scene generation, speed-matched to SRT timing
+# ============================================================
+TIMING_FILE="$PROJECT_DIR/books/$SLUG/output/section-timing.json"
+if [[ ! -f "$TIMING_FILE" ]]; then
+  echo -e "${RED}Error: section-timing.json not found${NC}"
+  echo "  Run first: make subtitle BOOK=$SLUG"
+  exit 1
+fi
+
+echo -e "${YELLOW}Generating voiceover (per-scene, SRT-matched)...${NC}"
+
+# Extract per-scene text using Python
+SCENE_WORK=$(mktemp -d)
+trap "rm -rf $SCENE_WORK" EXIT
+
+python3 -c "
+import re, sys, json, os
+
+script_path = sys.argv[1]
+timing_path = sys.argv[2]
+out_dir = sys.argv[3]
+
+with open(script_path, 'r', encoding='utf-8') as f:
+    content = f.read()
+with open(timing_path, 'r', encoding='utf-8') as f:
+    timing = json.load(f)
+
+# Build target durations map
+targets = {t['scene']: t['durationSec'] for t in timing}
+
+# Parse scene markers
+scene_re = re.compile(r'<!-- scene: (scene-\d+), pace: (\w+) -->')
+markers = list(scene_re.finditer(content))
+
+for i, m in enumerate(markers):
+    scene_id = m.group(1)
+    start = m.end()
+    if i + 1 < len(markers):
+        end = markers[i + 1].start()
+    else:
+        notes = re.search(r'^## Notes', content[start:], re.MULTILINE)
+        end = start + notes.start() if notes else len(content)
+
+    raw = content[start:end]
+
+    # Clean but KEEP voice markers for TTS pipeline
+    lines = []
+    in_code = False
+    for line in raw.split('\n'):
+        s = line.strip()
+        if s.startswith('\`\`\`'):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        # Keep voice markers
+        if re.match(r'^<!-- voice:', s):
+            lines.append(s)
+            continue
+        # Skip other markers/metadata
+        if s.startswith('#') or s.startswith('>') or s == '---':
+            continue
+        if s.startswith('**Visual**') or re.match(r'^\*\*\[SHORT\]\*\*$', s):
+            continue
+        if re.match(r'^<!-- scene:', s):
+            continue
+        if re.match(r'^\*\*(Target|Tác|Thể|Ngày)', s):
+            continue
+        # Clean inline formatting
+        s = s.replace('**', '').replace('*', '').replace('[SHORT]', '').strip()
+        lines.append(s)
+
+    text = '\n'.join(lines).strip()
+    text = re.sub(r'\n{3,}', '\n\n', text)
+
+    if not text:
+        continue
+
+    scene_dir = os.path.join(out_dir, scene_id)
+    os.makedirs(scene_dir, exist_ok=True)
+    with open(os.path.join(scene_dir, 'text.txt'), 'w') as f:
+        f.write(text)
+    with open(os.path.join(scene_dir, 'target_sec'), 'w') as f:
+        f.write(str(targets.get(scene_id, 30)))
+
+print(f'Extracted {len(markers)} scenes')
+" "$SCRIPT_FILE" "$TIMING_FILE" "$SCENE_WORK"
+
+# Process each scene
+SCENE_FINALS=()
+SAMPLE_RATE=""
+
+for scene_dir in $(find "$SCENE_WORK" -mindepth 1 -maxdepth 1 -type d | sort); do
+    scene_id=$(basename "$scene_dir")
+    scene_text=$(cat "$scene_dir/text.txt")
+    target_sec=$(cat "$scene_dir/target_sec")
+
+    echo -e "  ${YELLOW}$scene_id${NC} (target: ${target_sec}s)"
+
+    # Generate audio for this scene
+    RAW_WAV="$scene_dir/raw.wav"
+    generate_audio "$scene_text" "$RAW_WAV" "$scene_id"
+
+    # Measure actual duration
+    ACTUAL_SEC=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$RAW_WAV")
+
+    # Get sample rate from first scene
+    if [[ -z "$SAMPLE_RATE" ]]; then
+      SAMPLE_RATE=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$RAW_WAV")
+    fi
+
+    # Speed-adjust if ratio > 5% off
+    FINAL_WAV="$scene_dir/final.wav"
+    NEEDS_STRETCH=$(python3 -c "
+a, t = float('$ACTUAL_SEC'), float('$target_sec')
+ratio = a / t
+if abs(ratio - 1.0) > 0.05 and 0.5 <= ratio <= 2.0:
+    print(f'{ratio:.4f}')
+else:
+    print('no')
+")
+
+    if [[ "$NEEDS_STRETCH" == "no" ]]; then
+      cp "$RAW_WAV" "$FINAL_WAV"
+      echo -e "      ${GREEN}${ACTUAL_SEC}s (OK, within 5%)${NC}"
+    else
+      ffmpeg -y -i "$RAW_WAV" -filter:a "atempo=$NEEDS_STRETCH" "$FINAL_WAV" 2>/dev/null
+      NEW_DUR=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$FINAL_WAV")
+      echo -e "      ${YELLOW}${ACTUAL_SEC}s → ${NEW_DUR}s (stretched ${NEEDS_STRETCH}x)${NC}"
+    fi
+
+    SCENE_FINALS+=("$FINAL_WAV")
+done
+
+# Concat all scenes with scene-level silence (0.8s)
+echo -e "${YELLOW}Concatenating ${#SCENE_FINALS[@]} scenes...${NC}"
+
+CONCAT_DIR=$(mktemp -d)
+SCENE_GAP=0.8
+SIL_SCENE="$CONCAT_DIR/sil-scene.wav"
+ffmpeg -y -f lavfi -i "anullsrc=r=$SAMPLE_RATE:cl=mono" -t "$SCENE_GAP" -c:a pcm_s16le "$SIL_SCENE" 2>/dev/null
+
+CONCAT_LIST="$CONCAT_DIR/concat.txt"
+for i in "${!SCENE_FINALS[@]}"; do
+    if [[ $i -gt 0 ]]; then
+      echo "file '$SIL_SCENE'" >> "$CONCAT_LIST"
+    fi
+    echo "file '${SCENE_FINALS[$i]}'" >> "$CONCAT_LIST"
+done
+
+ffmpeg -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$OUTPUT_FILE" 2>/dev/null
+rm -rf "$CONCAT_DIR"
+
+# Summary
+if [[ -f "$OUTPUT_FILE" ]]; then
+    DURATION=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$OUTPUT_FILE" 2>/dev/null)
+    DUR_INT=${DURATION%.*}
+    MINUTES=$((DUR_INT / 60))
+    SECONDS=$((DUR_INT % 60))
+    FILE_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
+
+    echo ""
+    echo -e "${GREEN}Voiceover generated (SRT-matched)!${NC}"
+    echo -e "  Output: $OUTPUT_FILE"
+    echo -e "  Duration: ${MINUTES}m ${SECONDS}s | Size: $FILE_SIZE"
+    echo ""
+    echo -e "Next steps:"
+    echo -e "  1. Sync assets: make sync BOOK=$SLUG"
+    echo -e "  2. Preview:     make studio"
+else
+    echo -e "${RED}Failed to generate voiceover${NC}"
+    exit 1
 fi

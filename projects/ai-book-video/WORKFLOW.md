@@ -1,475 +1,131 @@
 # AI Book Video — Production Workflow
 
-> **Format**: Video dài (5-8 min) + 2-3 shorts cắt từ video chính
+> **Format**: Video dai (5-8 min) + 2-3 shorts
 > **Platform**: YouTube, Facebook, Shorts/Reels
-> **Style**: Flat illustration + motion graphics
+> **Style**: Flat illustration + Ken Burns motion
 > **Voice**: AI voice clone (viXTTS self-hosted)
-> **Tần suất**: 1 video/tuần
 
 ---
 
-## Pipeline Overview
+## Pipeline
 
 ```
- ┌─────────┐   ┌─────────┐   ┌───────────┐   ┌──────────┐   ┌────────┐
- │ 1. PICK │──▶│ 2. COOK │──▶│ 3. VISUAL │──▶│ 4. BUILD │──▶│ 5. SHIP│
- │  Chọn   │   │  Viết   │   │  Dựng     │   │  Ghép    │   │ Đăng   │
- │  sách   │   │  script │   │  hình     │   │  video   │   │ & phát │
- └─────────┘   └─────────┘   └───────────┘   └──────────┘   └────────┘
-   Day 1          Day 2         Day 3-4         Day 5          Day 6-7
+Script (script.md + scene markers)
+    |
+    v
+[make subtitle] -> SRT + section-timing.json (pace-aware)
+    |
+    v
+[make voice] -> voiceover.wav (per-scene, speed-matched to SRT)
+    |
+    v
+[make sync] -> symlinks to remotion/public/
+    |
+    v
+[make studio] -> preview in Remotion Studio
+    |
+    v
+[make render] -> video.mp4
 ```
 
-### Automation Level
-
-| Phase | Manual | AI-Assisted | Automated |
-|-------|--------|-------------|-----------|
-| **PICK** | Chọn sách | NotebookLM MCP extract + Claude chọn angle | — |
-| **COOK** | Review & feedback | Claude viết script, storyboard, prompts | — |
-| **VISUAL** | Chọn & approve | AI image generation | — |
-| **BUILD** | — | — | Voice (viXTTS) → Subtitle (PhoWhisper) → Render (Remotion) |
-| **SHIP** | Upload & schedule | Claude viết metadata | — |
-
-**Target automation flow (Phase 4)**:
-```
-Script text → [viXTTS] → WAV → [PhoWhisper] → SRT → [Remotion] → MP4 + Shorts
-```
-
----
-
-## Quick Start — Video mới
+## Quick Start
 
 ```bash
-# 1. Init project cho cuốn sách
-./scripts/init-video.sh <book-slug>
+# 1. Init project
+make init BOOK=atomic-habits
 
-# 2. (Manual) Dùng NotebookLM MCP + Claude để viết script
-#    → scripts/<book-slug>/notes.md, script.md, storyboard.md
+# 2. (Manual) Write script + storyboard
+#    -> books/<slug>/notes.md, script.md, storyboard.md
 
-# 3. (Manual) Generate illustrations từ storyboard prompts
-#    → assets/<book-slug>/scenes/
+# 3. (Manual) Generate illustrations from storyboard prompts
+#    -> books/<slug>/scenes/
 
-# 4. Generate voice → subtitle → render
-./scripts/generate-voice.sh <book-slug>
-./scripts/generate-subtitle.sh <book-slug>
-# Remotion render (khi template ready):
-# npx remotion render BookVideo out/video.mp4
+# 4. Generate subtitles (SRT-first, pace-aware)
+make subtitle BOOK=atomic-habits
 
-# 5. (Manual) Upload + write metadata
+# 5. Generate voiceover (matches SRT timing)
+make voice BOOK=atomic-habits
+
+# 6. Preview
+make studio BOOK=atomic-habits
+
+# 7. Render
+make render BOOK=atomic-habits
+
+# Or run full pipeline (subtitle -> voice -> sync -> validate)
+make all BOOK=atomic-habits
 ```
 
----
+## Project Structure
 
-## Phase 1: PICK — Chọn sách & Extract (Day 1)
-
-> **Tools**: **NotebookLM** (via MCP trong Claude Code / Antigravity), **Claude**
-
-### Input
-- Sách đã đọc (PDF/ebook/physical)
-
-### Process
-
-#### 1a. Extract bằng NotebookLM MCP
-
-Dùng trực tiếp trong Claude Code hoặc Antigravity (thông qua MCP tools):
-
-**Workflow**: Tạo notebook trên web → init server → dùng MCP tools trong Claude Code.
-
-1. Tạo notebook trên [notebooklm.google.com](https://notebooklm.google.com) → add sources (PDF, URL, YouTube, Google Drive)
-2. Copy notebook URL
-3. Dùng MCP tools trong Claude Code để query:
-   - Tóm tắt 5 key insights chính
-   - Tìm 3 câu chuyện/ví dụ hay nhất
-   - Tìm quotes có impact cao
-
-> **Setup NotebookLM (1 lần)**:
-> ```bash
-> # 1. Install CLI
-> uv tool install notebooklm-mcp-cli
->
-> # 2. Login — mở Chrome để đăng nhập Google
-> nlm login
->
-> # 3. Setup cho Antigravity
-> nlm setup add antigravity
-> # Restart Antigravity → NotebookLM tools available
-> ```
-> **⚠️ Chrome automation**: Dùng undocumented APIs — có thể break khi Google update. Fallback: dùng NotebookLM web UI.
-
-#### 1b. Competitive Analysis (nhanh)
-- Search YouTube VN: đã có ai làm video về sách này?
-- Tìm keyword gap — angle nào chưa ai khai thác?
-- Ghi vào `notes.md` → phần Competitive Analysis
-
-#### 1c. Chọn Angle (Claude)
-- Prompt: xem `scripts/templates/claude-prompts.md` → **Prompt 1**
-- Input: raw notes từ NotebookLM + target audience context
-- Output: 3 angle options ranked theo potential engagement
-- Chọn **1 góc kể** — KHÔNG tóm tắt cả cuốn sách
-
-### Output
-- `scripts/<book-slug>/notes.md` — raw notes + competitive analysis
-- Angle đã chọn
-
-### Tips
-- Angle tốt = giải quyết 1 pain point cụ thể, không phải book report
-- Ưu tiên sách có câu chuyện/ví dụ minh họa — dễ visualize hơn
-- Chọn sách có thể liên hệ thực tế audience 20-35 tuổi
-
----
-
-## Phase 2: COOK — Viết Script (Day 2)
-
-> **Tools**: **Claude** (script, storyboard, image prompts)
-
-### Input
-- Notes từ Phase 1
-- Angle đã chọn
-
-### Process
-1. Dùng **Claude** viết script
-   - Prompt: xem `scripts/templates/claude-prompts.md` → **Prompt 2**
-   - Input: notes + angle + script template
-   - Claude output: script draft theo structure bên dưới
-2. Structure:
-   - **Hook** (0:00-0:15): Câu hỏi/statement gây tò mò
-   - **Context** (0:15-0:45): Giới thiệu sách + vì sao nó relevant
-   - **Body** (0:45-6:00): 2-3 insights chính, mỗi insight kèm ví dụ/câu chuyện
-   - **Takeaway** (6:00-7:00): Hành động cụ thể audience có thể làm ngay
-   - **CTA** (7:00-7:30): Subscribe, follow, gợi ý sách tiếp theo
-3. Đánh dấu **[SHORT]** cho đoạn có thể cắt làm shorts
-4. **Word count check**: 900-1050 từ (130-150 từ/phút × 7 phút)
-5. **Đọc to 1 lần** — check flow tự nhiên trước khi finalize
-6. Viết **storyboard + image prompts** (gộp 1 file)
-   - Prompt: `claude-prompts.md` → **Prompt 2** (storyboard) + **Prompt 3** (image prompts)
-
-### Output
-- `scripts/<book-slug>/script.md` — script hoàn chỉnh (word count verified)
-- `scripts/<book-slug>/storyboard.md` — storyboard + image prompts (merged)
-
-### Tips
-- Yêu cầu Claude output word count cho mỗi section
-- Mỗi insight: concept → ví dụ cụ thể → liên hệ thực tế
-- Tone: tự nhiên, kể chuyện cho bạn bè, xưng "mình"
-- **Đoạn cần energy** (excited/motivational): câu ngắn ≤15 từ, dùng "!" thay ".", từ mạnh (chính xác, tuyệt vời, đáng kinh ngạc). viXTTS output phụ thuộc nhiều vào text input — câu ngắn + từ mạnh giúp TTS deliver energy tốt hơn
-- Per-section voice tuning: xem Phase 4a
-
----
-
-## Phase 3: VISUAL — Dựng Illustration (Day 3-4)
-
-> **Tools**: Midjourney / Leonardo AI, Canva
-
-### Input
-- Image prompts từ `storyboard.md`
-- Brand guidelines: `assets/brand/style-guide.md`
-
-### Process
-1. Liệt kê scenes cần illustration (thường 8-15 scenes cho 7 phút)
-2. Generate flat illustration bằng AI:
-   - Dùng image prompts đã viết ở Phase 2
-   - Consistent style: giữ cùng prompt prefix cho toàn bộ video
-   - Tools: **Midjourney** (quality) / **Leonardo AI** (free tier tốt) / **Ideogram**
-3. Review & regenerate nếu style không consistent
-
-### Quality Checklist
-- [ ] Cùng color palette xuyên suốt (dùng color codes trong style guide)
-- [ ] Cùng character design (nếu có nhân vật lặp lại)
-- [ ] Không có text trong illustration
-- [ ] Aspect ratio đúng (16:9 cho video, 9:16 cho shorts)
-
-### Naming Convention
 ```
-assets/<book-slug>/scenes/
-├── scene-01-hook-opening.png
-├── scene-02-book-intro.png
-├── scene-03-insight1-concept.png
-├── ...
+books/                          # 1 book = 1 folder
+  └── atomic-habits/
+      ├── script.md             # narration + scene/pace markers
+      ├── storyboard.md         # visual prompts per scene
+      ├── notes.md              # NotebookLM extract
+      ├── metadata.md           # YouTube/FB metadata
+      ├── prompts.md            # Claude prompts
+      ├── scenes/               # AI-generated scene images
+      ├── audio/                # voiceover.wav (generated)
+      └── output/               # subtitles.srt, section-timing.json
+scripts/                        # pipeline automation
+  ├── init-book.sh              # scaffold new book
+  ├── generate-subtitle.sh      # script.md -> SRT (pace-aware)
+  ├── generate-voice.sh         # SRT-matched voice generation
+  ├── validate-subtitle.sh      # SRT quality checks
+  ├── vixtts-server.sh          # TTS server management
+  └── sync-assets.sh            # symlink to remotion/public
+remotion/                       # React video renderer
+brand/                          # shared branding + voice reference
+templates/                      # reusable templates
 ```
 
-4. Tách layers cho parallax (automated):
-   ```bash
-   ./scripts/separate-layers.sh <book-slug>
-   # ~40-75 giây cho 8-15 scenes (GPU)
-   ```
-   Review: scenes có warning → remove `layers` entry từ `scenes.json` → fallback Ken Burns
+## Script Format
 
-5. Tạo thumbnail bằng **Canva** (dùng brand template cố định)
-   - Mặt người/biểu cảm mạnh + text to + màu contrast
-   - Để trống space cho title text
+Script files use scene markers for pace control:
 
-### Output
-- `assets/<book-slug>/scenes/` — all scene illustrations
-- `assets/<book-slug>/thumbnail/` — thumbnail variations
-
-### Tips
-- Generate 2-3 variations mỗi scene, chọn cái tốt nhất
-- Hạn chế text trong illustration — text sẽ overlay trong editing
-- Seed locking (Midjourney): note lại seed nếu tìm được style ưng
-- **Parallax-friendly prompts**: subject/nhân vật rõ ràng, tách biệt khỏi nền. Tránh illustration quá abstract — rembg tách không tốt
-- Nền đơn giản (gradient, solid, simple pattern) → LaMa inpaint fill tốt hơn
-- Scenes có warning alpha coverage sau `separate-layers.sh` → bỏ `layers` trong `scenes.json` → fallback Ken Burns tự động
-
----
-
-## Phase 4: BUILD — Dựng Video (Day 5)
-
-> **Tools**: **viXTTS** (AI voice clone), **PhoWhisper** (subtitle), **Remotion** (render)
-
-### Input
-- Script, illustrations từ Phase 2-3
-
-### Process
-
-#### 4a. Generate Voice (Automated)
-
-```bash
-# Chạy 1 lệnh — script text → WAV
-./scripts/generate-voice.sh <book-slug>
-
-# Input:  scripts/<book-slug>/script.md
-# Output: assets/<book-slug>/audio/voiceover.wav
-```
-
-**viXTTS self-hosted** trên local GPU (RTX 4070 Super Ti, 16GB VRAM).
-
-Setup 1 lần:
-1. Start viXTTS server: `./scripts/vixtts-server.sh start`
-2. Speaker `fonos` đã có sẵn trên server (pre-loaded)
-3. Default config: temperature=0.85, repetition_penalty=2.0
-
-Sau đó mỗi video chỉ cần: `./scripts/generate-voice.sh <slug>`
-
-**Per-section voice tuning** (optional):
-Đoạn script cần energy cao hơn? Thêm voice marker trong `script.md`:
 ```markdown
-<!-- voice: temp=0.95 -->
-Và đây chính là điều khiến mình phải dừng lại!
+<!-- scene: scene-01, pace: slow -->
+## HOOK (0:00 - 0:20)
+Text content here...
 
-<!-- voice: reset -->
-Nhưng hãy quay lại câu chuyện ban đầu.
+<!-- scene: scene-02, pace: normal -->
+## CONTEXT (0:20 - 1:00)
+More text...
 ```
-Supported: `temp=<0.1-1.0>`, `rep=<1.0-10.0>`, `reset` (về default).
-Settings "stick" cho đến khi gặp marker tiếp theo hoặc `reset`.
 
-**Review voice**: nghe lại, fix nếu:
-- Phát âm tên riêng sai → thêm phonetic hint trong script
-- Ngữ điệu phẳng → break script thành câu ngắn hơn
-- Đoạn excited/energy thiếu sức → thêm `<!-- voice: temp=0.95 -->` trước đoạn đó
+Pace levels:
+- `slow` (12 chars/sec) — dramatic hooks, reflective moments
+- `normal` (15 chars/sec) — standard narration
+- `fast` (17 chars/sec) — energetic CTA
 
-#### 4b. Auto Subtitle (Automated)
+## viXTTS Server
 
 ```bash
-./scripts/generate-subtitle.sh <book-slug>
+# First time setup
+./scripts/vixtts-server.sh setup
 
-# Input:  assets/<book-slug>/audio/voiceover.wav
-# Output: output/<book-slug>/subtitles.srt
+# Start/stop
+./scripts/vixtts-server.sh start
+./scripts/vixtts-server.sh stop
+./scripts/vixtts-server.sh status
 ```
 
-Dùng **PhoWhisper** (Whisper fine-tuned cho tiếng Việt) — accuracy cao hơn Whisper gốc.
+Requires: Podman + NVIDIA GPU (>=4GB VRAM)
 
-Review subtitle: fix tên riêng, thuật ngữ, timing.
+## Makefile Targets
 
-#### 4c. Dựng Video (Remotion)
+| Target | Description |
+|--------|-------------|
+| `init` | Scaffold new book project |
+| `subtitle` | Generate pace-aware SRT from script |
+| `voice` | Generate voiceover matched to SRT timing |
+| `sync` | Symlink book assets to remotion/public |
+| `validate` | Validate SRT quality |
+| `studio` | Open Remotion Studio preview |
+| `render` | Render final video |
+| `all` | subtitle -> voice -> sync -> validate |
+| `clean` | Remove generated files |
 
-> Xem chi tiết: [Remotion Template Project](#remotion-template-project)
-
-1. Update `scenes.json` với scene info
-2. Import voiceover + illustrations
-3. Chỉnh timing, transitions, text overlays
-4. Thêm nhạc nền (volume ~15-20% so với voice)
-5. Intro (3-5s): Logo animation + tên series
-6. Outro (5-10s): CTA + gợi ý video khác
-7. Render:
-
-```bash
-# Render video dài (16:9, 1080p)
-npx remotion render BookVideo out/video.mp4
-
-# Render shorts (9:16, 1080p)
-npx remotion render BookShort out/short-1.mp4 \
-  --props='{"startScene": 2, "endScene": 4}'
-```
-
-#### 4d. Cắt Shorts
-1. Chọn 2-3 đoạn đánh dấu **[SHORT]** trong script
-2. Remotion config reframe 9:16 từ video dài
-3. Subtitle to hơn (~48px, 1/3 màn hình dưới)
-4. Hook câu đầu tiên phải gây tò mò trong 1-2 giây
-5. Render shorts riêng
-
-### Output
-- `output/<book-slug>/video.mp4` — video dài
-- `output/<book-slug>/short-*.mp4` — shorts
-- `output/<book-slug>/subtitles.srt` — subtitle file
-
----
-
-## Phase 5: SHIP — Đăng & Phân phối (Day 6-7)
-
-> **Tools**: **Claude** (metadata), YouTube Studio, Meta Business Suite
-
-### Checklist trước khi đăng
-- [ ] Subtitle đã review (không sai tên riêng, thuật ngữ)
-- [ ] Credit sách + tác giả trong description
-- [ ] Thumbnail đã chọn
-- [ ] Title + description đã viết
-- [ ] Tags/hashtags đã chuẩn bị
-- [ ] Timestamps trong description
-
-### Viết Metadata (Claude)
-Dùng **Claude** để viết title, description, tags:
-- Prompt: xem `scripts/templates/claude-prompts.md` → **Prompt 4**
-- Input: script + angle + target platform
-- Output: 3 title options + description + tags
-
-### Upload Schedule
-| Platform | Format | Khi nào |
-|----------|--------|---------|
-| YouTube | Video dài (16:9) | Chủ nhật 19:00 |
-| YouTube Shorts | 2-3 shorts (9:16) | Thứ 2, 4, 6 |
-| Facebook | Video dài (native upload) | Cùng lúc YouTube |
-| Facebook Reels | Shorts | Cùng lúc YT Shorts |
-
-> **⚠️ Facebook**: Upload native video, KHÔNG share link YouTube. Facebook giảm reach cho link ngoài.
-
-### Post-Publish
-- **24h đầu**: Reply tất cả comments — thuật toán ưu tiên engagement sớm
-- **7 ngày**: Ghi metrics vào `content-calendar.md`
-- **30 ngày**: Update final metrics, rút kinh nghiệm
-
----
-
-## Feedback Loop
-
-```
-                    ┌──────── Analytics ──────────┐
-                    ▼                              │
-PICK → COOK → VISUAL → BUILD → SHIP → MEASURE ──┘
-```
-
-**Monthly Review** (sau 4 videos):
-- Topic nào có views/retention cao nhất?
-- Hook nào giữ người xem qua 30 giây?
-- Format nào cần đổi?
-- Điều chỉnh Phase 1 (chọn sách) và Phase 2 (script) theo data
-
----
-
-## Remotion Template Project
-
-### Setup (1 lần)
-
-#### Prerequisites
-- Node.js 18+ (`node -v`)
-- npm hoặc pnpm
-
-#### Cài đặt
-```bash
-# 1. Cài Remotion
-npx create-video@latest bookie-video-template
-cd bookie-video-template
-npm install
-
-# 2. Mở project trong Antigravity IDE
-```
-
-#### Template Project Structure
-```
-bookie-video-template/
-├── src/
-│   ├── compositions/
-│   │   ├── BookVideo.tsx       ← Main video composition (16:9)
-│   │   ├── BookShort.tsx       ← Shorts composition (9:16)
-│   │   └── components/
-│   │       ├── SceneSlide.tsx  ← Scene với illustration + text overlay
-│   │       ├── Intro.tsx       ← Logo animation
-│   │       ├── Outro.tsx       ← CTA screen
-│   │       └── Subtitle.tsx   ← Subtitle renderer (từ SRT)
-│   ├── data/
-│   │   ├── scenes.json        ← Scene config (image, duration, text)
-│   │   └── subtitles.srt      ← Subtitle file
-│   └── assets/                ← Illustrations + audio cho video hiện tại
-├── public/
-│   └── fonts/                 ← Brand fonts
-├── remotion.config.ts
-└── package.json
-```
-
-### Tips
-- Giữ `scenes.json` là source of truth — dễ batch update
-- Nếu cần custom animation phức tạp: edit trực tiếp `.tsx` files
-- Render time: ~2-5 phút cho video 7 phút (tùy máy)
-
----
-
-## Tools Summary
-
-| Bước | Tool | Vai trò | Cost |
-|------|------|---------|------|
-| Extract insights | NotebookLM (MCP) | Tóm tắt sách, tìm quotes | Free |
-| Phân tích + chọn angle | **Claude** | Đề xuất angles từ notes | — |
-| Viết script & storyboard | **Claude** | Draft script, visual notes | — |
-| Viết image prompts | **Claude** | Batch prompts cho AI image gen | — |
-| AI illustration | Midjourney / Leonardo AI | Generate flat illustrations | Varies |
-| Thumbnail | Canva | Design thumbnail | Free tier |
-| **AI Voice** | **viXTTS** (self-host) | Script → voiceover WAV | Free (local GPU) |
-| **Auto subtitle** | **PhoWhisper** | Speech-to-text → SRT | Free (local) |
-| Video render | **Remotion** | React framework, CLI render | Free (OSS) |
-| Viết metadata | **Claude** | Title, description, tags | — |
-| Upload & schedule | YouTube Studio / Meta Business | Publish & schedule | Free |
-
----
-
-## Weekly Schedule
-
-| Ngày | Task | Tool chính | Thời gian |
-|------|------|-----------|-----------| 
-| **Thứ 2** | Pick sách + NotebookLM extract | NotebookLM MCP | 1-2h |
-| **Thứ 2** | Claude phân tích notes → chọn angle | Claude | 30m |
-| **Thứ 3** | Viết script + storyboard + image prompts | Claude | 2-3h |
-| **Thứ 4-5** | Generate illustrations + thumbnail | Midjourney/Leonardo, Canva | 1-2h |
-| **Thứ 6** | Generate voice + subtitle (automated) | viXTTS, PhoWhisper | 15m |
-| **Thứ 6** | Dựng video + render | Remotion | 1-2h |
-| **Thứ 7** | Cắt shorts + render | Remotion CLI | 30m |
-| **Thứ 7** | Viết metadata + chuẩn bị upload | Claude | 30m |
-| **Chủ nhật** | Upload video dài | YouTube Studio, Meta Business | 30m |
-| **Thứ 2,4,6** | Upload shorts (schedule trước) | YouTube Studio, Meta Business | 15m/short |
-
-**Total: ~7-11h/tuần** cho 1 video dài + 2-3 shorts
-*(Giảm ~2-3h nhờ AI voice + Remotion template + automation scripts)*
-
----
-
-## File Structure Reference
-
-```
-projects/ai-book-video/
-├── WORKFLOW.md                    ← Bạn đang đọc file này
-├── assets/
-│   ├── brand/
-│   │   └── style-guide.md        ← Visual style guide
-│   └── <book-slug>/
-│       ├── scenes/               ← AI illustrations
-│       ├── thumbnail/            ← Thumbnails
-│       └── audio/                ← Generated voiceover
-├── scripts/
-│   ├── init-video.sh             ← Tạo folder structure mới
-│   ├── generate-voice.sh         ← Script → WAV (viXTTS)
-│   ├── generate-subtitle.sh      ← WAV → SRT (PhoWhisper)
-│   ├── content-calendar.md       ← Tracking production & metrics
-│   ├── templates/
-│   │   ├── claude-prompts.md     ← 4 prompt templates cho Claude
-│   │   ├── script-template.md    ← Script format
-│   │   ├── image-prompt.md       ← Image generation templates
-│   │   └── checklist.md          ← Production checklist
-│   └── <book-slug>/
-│       ├── notes.md              ← NotebookLM extract
-│       ├── script.md             ← Video script
-│       ├── storyboard.md         ← Storyboard + image prompts
-│       └── metadata.md           ← YouTube/FB metadata
-└── output/
-    └── <book-slug>/
-        ├── video.mp4             ← Final video
-        ├── short-*.mp4           ← Shorts
-        └── subtitles.srt         ← SRT file
-```
+All targets require `BOOK=<slug>` parameter.

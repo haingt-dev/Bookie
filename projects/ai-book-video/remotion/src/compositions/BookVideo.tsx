@@ -7,7 +7,7 @@ import {
   staticFile,
   useVideoConfig,
 } from "remotion";
-import { BGM_AMBIENT, BGM_VOLUME } from "../constants";
+import { ANIM, BGM_AMBIENT, BGM_VOLUME } from "../constants";
 import type { VideoConfig } from "../types";
 import { Intro } from "./components/Intro";
 import { Outro } from "./components/Outro";
@@ -18,14 +18,19 @@ export const BookVideo: React.FC<{ config: VideoConfig }> = ({ config }) => {
   const { fps, durationInFrames } = useVideoConfig();
   const introFrames = config.intro.duration * fps;
   const outroFrames = config.outro.duration * fps;
+  const overlapFrames = ANIM.fadeFrames;
 
-  // Calculate scene start frames
+  // Calculate scene start frames with cross-dissolve overlap
   let currentFrame = introFrames;
-  const sceneEntries = config.scenes.map((scene) => {
+  const sceneEntries = config.scenes.map((scene, i) => {
     const from = currentFrame;
     const duration = scene.duration * fps;
     currentFrame += duration;
-    return { scene, from, duration };
+    // Overlap with next scene (not after last scene)
+    if (i < config.scenes.length - 1) {
+      currentFrame -= overlapFrames;
+    }
+    return { scene, from, duration, index: i };
   });
 
   const outroStart = currentFrame;
@@ -85,10 +90,10 @@ export const BookVideo: React.FC<{ config: VideoConfig }> = ({ config }) => {
         <Intro />
       </Sequence>
 
-      {/* Scenes */}
-      {sceneEntries.map(({ scene, from, duration }) => (
+      {/* Scenes — overlapping for cross-dissolve */}
+      {sceneEntries.map(({ scene, from, duration, index }) => (
         <Sequence key={scene.id} from={from} durationInFrames={duration}>
-          <SceneSlide image={scene.image} layers={scene.layers} />
+          <SceneSlide image={scene.image} sceneIndex={index} />
         </Sequence>
       ))}
 

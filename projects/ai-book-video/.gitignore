@@ -1,0 +1,24 @@
+# Python
+.venv*/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Generated video output
+books/*/output/video.mp4
+books/*/output/short-*.mp4
+
+# Remotion symlinks (populated by sync-assets.sh)
+remotion/public/scenes
+remotion/public/audio
+remotion/public/subtitles.srt
+
+# Remotion build
+remotion/dist/
+remotion/out/
+remotion/.remotion/
+
+# OS
+.DS_Store
