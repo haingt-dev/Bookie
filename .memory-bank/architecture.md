@@ -1,109 +1,100 @@
 # Architecture
 
-## 🏛️ System Overview
-Pipeline-based production system cho video sách. Không phải application code — là một chuỗi tools + scripts + templates orchestrated bởi bash scripts và AI agents.
+## System Overview
+Pipeline-based production system cho video sách. Không phải application code — là một chuỗi tools + scripts + templates orchestrated bởi Makefile và bash scripts.
 
 **Architecture Style**: Pipeline / Workflow automation
 
-## 📁 Project Structure
+## Project Structure
 ```
 projects/ai-book-video/
-├── WORKFLOW.md               — Master workflow documentation
-├── assets/
-│   ├── brand/
-│   │   ├── style-guide.md    — Visual brand guidelines
-│   │   └── voice-reference/  — AI voice clone reference audio
-│   ├── test-sach/
-│   │   └── voice-matrix/     — Voice test samples (speakers × temperatures)
-│   ├── test-expressiveness/  — Expressiveness test samples
-│   └── <book-slug>/          — Per-video assets (scenes, thumbnails, audio)
-├── remotion/
-│   ├── public/
-│   │   ├── logo.png          — Full Bookie logo (transparent)
-│   │   └── logomark.png      — Bookie logomark (transparent)
-│   └── src/
-│       ├── compositions/     — BookVideo (16:9), BookShort (9:16)
-│       ├── components/       — Scene, Subtitle, Intro, Outro, Logo
-│       ├── data/scenes.json  — Per-video config (swap per video)
-│       └── utils/            — SRT parser, fonts
-├── scripts/
-│   ├── init-video.sh         — Scaffold new video project
-│   ├── generate-voice.sh     — Script → WAV (viXTTS API)
-│   ├── generate-subtitle.sh  — Script → SRT (text-derived timing)
-│   ├── validate-subtitle.sh  — SRT validation (timing, format)
-│   ├── vixtts-server.sh      — Start/manage viXTTS Podman container
-│   ├── test-voice-matrix.sh  — Generate voice matrix for evaluation
-│   ├── evaluate-matrix.sh    — Interactive voice sample evaluation
-│   ├── separate-layers.sh    — PNG → foreground/background layers (rembg + IOPaint)
-│   ├── .venv-layers/         — Python 3.12 venv for layer pipeline (gitignored)
-│   ├── content-calendar.md   — Production tracking
-│   └── templates/            — Reusable templates (prompts, script, checklist)
-└── output/
-    └── <book-slug>/          — Final renders (MP4, SRT)
+├── Makefile                    — Pipeline orchestration
+├── WORKFLOW.md                 — Master workflow documentation
+├── .env.example                — Environment template
+├── content-calendar.md         — Production tracking
+├── books/                      — 1 book = 1 folder (source of truth)
+│   └── atomic-habits/
+│       ├── script.md           — Narration + scene/pace markers
+│       ├── storyboard.md       — Visual prompts per scene
+│       ├── notes.md            — NotebookLM extract
+│       ├── metadata.md         — YouTube/FB metadata
+│       ├── prompts.md          — Claude prompts used
+│       ├── scenes/             — AI-generated illustrations (PNG)
+│       ├── audio/              — voiceover.wav (generated)
+│       └── output/             — subtitles.srt, section-timing.json
+├── scripts/                    — Pipeline automation
+│   ├── init-book.sh            — Scaffold new book project
+│   ├── generate-subtitle.sh    — Script → SRT (pace-aware)
+│   ├── generate-voice.sh       — SRT → Voice (per-scene, time-matched)
+│   ├── validate-subtitle.sh    — SRT quality checks
+│   ├── vixtts-server.sh        — TTS server management
+│   └── sync-assets.sh          — Symlink books/ → remotion/public/
+├── templates/                  — Reusable templates
+├── brand/                      — Voice reference + style guide
+└── remotion/                   — React video renderer
+    ├── src/                    — Compositions, components, types, utils
+    ├── public/                 — Symlinks populated by sync-assets.sh
+    └── package.json
 ```
 
-## 🔄 Data Flow
+## Data Flow (SRT-First Pipeline)
 
 ```
 [Sách (PDF/ebook)]
     ↓
-[NotebookLM MCP] → Raw notes + insights
+[NotebookLM] → Raw notes + insights
     ↓
-[Claude] → Script + Storyboard + Image prompts
+[Claude] → Script (script.md) + Storyboard + Image prompts
     ↓
-[AI Image Gen] → Scene illustrations (PNG)
+[AI Image Gen] → Scene illustrations (PNG) → books/<slug>/scenes/
     ↓
-[rembg + IOPaint] → Foreground/Background layers (PNG) ← optional parallax
+[make subtitle] → SRT + section-timing.json (pace authority)
     ↓
-[viXTTS] → Voiceover (WAV) ← script text
+[make voice] → voiceover.wav (per-scene, stretched to match SRT)
     ↓
-[generate-subtitle.sh] → Subtitles (SRT) ← script text + audio duration
+[make sync] → symlinks to remotion/public/
     ↓
-[Remotion] → Final video (MP4) ← illustrations + voiceover + SRT
+[make studio/render] → preview / video.mp4
     ↓
 [YouTube / Facebook] → Published content
-    ↓
-[Analytics] → Feedback → Phase 1 adjustments
 ```
 
-## 🧩 Key Components
+**Key principle**: SRT timing is the authority. Voice generation stretches audio to match SRT, not the other way around.
 
-### NotebookLM MCP Integration
-- **Location**: MCP server config (managed by `nlm setup`)
-- **Purpose**: Extract book insights without leaving Antigravity
-- **Dependencies**: Google account, internet
-- **Used by**: Phase 1 (PICK)
+## Key Components
+
+### Makefile Orchestration
+- **Location**: `Makefile`
+- **Targets**: init, subtitle, voice, sync, validate, studio, render, all, clean
+- **Usage**: `make <target> BOOK=<slug>`
 
 ### viXTTS (Self-hosted)
 - **Location**: Podman container on local GPU, port 8020
 - **Purpose**: AI voice cloning → Vietnamese voiceover
-- **Dependencies**: RTX 4070 Super Ti, Podman, CUDA
-- **Used by**: Phase 4 (BUILD) via `generate-voice.sh`
+- **Dependencies**: NVIDIA GPU (>=4GB VRAM), Podman, CUDA
+- **Config**: fonos speaker, temp=0.85, repetition_penalty=2.0
 - **Management**: `scripts/vixtts-server.sh`
 
 ### Remotion Template
 - **Location**: `remotion/`
 - **Purpose**: Programmatic video composition + CLI rendering
 - **Dependencies**: Node.js, React/TypeScript, Remotion 4.x
-- **Used by**: Phase 4 (BUILD)
-- **Compositions**: BookVideo (16:9), BookShort (9:16)
-- **Components**: Scene (Ken Burns + parallax), Subtitle (SRT overlay), Intro, Outro, Logo, BGM (ambient audio)
-- **Parallax**: Optional layered animation — foreground/background drift at different speeds + spring entry
-- **Branding**: Official colors + logo PNGs in `public/`
+- **Compositions**: BookVideo (16:9, 1920x1080, 30fps), BookShort (9:16)
+- **Components**: SceneSlide (Ken Burns + cross-dissolve), Subtitle (SRT overlay + fade), Intro, Outro, Logo, BGM
+- **Branding**: #368C06 primary, #C86108 accent, #FAFDF5 background
 
-### Automation Scripts
-- **Location**: `scripts/`
-- **Purpose**: Orchestrate pipeline steps, reduce manual work
-- **Dependencies**: bash, ffmpeg, jq, curl
+### Script Format
+- Scene markers: `<!-- scene: scene-01, pace: slow -->`
+- Pace presets: slow (12 cps), normal (15 cps), fast (17 cps)
+- Voice config: `<!-- voice: temp=X, repetition_penalty=Y -->`
 
-## 🔌 External Integrations
+## External Integrations
 - **NotebookLM**: MCP via `notebooklm-mcp-cli` (unofficial API)
-- **viXTTS**: REST API at localhost:8020 (Podman container, self-hosted)
+- **viXTTS**: REST API at localhost:8020 (Podman container)
 - **AI Image Gen**: Manual via Midjourney/Leonardo web UI
-- **YouTube/Facebook**: Manual upload via web UI (potential future API integration)
+- **YouTube/Facebook**: Manual upload
 
-## 🚨 Critical Constraints
+## Critical Constraints
 - **1-person operation**: Everything must be automatable or very fast manually
 - **GPU bound**: viXTTS runs on local GPU — can't run while gaming/training
-- **NotebookLM MCP instability**: Uses undocumented APIs, may break on updates
-- **No CI/CD**: This is a content pipeline, not a software deployment pipeline
+- **No CI/CD**: Content pipeline, not software deployment
