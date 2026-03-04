@@ -1,31 +1,30 @@
-# Video Metadata: Atomic Habits
+# Video Metadata: Atomic Habits — Điều sách không nói
 
 ## YouTube
 
 ### Title (chọn 1)
-1. Atomic Habits — Cây Amazon dạy bạn điều gì về thói quen?
-2. 1% mỗi ngày: Bí mật từ Atomic Habits của James Clear
-3. Atomic Habits: 3 cách thay đổi thói quen mà không cần ý chí
+
+1. Điều mà Atomic Habits không nói với bạn
+2. 3 điểm mù của Atomic Habits mà fan cuồng bỏ qua
+3. Atomic Habits: Cuốn sách hay nhưng không hoàn hảo
 
 ### Description
+
 ```
 📚 Atomic Habits — James Clear
 
-Rừng Amazon có hơn 16.000 loài cây, nhưng chỉ 1.4% thống trị một nửa cánh rừng. Quy luật tích lũy đó cũng đúng với thói quen của bạn. Video này kể câu chuyện Atomic Habits qua 3 góc nhìn: quy luật 1%, thay đổi đặc tính, và cách bắt đầu nhỏ đến mức không thể từ chối.
+15 triệu bản. 50+ ngôn ngữ. Nhưng có 3 điều cuốn sách hot nhất thập kỷ này không nói với bạn.
+
+Mình yêu cuốn này. Nhưng yêu không có nghĩa là tin mọi thứ. Video này chia sẻ 3 điểm mù lớn nhất của Atomic Habits — và 1 điều khiến cuốn sách vẫn đáng đọc dù không hoàn hảo.
 
 ⏱️ Timestamps:
-0:00 — Rừng Amazon và quy luật 1.4%
-0:20 — Giới thiệu Atomic Habits
-1:00 — Quy luật 1%: Cây nào vươn cao hơn sẽ thắng
-1:40 — James Clear: Từ tai nạn bóng chày đến vận động viên hàng đầu
-2:50 — Đồ thị lãi kép: +1% vs -1% mỗi ngày
-3:30 — Tại sao bạn cứ bỏ dở? 3 lớp thay đổi
-4:30 — Ví dụ: Hai người cai thuốc, ai thành công?
-5:20 — Sức mạnh của lời khen và niềm tin
-6:30 — Bắt đầu cực nhỏ: Buộc dây giày thay vì chạy 5km
-7:20 — Victor Hugo khóa quần áo để viết sách
-8:30 — 3 bài học rút ra + hành động tối nay
-9:30 — Kết
+0:00 — 15 triệu bản nhưng...
+0:15 — Yêu sách ≠ tin mọi thứ
+0:45 — Điểm mù #1: Con số 37 lần là phép toán đẹp nhưng sai
+2:30 — Điểm mù #2: Bẫy 2 phút — hack thói quen hay hack chính mình?
+4:15 — Điểm mù #3: Cỗ máy không đích đến
+5:45 — Vậy cuốn sách có đáng đọc không?
+6:45 — Kết
 
 📖 Mua sách:
 - Atomic Habits (tiếng Anh): https://jamesclear.com/atomic-habits
@@ -39,69 +38,78 @@ Rừng Amazon có hơn 16.000 loài cây, nhưng chỉ 1.4% thống trị một 
 ```
 
 ### Tags (20)
+
 ```
 atomic habits, atomic habits tiếng việt, thói quen nguyên tử, james clear,
-thay đổi thói quen, 1 phần trăm mỗi ngày, self improvement tiếng việt,
-review sách, tóm tắt sách, đọc sách, phát triển bản thân, habit stacking,
-compound effect, identity change, kỷ luật bản thân, sách hay nên đọc,
-bookie, book review tiếng việt, sách self help, thói quen tốt
+atomic habits criticism, điều atomic habits không nói, atomic habits có tốt không,
+atomic habits review, review sách tiếng việt, đọc sách, phát triển bản thân,
+sách hay nên đọc, sách self help, thay đổi thói quen, kỷ luật bản thân,
+1 phần trăm mỗi ngày, self improvement tiếng việt, bookie, book review tiếng việt,
+compound effect sai
 ```
 
 ### Shorts
 
 | # | Source | Title | Hashtags |
-|---|--------|-------|----------|
-| 1 | Insight 1b-c: James Clear recovery | Từ tai nạn bóng chày đến hàng đầu nước Mỹ | #AtomicHabits #JamesClear #1Percent #Motivation #Bookie |
-| 2 | Insight 2b: Hai người cai thuốc | "Mình không hút thuốc" — 5 từ thay đổi tất cả | #AtomicHabits #Identity #ThóiQuen #MindsetShift #Bookie |
-| 3 | Insight 3b: Victor Hugo | Victor Hugo khóa quần áo để viết kiệt tác | #VictorHugo #AtomicHabits #Productivity #WritingHack #Bookie |
+| - | ------ | ----- | -------- |
+| 1 | Insight 2: Bẫy 2 phút | Nếu bạn phải hack chính mình... | #AtomicHabits #Habits #SelfImprovement #Bookie |
+| 2 | Trade-off: Phiếu bầu | Mỗi hành động nhỏ là 1 phiếu bầu | #AtomicHabits #Identity #ThóiQuen #Bookie |
+| 3 | Insight 1: Con số 37x | Con số 37 lần — sự thật đằng sau | #AtomicHabits #1Percent #Motivation #Bookie |
 
 ### Shorts Descriptions
-**Short 1** — James Clear recovery (45-60s)
+
+**Short 1** — Bẫy 2 phút (45-60s)
+
 ```
-Năm cuối cấp 3, James Clear bị gậy bóng chày văng trúng mặt. Mũi biến dạng. Xương sọ rạn. Ngừng thở. Sự nghiệp thể thao tưởng đã kết thúc.
+James Clear khuyên: muốn tập gym? Hứa mặc đồ tập. Chỉ 2 phút.
 
-Nhưng anh bắt đầu lại từ thứ nhỏ nhất: ngủ đúng giờ, giữ phòng ngăn nắp, tập tạ đều đặn.
+Nghe thông minh. Nhưng có 1 câu hỏi sách không đặt ra:
 
-6 năm sau → vận động viên hàng đầu toàn nước Mỹ.
+Nếu bạn phải dùng mẹo chỉ để BẮT ĐẦU một việc — thì có thể việc đó không dành cho bạn.
 
-📚 Từ cuốn Atomic Habits — James Clear
-👉 Xem video đầy đủ trên kênh Bookie
+Bao nhiêu lần bạn ép mình dậy 5h sáng vì TikTok bảo thế? Đăng ký coding vì "ai cũng nên biết"? Rồi bỏ. Rồi tự trách.
 
-#AtomicHabits #JamesClear #1Percent #Motivation #Bookie
-```
+Atomic Habits dạy CÁCH xây thói quen. Nhưng không nói CHỌN thói quen nào đáng xây.
 
-**Short 2** — Hai người cai thuốc (30-45s)
-```
-Hai người cùng cai thuốc. Có người mời một điếu.
-
-Người 1: "Không, mình đang cố cai."
-Người 2: "Không, mình không hút thuốc."
-
-Nghe giống nhau? Khác hoàn toàn.
-
-Người đầu tiên vẫn tự coi mình là người hút thuốc đang gồng.
-Người thứ hai đã thay đổi đặc tính — hút thuốc là quá khứ.
-
-📚 Atomic Habits — James Clear
-👉 Video đầy đủ trên kênh Bookie
-
-#AtomicHabits #Identity #ThóiQuen #MindsetShift #Bookie
+📚 Xem đầy đủ trên kênh Bookie
+#AtomicHabits #Habits #SelfImprovement #Bookie
 ```
 
-**Short 3** — Victor Hugo (30s)
+**Short 2** — Phiếu bầu cho con người mới (30-45s)
+
 ```
-Năm 1830, Victor Hugo nợ nhà xuất bản một cuốn tiểu thuyết nhưng cả năm toàn đi chơi.
+Giá trị lớn nhất của Atomic Habits không phải con số 37 lần. Không phải mẹo 2 phút.
 
-Giải pháp? Ông yêu cầu trợ lý gom HẾT quần áo vào rương rồi khóa kín. Chỉ để lại một tấm khăn choàng.
+Mà là cách nó thay đổi cách bạn nhìn bản thân.
 
-Không quần áo = không ra ngoài được.
+Mỗi hành động nhỏ = 1 lá phiếu bầu cho con người bạn muốn trở thành.
 
-Kết quả? Thằng gù Nhà thờ Đức Bà — ra đời sớm hơn deadline 2 tuần.
+Mỗi lần mở sách = phiếu cho "người đọc".
+Mỗi lần chạy bộ = phiếu cho "người khỏe mạnh".
 
-📚 Atomic Habits gọi đây là "thiết bị cam kết"
-👉 Xem đầy đủ trên kênh Bookie
+Đủ phiếu, đặc tính mới thắng cử.
 
-#VictorHugo #AtomicHabits #Productivity #WritingHack #Bookie
+📚 Xem đầy đủ trên kênh Bookie
+#AtomicHabits #Identity #ThóiQuen #Bookie
+```
+
+**Short 3** — Con số 37 lần (30s)
+
+```
+James Clear: "Tốt hơn 1% mỗi ngày = giỏi hơn 37 lần sau 1 năm."
+
+Nhưng con người không phải tài khoản ngân hàng.
+
+Tập gym tháng 1: thay đổi rõ rệt.
+Tháng 6: chậm hẳn.
+Tháng 12: nỗ lực gấp đôi để cải thiện thêm 1 chút.
+
+Đây là diminishing returns — tiến bộ giảm dần, không tăng exponential.
+
+Plateau là BÌNH THƯỜNG. Không phải dấu hiệu bạn thất bại.
+
+📚 Xem đầy đủ trên kênh Bookie
+#AtomicHabits #1Percent #Motivation #Bookie
 ```
 
 ---
@@ -109,25 +117,27 @@ Kết quả? Thằng gù Nhà thờ Đức Bà — ra đời sớm hơn deadline
 ## Facebook
 
 ### Post Caption
+
 ```
-📚 ATOMIC HABITS — Cây Amazon dạy bạn điều gì về thói quen?
+📚 ĐIỀU MÀ ATOMIC HABITS KHÔNG NÓI VỚI BẠN
 
-Rừng Amazon có hơn 16.000 loài cây. Nhưng chỉ 227 loài — 1.4% — kiểm soát một nửa cánh rừng.
+15 triệu bản. 50+ ngôn ngữ. Cuốn sách self-help hot nhất thập kỷ.
 
-Bí mật? Ưu thế tích lũy. Cây nào cao hơn một chút → nhận nhiều nắng hơn → lớn nhanh hơn → lấn át phần còn lại.
+Mình yêu cuốn này. Nhưng sau khi đọc thêm các nghiên cứu phản biện, mình nhận ra có 3 điều Atomic Habits... bỏ qua:
 
-James Clear viết Atomic Habits dựa trên chính quy luật này. Và 3 bài học quan trọng nhất là:
+1️⃣ "1% mỗi ngày = 37 lần" — phép toán đẹp nhưng sai. Con người có diminishing returns, không compound như tài khoản ngân hàng.
 
-1️⃣ Bạn không cần thay đổi lớn — chỉ cần 1% mỗi ngày
-2️⃣ Đừng hỏi "mình muốn đạt gì" — hãy hỏi "mình muốn trở thành ai"
-3️⃣ Bắt đầu nhỏ đến mức không thể từ chối
+2️⃣ "Bắt đầu nhỏ trong 2 phút" — nếu phải hack chính mình để bắt đầu, có thể thói quen đó không dành cho bạn.
 
-👉 Xem video đầy đủ trên kênh YouTube Bookie (link in bio)
+3️⃣ "Hệ thống > Mục tiêu" — hệ thống không hướng biến bạn thành cỗ máy chạy đều... nhưng không biết đi đâu.
 
-💬 Comment cho mình biết: thói quen nhỏ nào bạn muốn bắt đầu?
+Vậy cuốn sách có đáng đọc không? RẤT ĐÁNG. Lý do ở video 👇
+
+💬 Comment: cuốn sách nào bạn muốn mình mổ xẻ tiếp?
 ```
 
 ### Hashtags
+
 ```
-#Bookie #BookieInspiresEveryone #AtomicHabits #ThóiQuenNguyênTử #JamesClear #ĐọcSách #SáchHay #ReviewSách #PhátTriểnBảnThân #SelfImprovement #1PercentRule #HabitStacking #ĐọcSáchMỗiNgày #BookReview #SáchSelfHelp
+#Bookie #BookieInspiresEveryone #AtomicHabits #ThóiQuenNguyênTử #JamesClear #ĐọcSách #SáchHay #ReviewSách #PhátTriểnBảnThân #SelfImprovement #BookReview #SáchSelfHelp #AtomicHabitsCriticism #ThóiQuen
 ```

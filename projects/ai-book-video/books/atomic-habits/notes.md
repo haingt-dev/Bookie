@@ -98,17 +98,53 @@ Ngày đầu đi học → đọc tên 30 bạn sau 1 lần giới thiệu → b
 - ❌ Không ai focus vào **câu chuyện** của James Clear
 - ✅ **Gap**: Storytelling-first approach — kể qua câu chuyện, rút insight
 
-## Đề xuất Angle
+## Criticism Research (NotebookLM + Web)
 
-### Option 1: "Cây trong rừng Amazon dạy mình điều gì về thói quen?" ⭐
-- Hook: Câu chuyện rừng Amazon → 1% rule → identity → habit stacking
-- Flow: Story → Insight → Ứng dụng → Story → Insight → …
-- **Lý do**: Hook lạ, chưa kênh VN nào dùng, visual rất đẹp
+> **Sources**: 7 bài criticism + research papers từ NotebookLM notebook
+> **Ngày extract**: 2026-03-05
 
-### Option 2: "Tại sao bạn cứ bỏ dở mọi thói quen?"
-- Hook: Pain point → system vs goal + identity
-- **Lý do**: Relatable, SEO tốt, nhưng angle tương tự đã có
+### A. "1%/ngày = 37 lần" — Phép toán ẩn dụ, không phải thực tế
 
-### Option 3: "1 câu nói thay đổi cách vợ James Clear sống"
-- Hook: Identity story → 3 insights
-- **Lý do**: Human interest, emotional, scope hẹp
+- Con người không compound như tài khoản ngân hàng
+- Hành vi có **diminishing returns**: tập gym 0→1h = massive, 1h→2h = marginal
+- Tiến bộ thực tế = plateaus + bước nhảy, không phải đường cong mượt
+- Con số 37x chỉ là motivation, không phải dự đoán
+- Source: Dr. Gina Cleo (medical science), Aure's Notes, To Summarise
+
+### B. "Bẫy 2 phút" — Hack thói quen không phù hợp
+
+- Nếu phải dùng trick để bắt đầu → thói quen đó có thể không dành cho bạn
+- Ép gym 2 phút → ghét mỗi giây → bỏ sau 2 tuần → tự trách "thiếu kỷ luật"
+- Vấn đề thật: sách dạy CÁCH làm, nhưng không dạy CHỌN cái gì
+- VN youth: chạy theo trend (dậy 5h, learn coding, gym) dù không hợp
+- Source: Aure's Notes, ADHD coaching research
+
+### C. Hệ thống không mục tiêu = Giậm chân tại chỗ
+
+- "Systems > Goals" → focus showing up → quên upgrade
+- Ví dụ: gym 5 năm cùng routine, không mạnh hơn vì chỉ "duy trì hệ thống"
+- Peter Thiel (Zero to One): hệ thống không hướng = giỏi mọi thứ, xuất sắc không gì
+- Hệ thống cần mục tiêu làm la bàn, không phải kẻ thù
+- Source: Aure's Notes, Notion Adam
+
+### Trade-off tích cực
+
+- Identity shift vẫn là giá trị lớn nhất của cuốn sách
+- "Phiếu bầu cho con người mới" — cách nhìn bản thân thay đổi mạnh mẽ hơn bất kỳ con số nào
+- Framework để bắt đầu: không hoàn hảo nhưng đủ tốt để khởi động
+- Source: Original book + multiple criticism articles acknowledge this
+
+## Angle đã chọn
+
+### "Điều mà Atomic Habits không nói với bạn" ⭐
+
+- **Tone**: Nuanced criticism — tôn trọng sách, chỉ ra điểm mù, kết thúc tích cực
+- **Flow**: Hook → Context → 3 điểm mù (A, B, C) → Trade-off → CTA
+- **Target**: ~7 phút (900 từ), 9 scenes
+- **Lý do**: Mọi kênh VN cover Atomic Habits = tóm tắt/4 laws. Góc contrarian tạo differentiation, CTR cao hơn
+
+### (Archived) Options trước đó
+
+- Option 1: "Cây trong rừng Amazon dạy mình điều gì về thói quen?" — storytelling-first
+- Option 2: "Tại sao bạn cứ bỏ dở mọi thói quen?" — pain point
+- Option 3: "1 câu nói thay đổi cách vợ James Clear sống" — human interest

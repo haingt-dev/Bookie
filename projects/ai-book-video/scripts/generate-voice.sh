@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # generate-voice.sh — Generate voiceover từ script text bằng viXTTS (self-hosted)
 # Usage: ./scripts/generate-voice.sh <book-slug>
-# Generates voiceover per-scene, speed-matched to SRT timing from section-timing.json.
+# Generates voiceover per-scene with gap adjustment (no audio stretching).
+# Adjusts silence between sentences/paragraphs to approach SRT target timing.
+# Auto-syncs SRT timestamps to match actual audio duration.
 # Prerequisites: viXTTS server running (./scripts/vixtts-server.sh start)
 
 set -euo pipefail
@@ -16,6 +18,13 @@ SILENCE_SENTENCE=0.15     # 150ms between sentences (same paragraph)
 SILENCE_PARAGRAPH=0.4     # 400ms between paragraphs/sections
 FADE_DURATION=0.02        # minimal fade to prevent clicks
 MIN_BATCH_CHARS=100       # batch sentences shorter than this with neighbor
+
+# Gap adjustment bounds (seconds) — used instead of atempo stretch
+GAP_SENTENCE_MIN=0.05
+GAP_SENTENCE_MAX=0.40
+GAP_PARAGRAPH_MIN=0.15
+GAP_PARAGRAPH_MAX=1.00
+GAP_WEIGHT_PARA=2.5       # paragraph gaps get 2.5x share of budget
 VIXTTS_TEMPERATURE="${VIXTTS_TEMPERATURE:-0.85}"
 VIXTTS_REPETITION_PENALTY="${VIXTTS_REPETITION_PENALTY:-2.0}"
 
@@ -155,12 +164,14 @@ split_into_units() {
   echo "$unit_num"
 }
 
-# generate_audio <text> <output_wav> <label>
-# Full pipeline: text → units → TTS → silence-padded concat → wav
+# generate_audio <text> <output_wav> <label> [target_sec]
+# Full pipeline: text → units → TTS → gap-adjusted concat → wav
+# If target_sec is provided, adjusts silence gaps to approach target duration.
 generate_audio() {
   local text="$1"
   local output_wav="$2"
   local label="${3:-section}"
+  local target_sec="${4:-}"
 
   local work_dir=$(mktemp -d)
   local parts_dir=$(mktemp -d)
@@ -231,12 +242,8 @@ generate_audio() {
     mv "${uout%.wav}-f.wav" "$uout"
   done
 
-  # Concat with variable silence
+  # --- Measure unit durations + count gap slots ---
   local sample_rate=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$parts_dir/unit-001.wav")
-  local sil_s="$parts_dir/sil-s.wav"
-  local sil_p="$parts_dir/sil-p.wav"
-  ffmpeg -y -f lavfi -i "anullsrc=r=$sample_rate:cl=mono" -t "$SILENCE_SENTENCE" -c:a pcm_s16le "$sil_s" 2>/dev/null
-  ffmpeg -y -f lavfi -i "anullsrc=r=$sample_rate:cl=mono" -t "$SILENCE_PARAGRAPH" -c:a pcm_s16le "$sil_p" 2>/dev/null
 
   declare -A pbreaks=()
   if [[ -f "$work_dir/paragraph-breaks.txt" ]]; then
@@ -245,21 +252,79 @@ generate_audio() {
     done < "$work_dir/paragraph-breaks.txt"
   fi
 
+  local total_speech=0
+  local n_sentence_gaps=0
+  local n_paragraph_gaps=0
+  local unit_count=0
+  for part in "$parts_dir"/unit-*.wav; do
+    unit_count=$((unit_count + 1))
+    local dur=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$part")
+    total_speech=$(echo "$total_speech + $dur" | bc)
+    if [[ $unit_count -gt 1 ]]; then
+      if [[ -n "${pbreaks[$unit_count]:-}" ]]; then
+        n_paragraph_gaps=$((n_paragraph_gaps + 1))
+      else
+        n_sentence_gaps=$((n_sentence_gaps + 1))
+      fi
+    fi
+  done
+
+  # --- Calculate gap durations (budget-aware if target_sec provided) ---
+  local gap_s="$SILENCE_SENTENCE"
+  local gap_p="$SILENCE_PARAGRAPH"
+
+  if [[ -n "$target_sec" ]] && [[ $((n_sentence_gaps + n_paragraph_gaps)) -gt 0 ]]; then
+    read -r gap_s gap_p <<< "$(python3 -c "
+total_speech = $total_speech
+target = float('$target_sec')
+n_s = $n_sentence_gaps
+n_p = $n_paragraph_gaps
+w_para = $GAP_WEIGHT_PARA
+
+gap_budget = target - total_speech
+weighted_slots = n_s * 1.0 + n_p * w_para
+
+if gap_budget > 0 and weighted_slots > 0:
+    unit = gap_budget / weighted_slots
+    gs = unit * 1.0
+    gp = unit * w_para
+else:
+    # Negative budget or no slots: use minimums
+    gs = $GAP_SENTENCE_MIN
+    gp = $GAP_PARAGRAPH_MIN
+
+# Clamp
+gs = max($GAP_SENTENCE_MIN, min($GAP_SENTENCE_MAX, gs))
+gp = max($GAP_PARAGRAPH_MIN, min($GAP_PARAGRAPH_MAX, gp))
+print(f'{gs:.3f} {gp:.3f}')
+")"
+  fi
+
+  # --- Concat with calculated gaps ---
   local concat_list="$parts_dir/concat.txt"
+  local sil_idx=0
   local idx=0
   for part in "$parts_dir"/unit-*.wav; do
     idx=$((idx + 1))
     if [[ $idx -gt 1 ]]; then
+      local this_gap="$gap_s"
       if [[ -n "${pbreaks[$idx]:-}" ]]; then
-        echo "file '$sil_p'" >> "$concat_list"
-      else
-        echo "file '$sil_s'" >> "$concat_list"
+        this_gap="$gap_p"
       fi
+      sil_idx=$((sil_idx + 1))
+      local sil_file="$parts_dir/sil-$sil_idx.wav"
+      ffmpeg -y -f lavfi -i "anullsrc=r=$sample_rate:cl=mono" -t "$this_gap" -c:a pcm_s16le "$sil_file" 2>/dev/null
+      echo "file '$sil_file'" >> "$concat_list"
     fi
     echo "file '$part'" >> "$concat_list"
   done
 
   ffmpeg -y -f concat -safe 0 -i "$concat_list" -c copy "$output_wav" 2>/dev/null
+
+  # Report gap info
+  local total_gaps=$(echo "$n_sentence_gaps * $gap_s + $n_paragraph_gaps * $gap_p" | bc)
+  echo -e "      speech=${total_speech}s gaps=${total_gaps}s (sent=${gap_s}s×${n_sentence_gaps} para=${gap_p}s×${n_paragraph_gaps})"
+
   rm -rf "$work_dir" "$parts_dir"
 }
 
@@ -297,7 +362,7 @@ echo -e "  Settings: temp=${GREEN}$VIXTTS_TEMPERATURE${NC} rep=${GREEN}$VIXTTS_R
 mkdir -p "$OUTPUT_DIR"
 
 # ============================================================
-# Per-scene generation, speed-matched to SRT timing
+# Per-scene generation with gap adjustment
 # ============================================================
 TIMING_FILE="$PROJECT_DIR/books/$SLUG/output/section-timing.json"
 if [[ ! -f "$TIMING_FILE" ]]; then
@@ -306,7 +371,7 @@ if [[ ! -f "$TIMING_FILE" ]]; then
   exit 1
 fi
 
-echo -e "${YELLOW}Generating voiceover (per-scene, SRT-matched)...${NC}"
+echo -e "${YELLOW}Generating voiceover (per-scene, gap-adjusted)...${NC}"
 
 # Extract per-scene text using Python
 SCENE_WORK=$(mktemp -d)
@@ -387,6 +452,7 @@ print(f'Extracted {len(markers)} scenes')
 
 # Process each scene
 SCENE_FINALS=()
+SCENE_ACTUALS=()
 SAMPLE_RATE=""
 
 for scene_dir in $(find "$SCENE_WORK" -mindepth 1 -maxdepth 1 -type d | sort); do
@@ -396,38 +462,42 @@ for scene_dir in $(find "$SCENE_WORK" -mindepth 1 -maxdepth 1 -type d | sort); d
 
     echo -e "  ${YELLOW}$scene_id${NC} (target: ${target_sec}s)"
 
-    # Generate audio for this scene
-    RAW_WAV="$scene_dir/raw.wav"
-    generate_audio "$scene_text" "$RAW_WAV" "$scene_id"
+    # Generate audio with gap adjustment (no stretch)
+    FINAL_WAV="$scene_dir/final.wav"
+    generate_audio "$scene_text" "$FINAL_WAV" "$scene_id" "$target_sec"
 
     # Measure actual duration
-    ACTUAL_SEC=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$RAW_WAV")
+    ACTUAL_SEC=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$FINAL_WAV")
 
     # Get sample rate from first scene
     if [[ -z "$SAMPLE_RATE" ]]; then
-      SAMPLE_RATE=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$RAW_WAV")
+      SAMPLE_RATE=$(ffprobe -v quiet -show_entries stream=sample_rate -of csv=p=0 "$FINAL_WAV")
     fi
 
-    # Speed-adjust if ratio > 5% off
-    FINAL_WAV="$scene_dir/final.wav"
-    NEEDS_STRETCH=$(python3 -c "
+    # Report delta
+    DELTA=$(python3 -c "
 a, t = float('$ACTUAL_SEC'), float('$target_sec')
-ratio = a / t
-if abs(ratio - 1.0) > 0.05 and 0.5 <= ratio <= 2.0:
-    print(f'{ratio:.4f}')
-else:
-    print('no')
+d = a - t
+pct = (d / t) * 100 if t > 0 else 0
+print(f'{d:+.2f}s ({pct:+.1f}%)')
 ")
-
-    if [[ "$NEEDS_STRETCH" == "no" ]]; then
-      cp "$RAW_WAV" "$FINAL_WAV"
-      echo -e "      ${GREEN}${ACTUAL_SEC}s (OK, within 5%)${NC}"
+    SCENE_STATUS=$(python3 -c "
+a, t = float('$ACTUAL_SEC'), float('$target_sec')
+pct = abs(a - t) / t * 100 if t > 0 else 0
+if pct <= 5: print('OK')
+elif pct <= 15: print('acceptable')
+else: print('NEEDS_SCRIPT_EDIT')
+")
+    if [[ "$SCENE_STATUS" == "NEEDS_SCRIPT_EDIT" ]]; then
+      echo -e "      ${RED}${ACTUAL_SEC}s (delta: ${DELTA}) — script edit recommended${NC}"
+    elif [[ "$SCENE_STATUS" == "acceptable" ]]; then
+      echo -e "      ${YELLOW}${ACTUAL_SEC}s (delta: ${DELTA})${NC}"
     else
-      ffmpeg -y -i "$RAW_WAV" -filter:a "atempo=$NEEDS_STRETCH" "$FINAL_WAV" 2>/dev/null
-      NEW_DUR=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$FINAL_WAV")
-      echo -e "      ${YELLOW}${ACTUAL_SEC}s → ${NEW_DUR}s (stretched ${NEEDS_STRETCH}x)${NC}"
+      echo -e "      ${GREEN}${ACTUAL_SEC}s (delta: ${DELTA})${NC}"
     fi
 
+    # Track for voice-timing.json
+    SCENE_ACTUALS+=("$scene_id:$ACTUAL_SEC:$target_sec:$SCENE_STATUS")
     SCENE_FINALS+=("$FINAL_WAV")
 done
 
@@ -450,23 +520,61 @@ done
 ffmpeg -y -f concat -safe 0 -i "$CONCAT_LIST" -c copy "$OUTPUT_FILE" 2>/dev/null
 rm -rf "$CONCAT_DIR"
 
-# Summary
-if [[ -f "$OUTPUT_FILE" ]]; then
-    DURATION=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$OUTPUT_FILE" 2>/dev/null)
-    DUR_INT=${DURATION%.*}
-    MINUTES=$((DUR_INT / 60))
-    SECONDS=$((DUR_INT % 60))
-    FILE_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
+# Write voice-timing.json
+VOICE_TIMING="$PROJECT_DIR/books/$SLUG/output/voice-timing.json"
+python3 -c "
+import json, sys
+entries = []
+for item in sys.argv[1:]:
+    parts = item.split(':')
+    scene, actual, target, status = parts[0], float(parts[1]), float(parts[2]), parts[3]
+    entries.append({
+        'scene': scene,
+        'targetSec': round(target, 2),
+        'actualSec': round(actual, 2),
+        'deltaSec': round(actual - target, 2),
+        'status': status
+    })
+with open('$VOICE_TIMING', 'w') as f:
+    json.dump(entries, f, indent=2)
+print(f'  Written: $VOICE_TIMING ({len(entries)} scenes)')
+" "${SCENE_ACTUALS[@]}"
 
-    echo ""
-    echo -e "${GREEN}Voiceover generated (SRT-matched)!${NC}"
-    echo -e "  Output: $OUTPUT_FILE"
-    echo -e "  Duration: ${MINUTES}m ${SECONDS}s | Size: $FILE_SIZE"
-    echo ""
-    echo -e "Next steps:"
-    echo -e "  1. Sync assets: make sync BOOK=$SLUG"
-    echo -e "  2. Preview:     make studio"
-else
+# Summary
+if [[ ! -f "$OUTPUT_FILE" ]]; then
     echo -e "${RED}Failed to generate voiceover${NC}"
     exit 1
 fi
+
+DURATION=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$OUTPUT_FILE" 2>/dev/null)
+DUR_INT=${DURATION%.*}
+MINUTES=$((DUR_INT / 60))
+SECONDS=$((DUR_INT % 60))
+FILE_SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
+
+# Count scenes needing script edit
+NEEDS_EDIT=0
+for entry in "${SCENE_ACTUALS[@]}"; do
+  [[ "$entry" == *:NEEDS_SCRIPT_EDIT ]] && NEEDS_EDIT=$((NEEDS_EDIT + 1))
+done
+
+echo ""
+echo -e "${GREEN}Voiceover generated (gap-adjusted, natural voice)!${NC}"
+echo -e "  Output: $OUTPUT_FILE"
+echo -e "  Duration: ${MINUTES}m ${SECONDS}s | Size: $FILE_SIZE"
+if [[ $NEEDS_EDIT -gt 0 ]]; then
+  echo -e "  ${RED}$NEEDS_EDIT scene(s) >15% off target — consider editing script${NC}"
+fi
+
+# Auto-sync SRT to match actual audio duration
+SRT_FILE="$PROJECT_DIR/books/$SLUG/output/subtitles.srt"
+if [[ -f "$SRT_FILE" ]]; then
+  echo ""
+  echo -e "${YELLOW}Auto-syncing SRT to actual audio...${NC}"
+  "$SCRIPT_DIR/generate-subtitle.sh" "$SLUG" --sync
+fi
+
+echo ""
+echo -e "Next steps:"
+echo -e "  1. Sync assets: make sync BOOK=$SLUG"
+echo -e "  2. Preview:     make studio"

@@ -16,7 +16,7 @@ Script (script.md + scene markers)
 [make subtitle] -> SRT + section-timing.json (pace-aware)
     |
     v
-[make voice] -> voiceover.wav (per-scene, speed-matched to SRT)
+[make voice] -> voiceover.wav (per-scene, gap-adjusted) + SRT auto-synced
     |
     v
 [make sync] -> symlinks to remotion/public/
