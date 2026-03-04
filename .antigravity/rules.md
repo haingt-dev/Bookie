@@ -19,7 +19,7 @@
 
 ## Context Loading
 - On session start, read AGENTS.md for project context.
-- Read `.memory-bank/brief.md` and `.memory-bank/context.md` for current state.
+- Read `.memory-bank/brief.md`, `.memory-bank/context.md`, and `.memory-bank/task.md` for current state.
 
 ## Safety Guards
 - NEVER run `rm -rf /`, `git reset --hard`, `git push --force` without explicit confirmation.
