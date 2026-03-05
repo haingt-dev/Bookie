@@ -9,50 +9,98 @@
 
 ## Pipeline
 
+> Legend: `Skill` = Claude Code skill (`/skill-name`) | `Script` = automated (`make target`) | `Manual` = requires Hải
+
 ```
-Script (script.md + scene markers)
+[/extract-notes] -------------- Skill (Claude+MCP)
+    ↓ notes.md + chosen angle
+[/write-script] ←----------+-- Skill (Claude, iterative)
+    |                       |
+    v                       |  iterate until
+[make voice] --- Script     |  voice + script
+  voiceover.wav             |  are solid
+  + timing.json             |
+    |                       |
+    v                       |
+[Review voice] --- Manual --+
     |
-    v
-[make subtitle] -> SRT + section-timing.json (pace-aware)
+    | (voice approved)
     |
+    +---------------------------+
+    |                           |
+    v                           v
+[/write-storyboard] -- Skill [make subtitle] --- Script
+[Image Gen: Gemini] - Manual   Whisper → word timestamps → SRT
+  -> scenes/                    |
+    |                           |
+    +---------------------------+
     v
-[make voice] -> voiceover.wav (per-scene, gap-adjusted) + SRT auto-synced
-    |
-    v
-[make sync] -> symlinks to remotion/public/
-    |
-    v
-[make studio] -> preview in Remotion Studio
-    |
-    v
-[make render] -> video.mp4
+[make scenes] --- Script
+  scenes.json (from timing + images)
+    ↓
+[make sync] -> [make studio] -> [make render] --- Script
+    ↓
+[/write-metadata] ------------ Skill
+    ↓
+[Publish] --- Manual (YouTube + Facebook)
 ```
+
+> **Voice-first**: Voice là authority. Script ↔ voice lặp cho tới khi chất lượng ổn.
+> Sau khi voice approved: storyboard (informed by actual timing) + subtitle chạy song song.
+> Hội tụ tại `make scenes` → `make sync`.
+
+## Pipeline Steps
+
+| # | Step | Type | Command | Output |
+|---|------|------|---------|--------|
+| 1 | Init project | Script | `make init BOOK=<slug>` | Book folder scaffold |
+| 2 | Extract notes | Skill | `/extract-notes <slug>` | `notes.md` + angle |
+| 3 | Write script | Skill | `/write-script <slug>` | `script.md` |
+| 4 | Generate voice | Script | `make voice BOOK=<slug>` | `voiceover.wav` + `section-timing.json` |
+| 5 | Review voice | Manual | Listen + iterate 3→4 | Approved voice |
+| 6a | Write storyboard | Skill | `/write-storyboard <slug>` | `storyboard.md` |
+| 6b | Generate images | Manual | Gemini (paste prompts) | `scenes/*.png` |
+| 6c | Generate subtitles | Script | `make subtitle BOOK=<slug>` | `subtitles.srt` |
+| 7 | Generate scenes.json | Script | `make scenes BOOK=<slug>` | `scenes.json` |
+| 8 | Preview + Render | Script | `make studio` / `make render` | `video.mp4` |
+| 9 | Write metadata | Skill | `/write-metadata <slug>` | `metadata.md` |
+| 10 | Publish | Manual | YouTube Studio + Meta | Live video |
 
 ## Quick Start
 
 ```bash
-# 1. Init project
+# 1. [Script] Init project
 make init BOOK=atomic-habits
 
-# 2. (Manual) Write script + storyboard
-#    -> books/<slug>/notes.md, script.md, storyboard.md
+# 2. [Skill] Extract notes + choose angle
+/extract-notes atomic-habits
 
-# 3. (Manual) Generate illustrations from storyboard prompts
-#    -> books/<slug>/scenes/
+# 3. [Skill] Write script (iterative with review)
+/write-script atomic-habits
 
-# 4. Generate subtitles (SRT-first, pace-aware)
-make subtitle BOOK=atomic-habits
-
-# 5. Generate voiceover (matches SRT timing)
+# 4. [Script] Generate voice — [Manual] listen, tweak, repeat
 make voice BOOK=atomic-habits
 
-# 6. Preview
-make studio BOOK=atomic-habits
+# 5a. [Skill] Write storyboard (informed by timing)
+/write-storyboard atomic-habits
+#     [Manual] Generate illustrations via Gemini -> scenes/
 
-# 7. Render
+# 5b. [Script] Generate subtitles (Whisper word timestamps)
+make subtitle BOOK=atomic-habits
+
+# 6. [Script] Generate scenes.json (from timing + images)
+make scenes BOOK=atomic-habits
+
+# 7. [Script] Preview + Render
+make studio BOOK=atomic-habits
 make render BOOK=atomic-habits
 
-# Or run full pipeline (subtitle -> voice -> sync -> validate)
+# 8. [Skill] Write metadata
+/write-metadata atomic-habits
+
+# 9. [Manual] Publish to YouTube + Facebook
+
+# Or run automated steps (voice -> subtitle -> scenes -> sync -> validate)
 make all BOOK=atomic-habits
 ```
 
@@ -65,14 +113,14 @@ books/                          # 1 book = 1 folder
       ├── storyboard.md         # visual prompts per scene
       ├── notes.md              # NotebookLM extract
       ├── metadata.md           # YouTube/FB metadata
-      ├── prompts.md            # Claude prompts
       ├── scenes/               # AI-generated scene images
       ├── audio/                # voiceover.wav (generated)
       └── output/               # subtitles.srt, section-timing.json
 scripts/                        # pipeline automation
   ├── init-book.sh              # scaffold new book
-  ├── generate-subtitle.sh      # script.md -> SRT (pace-aware)
-  ├── generate-voice.sh         # SRT-matched voice generation
+  ├── generate-voice.sh         # voice-first: voiceover + actual timing
+  ├── generate-subtitle.sh      # SRT timed to actual voice
+  ├── generate-scenes.sh        # auto-gen scenes.json for Remotion
   ├── validate-subtitle.sh      # SRT quality checks
   ├── vixtts-server.sh          # TTS server management
   └── sync-assets.sh            # symlink to remotion/public
@@ -95,10 +143,12 @@ Text content here...
 More text...
 ```
 
-Pace levels:
-- `slow` (12 chars/sec) — dramatic hooks, reflective moments
-- `normal` (15 chars/sec) — standard narration
-- `fast` (17 chars/sec) — energetic CTA
+Pace levels (calibrated to viXTTS ~15 cps):
+- `slow` (15 cps, large gaps) — dramatic hooks, reflective moments
+- `normal` (15 cps, standard gaps) — standard narration
+- `fast` (16 cps, tight gaps) — energetic CTA
+
+> viXTTS speaks at ~15 cps regardless. Slow/fast effect comes from gap timing between sentences/paragraphs, not speech speed.
 
 ## viXTTS Server
 
@@ -119,13 +169,14 @@ Requires: Podman + NVIDIA GPU (>=4GB VRAM)
 | Target | Description |
 |--------|-------------|
 | `init` | Scaffold new book project |
-| `subtitle` | Generate pace-aware SRT from script |
-| `voice` | Generate voiceover matched to SRT timing |
+| `voice` | Generate voiceover + section-timing.json (authority) |
+| `subtitle` | Generate SRT via Whisper word timestamps from voiceover |
+| `scenes` | Auto-generate scenes.json from timing + images |
 | `sync` | Symlink book assets to remotion/public |
 | `validate` | Validate SRT quality |
 | `studio` | Open Remotion Studio preview |
 | `render` | Render final video |
-| `all` | subtitle -> voice -> sync -> validate |
+| `all` | voice -> subtitle -> scenes -> sync -> validate |
 | `clean` | Remove generated files |
 
 All targets require `BOOK=<slug>` parameter.

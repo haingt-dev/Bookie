@@ -1,7 +1,12 @@
 # Claude Prompt Templates — AI Book Video
 
-> Dùng các prompt này trong mỗi video production cycle.
-> Copy prompt → paste vào Claude → cung cấp input data.
+> **SUPERSEDED**: Các prompt này đã được chuyển thành Claude Code skills.
+> Dùng `/extract-notes`, `/write-script`, `/write-storyboard`, `/write-metadata` thay vì copy-paste.
+> Skills tự đọc input files và write output — không cần paste thủ công.
+> File này giữ lại làm reference.
+
+> ~~Dùng các prompt này trong mỗi video production cycle.~~
+> ~~Copy prompt → paste vào Claude → cung cấp input data.~~
 
 ---
 

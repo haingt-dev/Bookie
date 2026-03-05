@@ -32,6 +32,7 @@ Bookie/
 - Tạo sub-project mới theo structure trên
 - Large media files tracked bằng Git LFS (video, PSD, audio, etc.)
 - Output cuối cùng đặt trong `output/`, không commit output vào git trừ khi cần thiết
+- When pipeline logic changes, update WORKFLOW.md and `.memory-bank/` (architecture, context, task) to stay in sync
 
 ## Project Values
 - **Minimal impact** — Make the smallest changes necessary. Don't over-engineer

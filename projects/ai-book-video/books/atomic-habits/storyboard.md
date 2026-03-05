@@ -4,20 +4,13 @@
 > Script: ~900 từ, ~7 phút, 9 scenes
 > Angle: Nuanced criticism — 3 điểm mù + trade-off
 
-## Style Prefix (dùng cho MỌI prompt)
+## Style Instruction (dùng cho MỌI prompt — Gemini natural language)
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio
-```
-
-## Negative Prompt (cho tools hỗ trợ)
-
-```
-no text, no letters, no words, no watermark, no 3D, no realistic photo
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+No text, no watermark in the image.
 ```
 
 ---
@@ -32,16 +25,14 @@ no text, no letters, no words, no watermark, no 3D, no realistic photo
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a book with orange cover standing upright at center with a warm glow,
-surrounded by floating abstract shapes suggesting popularity and global reach,
-small globe icons and sparkle elements scattered around,
-a large translucent question mark looming behind the book,
-dramatic but clean composition, warm ambient lighting
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+The scene shows a book with an orange cover standing upright at the center with a warm glow,
+surrounded by floating abstract shapes suggesting popularity and global reach.
+Small globe icons and sparkle elements are scattered around the book.
+A large translucent question mark looms behind it, creating a dramatic but clean composition
+with warm ambient lighting. No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — flat/Ken Burns
@@ -55,16 +46,14 @@ dramatic but clean composition, warm ambient lighting
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-split composition with soft dividing line down the center,
-left side shows a warm heart shape embracing a small book in green tones,
-right side shows a magnifying glass examining the same book in orange tones,
-both sides harmonious not adversarial,
-balanced symmetrical layout, clean open space
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+The composition is split down the center with a soft dividing line.
+On the left side, a warm heart shape embraces a small book in green tones.
+On the right side, a magnifying glass examines the same book in orange tones.
+Both sides feel harmonious, not adversarial, with a balanced symmetrical layout
+and plenty of clean open space. No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — composition phẳng
@@ -78,17 +67,15 @@ balanced symmetrical layout, clean open space
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a clean chart showing two curves starting from the same point on the left,
-the upper line in green curves exponentially upward soaring high,
-the lower line in orange rises then gradually flattens into a plateau,
-the widening gap between them is highlighted with a subtle shaded area,
-minimal grid lines, clean axis marks,
-small upward arrow icon near green line and a flat arrow near orange plateau
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+The scene shows a clean chart with two curves starting from the same point on the left.
+The upper line in green curves exponentially upward, soaring high.
+The lower line in orange rises then gradually flattens into a plateau.
+The widening gap between them is highlighted with a subtle shaded area.
+Minimal grid lines and clean axis marks. A small upward arrow icon sits near the green line
+and a flat arrow near the orange plateau. No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — infographic phẳng
@@ -102,17 +89,15 @@ small upward arrow icon near green line and a flat arrow near orange plateau
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-horizontal three-panel progression of a person exercising,
-left panel shows energetic workout with many sparkle and star effects around them,
-center panel shows same exercise with fewer sparkles and slightly muted colors,
-right panel shows same exercise with almost no sparkles and flat subdued tones,
-connected by diminishing arrows between panels,
-showing the concept of diminishing returns visually
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+The scene shows a horizontal three-panel progression of a person exercising.
+The left panel depicts an energetic workout with many sparkle and star effects around them.
+The center panel shows the same exercise with fewer sparkles and slightly muted colors.
+The right panel shows the same exercise with almost no sparkles and flat subdued tones.
+Diminishing arrows connect the panels, visually conveying the concept of diminishing returns.
+No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — triptych phẳng
@@ -126,17 +111,13 @@ showing the concept of diminishing returns visually
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a person wearing workout clothes standing with slumped shoulders
-and a discouraged expression, next to a large circular timer showing
-a countdown, the person looks reluctant and unenthusiastic,
-gym equipment faintly visible in background,
-muted orange tones suggesting frustration,
-the timer prominent in the composition
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+A person wearing workout clothes stands with slumped shoulders and a discouraged expression,
+next to a large circular timer showing a countdown. The person looks reluctant and unenthusiastic.
+Gym equipment is faintly visible in the background. Muted orange tones suggest frustration,
+and the timer is prominent in the composition. No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — flat/Ken Burns
@@ -150,18 +131,16 @@ the timer prominent in the composition
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a Y-shaped fork in the road with a person standing at the junction,
-left path is darker with heavy orange-brown tones and small icons
-of an alarm clock and dumbbells suggesting forced discipline,
-right path is brighter with green tones and small icons
-of a book and a plant suggesting natural fit,
-the person looking between both paths with a contemplative pose,
-atmospheric perspective with left path slightly foggy and right path clear
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+A Y-shaped fork in the road with a person standing at the junction.
+The left path is darker with heavy orange-brown tones and small icons of an alarm clock
+and dumbbells, suggesting forced discipline. The right path is brighter with green tones
+and small icons of a book and a plant, suggesting a natural fit.
+The person looks between both paths with a contemplative pose.
+The left path feels slightly foggy while the right path is clear.
+No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — flat/Ken Burns
@@ -175,18 +154,15 @@ atmospheric perspective with left path slightly foggy and right path clear
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a person running on a treadmill in a room with a large window,
-through the window seasons are changing rapidly shown as layered panels
-of spring flowers then summer sun then autumn leaves then winter snow,
-a clock on the wall with hands spinning fast,
-the person looks exactly the same unchanged despite time passing,
-subtle hamster wheel visual metaphor,
-warm but slightly melancholic color tones
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+A person is running on a treadmill in a room with a large window.
+Through the window, seasons are changing rapidly — layered panels show spring flowers,
+then summer sun, then autumn leaves, then winter snow. A clock on the wall has its hands
+spinning fast. The person looks exactly the same, unchanged despite time passing,
+evoking a subtle hamster wheel metaphor. Warm but slightly melancholic color tones.
+No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — flat/Ken Burns
@@ -200,18 +176,16 @@ warm but slightly melancholic color tones
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-a ballot box at center with small paper ballots floating down into it,
-each ballot has a tiny icon of a book or running shoe or pen,
-behind the box a soft glowing human silhouette is becoming more defined
-and bright as more ballots enter,
-warm green glow emanating from the figure,
-uplifting hopeful atmosphere, clean centered composition,
-subtle sparkle effects around the forming silhouette
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+A ballot box sits at the center with small paper ballots floating down into it.
+Each ballot has a tiny icon — a book, a running shoe, or a pen.
+Behind the box, a soft glowing human silhouette is becoming more defined and bright
+as more ballots enter. A warm green glow emanates from the figure.
+The atmosphere is uplifting and hopeful, with a clean centered composition
+and subtle sparkle effects around the forming silhouette.
+No text, no watermark in the image.
 ```
 
 - **Layers**: Không cần tách — flat/Ken Burns
@@ -225,16 +199,14 @@ subtle sparkle effects around the forming silhouette
 - **Image prompt**:
 
 ```
-Flat illustration style, minimal, clean lines, soft warm color palette
-with green (#368C06) and orange (#C86108) accents,
-simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, light background (#FAFDF5),
-no text, no watermark, no signature, 16:9 aspect ratio,
-centered composition with a bell notification icon
-and a magnifying glass icon and a speech bubble icon arranged in a triangle,
-surrounded by floating book icons and small heart sparkles,
-a subtle circular green glow behind the arrangement,
-inviting warm friendly atmosphere, clean open space
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+A centered composition with a bell notification icon, a magnifying glass icon,
+and a speech bubble icon arranged in a triangle formation.
+Floating book icons and small heart sparkles surround the arrangement.
+A subtle circular green glow sits behind it all, creating an inviting warm friendly atmosphere
+with plenty of clean open space. No text, no watermark in the image.
 ```
 
 - **Note**: Logo Bookie overlay trong Remotion (không generate trong illustration)

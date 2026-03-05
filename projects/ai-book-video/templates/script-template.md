@@ -2,12 +2,12 @@
 
 > **Tác giả**: [Tên tác giả]
 > **Thể loại**: [Self-help / Business / Psychology / ...]
-> **Target length**: ~900-1050 từ (7 phút)
+> **Target length**: ~1350-1400 từ (7 phút)
 > **Ngày tạo**: [YYYY-MM-DD]
 
 ---
 
-## HOOK (0:00 - 0:15) ~30 từ
+## HOOK (0:00 - 0:15) ~50 từ
 
 > Mục tiêu: 1 câu hỏi hoặc statement khiến người xem không lướt đi
 
@@ -17,7 +17,7 @@
 
 ---
 
-## CONTEXT (0:15 - 0:45) ~60 từ
+## CONTEXT (0:15 - 0:45) ~100 từ
 
 > Mục tiêu: Giới thiệu sách + vì sao nó liên quan đến hook
 
@@ -27,7 +27,7 @@
 
 ---
 
-## INSIGHT 1: [Tên insight] (0:45 - 2:30) ~250 từ
+## INSIGHT 1: [Tên insight] (0:45 - 2:30) ~300 từ
 
 > Concept → Ví dụ/câu chuyện → Liên hệ thực tế
 
@@ -39,7 +39,7 @@
 
 ---
 
-## INSIGHT 2: [Tên insight] (2:30 - 4:30) ~250 từ
+## INSIGHT 2: [Tên insight] (2:30 - 4:30) ~300 từ
 
 **Visual**: [Mô tả scene-by-scene]
 
@@ -49,7 +49,7 @@
 
 ---
 
-## INSIGHT 3: [Tên insight] (4:30 - 6:00) ~200 từ
+## INSIGHT 3: [Tên insight] (4:30 - 6:00) ~300 từ
 
 **Visual**: [Mô tả scene-by-scene]
 
@@ -57,7 +57,7 @@
 
 ---
 
-## TAKEAWAY (6:00 - 7:00) ~120 từ
+## TAKEAWAY (6:00 - 7:00) ~160 từ
 
 > Mục tiêu: 1 hành động cụ thể audience có thể làm NGAY
 
@@ -67,7 +67,7 @@
 
 ---
 
-## CTA (7:00 - 7:30) ~50 từ
+## CTA (7:00 - 7:30) ~60 từ
 
 **Visual**: [Subscribe animation + logo Bookie]
 

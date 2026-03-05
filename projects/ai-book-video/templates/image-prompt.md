@@ -1,16 +1,20 @@
 # AI Image Prompt Templates — Flat Illustration Style
 
-## Style Prefix (dùng cho MỌI prompt)
+> **Tool**: Gemini Nano Banana 2 (gemini.google.com)
+> **Format**: Natural language prompts (complete sentences, not comma-separated keywords)
+> **Note**: Gemini does not have separate negative prompt syntax — include constraints inline ("no text, no watermark")
+
+## Style Instruction (dùng cho MỌI prompt)
 
 ```
-Flat illustration style, minimal, clean lines, soft pastel color palette,
-muted warm tones, simple geometric shapes, no outlines, modern minimalist,
-editorial illustration style, white or light background,
-no text, no watermark, no signature
+Create a flat, minimalist editorial illustration in 16:9 landscape format.
+Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
+on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
+No text, no watermark in the image.
 ```
 
-> **QUAN TRỌNG**: Luôn bắt đầu mọi prompt bằng style prefix này để giữ consistency.
-> Chỉnh color palette nếu cần nhưng giữ nguyên "flat, minimal, no outlines".
+> **QUAN TRỌNG**: Luôn bắt đầu mọi prompt bằng style instruction này để giữ consistency.
+> Chỉnh chi tiết nếu cần nhưng giữ nguyên "flat, minimal, no outlines" + brand colors.
 
 ---
 
@@ -18,78 +22,80 @@ no text, no watermark, no signature
 
 ### Người đọc sách / suy nghĩ
 ```
-[Style Prefix], a person sitting and reading a book,
-cozy warm lighting, [thêm context cụ thể]
+[Style Instruction]
+A person is sitting and reading a book in a cozy setting with warm lighting.
+[Thêm context cụ thể]. No text, no watermark in the image.
 ```
 
 ### Concept trừu tượng (mindset, tư duy)
 ```
-[Style Prefix], abstract representation of [concept],
-metaphorical visual, [thêm chi tiết]
+[Style Instruction]
+The scene shows an abstract representation of [concept] through visual metaphor.
+[Thêm chi tiết về metaphor]. No text, no watermark in the image.
 ```
 
 ### Người hành động / làm việc
 ```
-[Style Prefix], a person [hành động cụ thể],
-[bối cảnh], [thêm chi tiết]
+[Style Instruction]
+A person is [hành động cụ thể] in [bối cảnh].
+[Thêm chi tiết]. No text, no watermark in the image.
 ```
 
 ### So sánh / Trước-Sau
 ```
-[Style Prefix], split composition showing contrast between
-[trạng thái A] on the left and [trạng thái B] on the right,
-visual metaphor
+[Style Instruction]
+The composition is split down the center, showing the contrast between
+[trạng thái A] on the left and [trạng thái B] on the right.
+A visual metaphor conveys the difference. No text, no watermark in the image.
 ```
 
 ### Quote highlight
 ```
-[Style Prefix], centered composition with space for text overlay,
-[visual metaphor liên quan đến quote], minimalist background
+[Style Instruction]
+A centered composition with open space for text overlay.
+[Visual metaphor liên quan đến quote] fills the scene with a minimalist background.
+No text, no watermark in the image.
 ```
 
 ### Bìa sách / Giới thiệu
 ```
-[Style Prefix], a book standing upright with warm glow around it,
-[thêm elements liên quan đến chủ đề sách]
+[Style Instruction]
+A book stands upright at the center with a warm glow around it.
+[Thêm elements liên quan đến chủ đề sách] surround the book.
+No text, no watermark in the image.
 ```
 
 ---
 
-## Color Palettes
+## Color Palette (Bookie Brand)
 
-### Default (Bookie warm)
-- Primary: `#E8927C` (coral)
-- Secondary: `#7BBFBA` (teal)
-- Accent: `#F2C94C` (golden)
-- Background: `#FDF6F0` (warm white)
-- Dark: `#2D3436` (charcoal)
+| Role | Hex | Dùng cho |
+|------|-----|----------|
+| Primary green | `#368C06` | Growth, positive elements |
+| Bright green | `#4AC808` | Accent, highlight |
+| Accent orange | `#C86108` | Tension, emphasis, CTA |
+| Background | `#FAFDF5` | Very light green tint |
+| Text dark | `#2D3436` | Dark elements |
+| Text light | `#636E72` | Secondary, muted elements |
 
-### Alternative — Cool/Calm (cho sách về mindfulness, tĩnh lặng)
-- Primary: `#6C8EBF` (soft blue)
-- Secondary: `#A8D5BA` (sage green)
-- Background: `#F5F7FA` (cool white)
-
-### Alternative — Bold (cho sách về business, leadership)
-- Primary: `#E55B3C` (bold red-orange)
-- Secondary: `#2D3436` (dark)
-- Accent: `#F2C94C` (golden)
-- Background: `#FFFFFF` (clean white)
+> Source: `brand/style-guide.md`
 
 ---
 
 ## Thumbnail Prompt
 ```
-[Style Prefix], bold composition, [subject chính],
-dramatic lighting, high contrast, vibrant version of palette,
-large empty space on [left/right] for text overlay,
-eye-catching, social media thumbnail style
+[Style Instruction]
+A bold composition with [subject chính] at the center.
+Dramatic lighting and high contrast with vibrant green and orange accents.
+Large empty space on the [left/right] for text overlay.
+Eye-catching social media thumbnail style. No text, no watermark in the image.
 ```
 
 ---
 
 ## Tips
-- **Aspect ratio**: `--ar 16:9` cho video scenes, `--ar 9:16` cho shorts
-- **Không để AI thêm text** — text luôn overlay trong edit, không generate
-- **Batch generate**: chạy tất cả scene prompts cùng lúc, review rồi re-gen cái nào lệch style
-- **Seed locking** (Midjourney): nếu tìm được style ưng, note lại seed để dùng cho scene khác
-- **Negative prompt** (nếu tool hỗ trợ): `no text, no letters, no words, no watermark, no 3D, no realistic photo`
+- **Aspect ratio**: Gemini understands "16:9 landscape" hoặc "9:16 portrait" trong natural language
+- **Không để AI thêm text** — text luôn overlay trong edit, không generate. Nhắc lại "no text" ở cuối prompt.
+- **Batch generate**: paste tất cả scene prompts liên tục, review rồi re-gen cái nào lệch style
+- **Style consistency**: Nếu tìm được output ưng ý, dùng prompt đó làm base cho các scene khác
+- **Inline constraints**: Gemini không có negative prompt riêng — viết constraints trực tiếp trong prompt ("no text, no watermark, no realistic faces")

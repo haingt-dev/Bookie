@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# generate-subtitle.sh — Generate SRT subtitles from script markdown
-# Pipeline: Script (markdown) → SRT (perfect text + estimated timing)
+# generate-subtitle.sh — Generate SRT subtitles using Whisper word timestamps
+# Voice-first pipeline: transcribes voiceover audio for accurate subtitle timing
 #
 # Usage:
-#   ./scripts/generate-subtitle.sh <book-slug>            # Script → SRT (pace-aware, scene timing)
+#   ./scripts/generate-subtitle.sh <book-slug>            # Whisper → SRT
 #   ./scripts/generate-subtitle.sh <book-slug> --sync     # Scale SRT timestamps to match audio
 
 set -euo pipefail
@@ -12,7 +12,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # --- Configuration ---
-MAX_CHARS=55                  # Max chars per subtitle line before splitting
+MAX_CHARS=55                  # Max chars per subtitle line
+WHISPER_MODEL="${WHISPER_MODEL:-large-v3}"
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -23,16 +24,15 @@ NC='\033[0m'
 # --- Validate input ---
 if [[ $# -lt 1 ]]; then
   echo -e "${RED}Usage: $0 <book-slug> [--sync]${NC}"
-  echo "Example: $0 atomic-habits          # Script → SRT (pace-aware)"
+  echo "Example: $0 atomic-habits          # Whisper transcription → SRT"
   echo "         $0 atomic-habits --sync   # Scale SRT to match audio"
   echo ""
-  echo "Input:  books/<slug>/script.md"
-  echo "Output: books/<slug>/output/subtitles.srt"
+  echo "Requires: make voice BOOK=<slug> first"
   exit 1
 fi
 
 SLUG="$1"
-MODE="smart"
+MODE="whisper"
 if [[ "${2:-}" == "--sync" ]]; then
   MODE="sync"
 fi
@@ -40,7 +40,6 @@ fi
 SCRIPT_FILE="$PROJECT_DIR/books/$SLUG/script.md"
 OUTPUT_DIR="$PROJECT_DIR/books/$SLUG/output"
 OUTPUT_SRT="$OUTPUT_DIR/subtitles.srt"
-OUTPUT_TIMING="$OUTPUT_DIR/section-timing.json"
 INPUT_WAV="$PROJECT_DIR/books/$SLUG/audio/voiceover.wav"
 
 # ============================================================
@@ -49,13 +48,13 @@ INPUT_WAV="$PROJECT_DIR/books/$SLUG/audio/voiceover.wav"
 if [[ "$MODE" == "sync" ]]; then
   if [[ ! -f "$OUTPUT_SRT" ]]; then
     echo -e "${RED}Error: SRT file not found: $OUTPUT_SRT${NC}"
-    echo "Chạy generate-subtitle.sh $SLUG trước (không có --sync) để tạo SRT."
+    echo "  Run: make subtitle BOOK=$SLUG"
     exit 1
   fi
 
   if [[ ! -f "$INPUT_WAV" ]]; then
     echo -e "${RED}Error: Audio file not found: $INPUT_WAV${NC}"
-    echo "Chạy generate-voice.sh $SLUG trước."
+    echo "  Run: make voice BOOK=$SLUG"
     exit 1
   fi
 
@@ -137,253 +136,187 @@ if ts_lines:
 fi
 
 # ============================================================
-# Generate pace-aware SRT from scene markers in script
+# Generate SRT via Whisper transcription + word timestamps
 # ============================================================
 if [[ ! -f "$SCRIPT_FILE" ]]; then
-  echo -e "${RED}Error: Script file not found: $SCRIPT_FILE${NC}"
+  echo -e "${RED}Error: Script not found: $SCRIPT_FILE${NC}"
   exit 1
 fi
 
-echo -e "${YELLOW}Generating pace-aware SRT from script...${NC}"
-echo -e "  Input: $SCRIPT_FILE"
+if [[ ! -f "$INPUT_WAV" ]]; then
+  echo -e "${RED}Error: Audio not found: $INPUT_WAV${NC}"
+  echo "  Run first: make voice BOOK=$SLUG"
+  exit 1
+fi
+
+if ! command -v uv &> /dev/null; then
+  echo -e "${RED}Error: uv not found. Install: curl -LsSf https://astral.sh/uv/install.sh | sh${NC}"
+  exit 1
+fi
+
+echo -e "${YELLOW}Generating SRT via Whisper (${WHISPER_MODEL})...${NC}"
+echo -e "  Audio: $INPUT_WAV"
+echo -e "  Model: $WHISPER_MODEL (first run downloads ~3GB)"
 
 mkdir -p "$OUTPUT_DIR"
 
-python3 -c "
-import re, sys, json
+uv run --python 3.12 \
+  --with faster-whisper \
+  --with nvidia-cublas-cu12 \
+  --with nvidia-cudnn-cu12 \
+  python3 - \
+  "$OUTPUT_SRT" "$INPUT_WAV" "$MAX_CHARS" "$WHISPER_MODEL" << 'PYTHON_SCRIPT'
+import re, sys, ctypes, os, glob
 
-script_path = sys.argv[1]
-srt_path = sys.argv[2]
-timing_path = sys.argv[3]
-max_chars = int(sys.argv[4])
+# Preload CUDA libraries from pip packages (nvidia-cublas-cu12, nvidia-cudnn-cu12)
+try:
+    import nvidia.cublas, nvidia.cudnn
+    for pkg_path in list(nvidia.cublas.__path__) + list(nvidia.cudnn.__path__):
+        lib_dir = os.path.join(pkg_path, 'lib')
+        if os.path.isdir(lib_dir):
+            for lib in sorted(glob.glob(os.path.join(lib_dir, '*.so*'))):
+                try:
+                    ctypes.cdll.LoadLibrary(lib)
+                except OSError:
+                    pass
+except ImportError:
+    pass  # Will fall back to CPU if CUDA libs not available
 
-# --- Pace presets ---
-PACE = {
-  'slow':   {'cps': 12, 'gap_sent': 0.30, 'gap_para': 0.60},
-  'normal': {'cps': 15, 'gap_sent': 0.15, 'gap_para': 0.40},
-  'fast':   {'cps': 17, 'gap_sent': 0.10, 'gap_para': 0.30},
-}
-GAP_SCENE = 0.8  # silence between scenes
+from faster_whisper import WhisperModel
+
+srt_path = sys.argv[1]
+audio_path = sys.argv[2]
+max_chars = int(sys.argv[3])
+model_name = sys.argv[4]
 
 def format_ts(seconds):
-  h = int(seconds // 3600)
-  m = int((seconds % 3600) // 60)
-  s = int(seconds % 60)
-  ms = int(round((seconds % 1) * 1000))
-  return f'{h:02d}:{m:02d}:{s:02d},{ms:03d}'
+    h = int(seconds // 3600)
+    m = int((seconds % 3600) // 60)
+    s = int(seconds % 60)
+    ms = int(round((seconds % 1) * 1000))
+    return f'{h:02d}:{m:02d}:{s:02d},{ms:03d}'
 
-def clean_line(line):
-  \"\"\"Remove markdown formatting from a line.\"\"\"
-  s = line.strip()
-  # Skip non-narration lines
-  if not s:
-      return ''
-  if s.startswith('#'):
-      return None
-  if s.startswith('>'):
-      return None
-  if s.startswith('**Visual**'):
-      return None
-  if s == '---':
-      return None
-  if re.match(r'^\*\*\[SHORT\]\*\*$', s) or s == '[SHORT]':
-      return None
-  if re.match(r'^<!--', s):
-      return None
-  if re.match(r'^\*\*(Target length|Tác giả|Thể loại|Ngày tạo)\*\*', s):
-      return None
-  if s.startswith('\`\`\`'):
-      return None
-  # Clean inline formatting
-  s = s.replace('**', '').replace('*', '')
-  s = s.replace('[SHORT]', '').strip()
-  return s if s else ''
+# --- Transcribe with word-level timestamps ---
+print(f'  Loading model: {model_name}...', flush=True)
+model = WhisperModel(model_name, device='auto', compute_type='int8_float16')
 
-def split_to_segments(text, max_chars):
-  \"\"\"Split text into subtitle segments <= max_chars.\"\"\"
-  # Split into paragraphs
-  paragraphs = []
-  current_para = []
-  for line in text.split('\\n'):
-      stripped = line.strip()
-      if stripped == '':
-          if current_para:
-              paragraphs.append(' '.join(current_para))
-              current_para = []
-      else:
-          current_para.append(stripped)
-  if current_para:
-      paragraphs.append(' '.join(current_para))
+print(f'  Transcribing with word timestamps...', flush=True)
+segments_iter, info = model.transcribe(
+    audio_path,
+    language='vi',
+    word_timestamps=True,
+    vad_filter=True,
+    hallucination_silence_threshold=1.0,
+    repetition_penalty=1.1,
+)
 
-  segments = []  # (text, is_paragraph_start)
-  for para_idx, para in enumerate(paragraphs):
-      is_first = True
-      sentences = re.split(r'(?<=[.!?])\s+', para)
-      for sentence in sentences:
-          sentence = sentence.strip()
-          if not sentence:
-              continue
-          if len(sentence) <= max_chars:
-              segments.append((sentence, is_first and para_idx > 0))
-              is_first = False
-              continue
-          # Split at comma
-          parts = re.split(r',\s+', sentence)
-          buf = ''
-          for part in parts:
-              candidate = (buf + ', ' + part) if buf else part
-              if len(candidate) <= max_chars:
-                  buf = candidate
-              else:
-                  if buf:
-                      segments.append((buf, is_first and para_idx > 0))
-                      is_first = False
-                  if len(part) > max_chars:
-                      words = part.split()
-                      wbuf = ''
-                      for w in words:
-                          cand = (wbuf + ' ' + w) if wbuf else w
-                          if len(cand) <= max_chars:
-                              wbuf = cand
-                          else:
-                              if wbuf:
-                                  segments.append((wbuf, is_first and para_idx > 0))
-                                  is_first = False
-                              wbuf = w
-                      buf = wbuf or ''
-                  else:
-                      buf = part
-          if buf:
-              segments.append((buf, is_first and para_idx > 0))
-              is_first = False
-  return segments
+# Collect all words with timestamps
+words = []
+for segment in segments_iter:
+    if segment.words:
+        for w in segment.words:
+            text = w.word.strip()
+            if text and w.end - w.start > 0.01:
+                words.append({'start': w.start, 'end': w.end, 'text': text})
 
-# --- Parse script.md ---
-with open(script_path, 'r', encoding='utf-8') as f:
-  content = f.read()
+if not words:
+    print('Error: No words transcribed from audio.', file=sys.stderr)
+    sys.exit(1)
 
-# Find scene markers
-scene_re = re.compile(r'<!-- scene: (scene-\d+), pace: (\w+) -->')
-markers = list(scene_re.finditer(content))
+print(f'  Transcribed: {len(words)} words, {words[-1]["end"]:.1f}s')
 
-if not markers:
-  print('Error: No scene markers found in script. Add <!-- scene: scene-XX, pace: Y --> markers.', file=sys.stderr)
-  sys.exit(1)
+# --- Group words into subtitle segments ---
+srt_segments = []
+buf = []
+buf_text = ''
 
-# Extract sections between markers
-sections = []
-for i, m in enumerate(markers):
-  scene_id = m.group(1)
-  pace = m.group(2)
-  start = m.end()
-  # End at next scene marker, or at ## Notes, or end of file
-  if i + 1 < len(markers):
-      end = markers[i + 1].start()
-  else:
-      notes_match = re.search(r'^## Notes', content[start:], re.MULTILINE)
-      end = start + notes_match.start() if notes_match else len(content)
+def flush():
+    global buf, buf_text
+    if buf:
+        srt_segments.append({
+            'start': buf[0]['start'],
+            'end': buf[-1]['end'],
+            'text': buf_text.strip()
+        })
+        buf = []
+        buf_text = ''
 
-  raw_text = content[start:end]
-  # Clean lines
-  cleaned_lines = []
-  in_code = False
-  for line in raw_text.split('\\n'):
-      if line.strip().startswith('\`\`\`'):
-          in_code = not in_code
-          continue
-      if in_code:
-          continue
-      cl = clean_line(line)
-      if cl is not None:
-          cleaned_lines.append(cl)
+for w in words:
+    word = w['text']
+    candidate = f'{buf_text} {word}'.strip() if buf_text else word
 
-  text = '\\n'.join(cleaned_lines).strip()
-  # Collapse multiple blank lines
-  text = re.sub(r'\\n{3,}', '\\n\\n', text)
+    # Exceeds max chars? Flush current buffer first
+    if len(candidate) > max_chars and buf:
+        flush()
+        buf = [w]
+        buf_text = word
+    else:
+        buf.append(w)
+        buf_text = candidate
 
-  if text:
-      sections.append({'scene': scene_id, 'pace': pace, 'text': text})
+    # Flush at sentence boundaries
+    if re.search(r'[.!?…]$', word):
+        flush()
 
-if not sections:
-  print('Error: No text extracted from script sections.', file=sys.stderr)
-  sys.exit(1)
+flush()
 
-print(f'  Found {len(sections)} scenes with pace markers')
+# --- Post-processing: remove duplicates and anomalies ---
+cleaned = []
+seen_texts = set()
+for seg in srt_segments:
+    duration = seg['end'] - seg['start']
+    text = seg['text']
+    word_count = len(text.split())
+    # Skip zero/near-zero duration
+    if duration < 0.05:
+        continue
+    # Skip exact duplicate text (hallucination)
+    if text in seen_texts:
+        continue
+    # Skip suspiciously fast segments (likely hallucination)
+    if duration > 0 and word_count / duration > 15:
+        continue
+    seen_texts.add(text)
+    cleaned.append(seg)
 
-# --- Generate SRT with pace-aware timing ---
+removed = len(srt_segments) - len(cleaned)
+if removed > 0:
+    print(f'  Cleaned: removed {removed} hallucinated segment(s)')
+srt_segments = cleaned
+
+if not srt_segments:
+    print('Error: No subtitle segments produced.', file=sys.stderr)
+    sys.exit(1)
+
+# --- Write SRT ---
 srt_lines = []
-timing_data = []
-seg_index = 0
-current_time = 0.0
+for i, seg in enumerate(srt_segments, 1):
+    srt_lines.append(str(i))
+    srt_lines.append(f'{format_ts(seg["start"])} --> {format_ts(seg["end"])}')
+    srt_lines.append(seg['text'])
+    srt_lines.append('')
 
-for sec_idx, section in enumerate(sections):
-  pace_cfg = PACE.get(section['pace'], PACE['normal'])
-  cps = pace_cfg['cps']
-  gap_sent = pace_cfg['gap_sent']
-  gap_para = pace_cfg['gap_para']
-
-  # Scene gap (not before first scene)
-  if sec_idx > 0:
-      current_time += GAP_SCENE
-
-  scene_start = current_time
-  segments = split_to_segments(section['text'], max_chars)
-
-  for i, (seg_text, is_para_start) in enumerate(segments):
-      # Gaps within scene
-      if i > 0:
-          current_time += gap_para if is_para_start else gap_sent
-
-      duration = len(seg_text) / cps
-      start = current_time
-      end = current_time + duration
-
-      seg_index += 1
-      srt_lines.append(f'{seg_index}')
-      srt_lines.append(f'{format_ts(start)} --> {format_ts(end)}')
-      srt_lines.append(seg_text)
-      srt_lines.append('')
-
-      current_time = end
-
-  scene_end = current_time
-  scene_dur = scene_end - scene_start
-  timing_data.append({
-      'scene': section['scene'],
-      'pace': section['pace'],
-      'startMs': round(scene_start * 1000),
-      'endMs': round(scene_end * 1000),
-      'durationSec': round(scene_dur, 2),
-  })
-
-  print(f'    {section[\"scene\"]} ({section[\"pace\"]}): {scene_dur:.1f}s')
-
-# Write SRT
 with open(srt_path, 'w', encoding='utf-8') as f:
-  f.write('\\n'.join(srt_lines))
+    f.write('\n'.join(srt_lines))
 
-# Write section timing JSON
-with open(timing_path, 'w', encoding='utf-8') as f:
-  json.dump(timing_data, f, indent=2, ensure_ascii=False)
-
-total = current_time
+total = words[-1]['end']
 print(f'')
-print(f'  Total: {seg_index} segments, {total:.1f}s ({int(total // 60)}m {int(total % 60)}s)')
-" "$SCRIPT_FILE" "$OUTPUT_SRT" "$OUTPUT_TIMING" "$MAX_CHARS"
+print(f'  Total: {len(srt_segments)} segments, {total:.1f}s ({int(total // 60)}m {int(total % 60)}s)')
+PYTHON_SCRIPT
 
 if [[ -f "$OUTPUT_SRT" ]]; then
   ENTRY_COUNT=$(grep -c '^[0-9]\+$' "$OUTPUT_SRT" || echo "0")
   WORD_COUNT=$(grep -v '^[0-9]' "$OUTPUT_SRT" | grep -v '^\s*$' | grep -v -- '-->' | wc -w)
 
   echo ""
-  echo -e "${GREEN}Smart SRT generated!${NC}"
-  echo -e "  SRT:     $OUTPUT_SRT ($ENTRY_COUNT entries, $WORD_COUNT words)"
-  echo -e "  Timing:  $OUTPUT_TIMING"
+  echo -e "${GREEN}SRT generated (Whisper word timestamps)!${NC}"
+  echo -e "  SRT: $OUTPUT_SRT ($ENTRY_COUNT entries, $WORD_COUNT words)"
   echo ""
   echo -e "Next steps:"
-  echo -e "  1. Generate voice: make voice BOOK=$SLUG"
-  echo -e "  2. Sync assets:    make sync BOOK=$SLUG"
+  echo -e "  1. Validate:    make validate BOOK=$SLUG"
+  echo -e "  2. Sync assets: make sync BOOK=$SLUG"
+  echo -e "  3. Preview:     make studio"
 else
-echo -e "${RED}Failed to generate subtitles${NC}"
-exit 1
+  echo -e "${RED}Failed to generate subtitles${NC}"
+  exit 1
 fi
