@@ -6,25 +6,54 @@
 ## Current Sprint/Focus
 **Goal**: Sản xuất video đầu tiên (Atomic Habits) cho kênh Bookie
 **Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
-**Progress**: Script/storyboard/metadata hoàn thành (contrarian angle). Old assets cleaned. Ready for production run.
+**Progress**: Voice-first pipeline refactored and verified. Voice + subtitle generated. Skills improved. Awaiting scene images for preview.
 
 ## Active Workstreams
 1. **AI Book Video Pipeline**
-   - **Status**: Content ready, awaiting production run
+   - **Status**: Pipeline verified (voice-first). Scenes in progress (0/9 images).
    - **Owner**: Hải
    - **Priority**: High
-   - **Next Action**: Generate scene images → `make all BOOK=atomic-habits`
+   - **Next Action**: Generate 9 scene images → `make sync` → `make studio`
+
+2. **Skill Quality**
+   - **Status**: Complete — all 5 skills evaluated and improved
+   - **Changes**: Expanded descriptions with trigger phrases, fixed content gaps
 
 ## Recent Changes (Last 30 Days)
+- **2026-03-05** `chore`: Improve all 5 skills — descriptions + trigger phrases + content fixes
+  - extract-notes, write-script, write-storyboard, write-metadata, new-subproject
+  - Used skill-creator workflow: evaluate → plan → improve
+- **2026-03-05** `chore`: Project review + pipeline reset for full test
+  - Fixed `tech.md` Gemini reference, rewrote `image-prompt.md` template
+  - Expanded `make clean` to cover all generated files (voice-timing, scenes, symlinks)
+  - Updated `.env.example` with optional viXTTS container vars
+  - Reset atomic-habits: deleted all generated outputs, kept source files
+- **2026-03-05** `chore`: Switch image gen from Leonardo to Gemini Nano Banana 2
+  - Storyboard prompts converted from comma-separated keywords to natural language
+  - `/write-storyboard` skill updated for Gemini format
+  - `atomic-habits/storyboard.md` — all 9 scene prompts rewritten
+- **2026-03-05** `feat`: Claude Code skills for creative pipeline steps
+  - 4 skills: `/extract-notes`, `/write-script`, `/write-storyboard`, `/write-metadata`
+  - Replace copy-paste prompts from `templates/claude-prompts.md`
+  - Skills auto-read input files + write output, keep human decision points
+  - Not auto-called from Makefile — creative steps need human judgment
+- **2026-03-05** `feat`: Auto-generate scenes.json (`make scenes`) from timing + images
+  - Derives durations from section-timing.json (start-to-start), images from scenes/
+  - Eliminates manual maintenance of remotion/src/data/scenes.json
+- **2026-03-05** `feat`: Whisper-based subtitle generation (replaces proportional char timing)
+  - faster-whisper large-v3 with word timestamps → accurate SRT
+  - Anti-hallucination: repetition_penalty, dedup, word rate filter
+  - No longer depends on section-timing.json for subtitles
 - **2026-03-05** `feat`: Rewrite Atomic Habits — contrarian angle "Điều mà Atomic Habits không nói với bạn"
   - New script: 913 words, 9 scenes, 3 blind spots + positive trade-off
   - New storyboard: all flat/Ken Burns (no parallax), Bookie style prefix
   - New metadata: YouTube + Facebook + 3 Shorts
   - Research: NotebookLM + 7 criticism sources
-- **2026-03-05** `feat`: Gap adjustment pipeline (generate-voice.sh)
-  - Replaces atempo stretch with variable silence gaps
-  - Natural voice is authority, SRT auto-syncs to actual duration
-  - GAP_SENTENCE 0.05-0.40s, GAP_PARAGRAPH 0.15-1.00s
+- **2026-03-05** `refactor`: Voice-first pipeline
+  - Flipped pipeline: voice → subtitle → sync → validate (was subtitle → voice)
+  - Voice is authority — section-timing.json from actual measurements
+  - SRT derives from actual voice timing (no prediction)
+  - Pace-aware gaps (slow: 0.40/0.80s, normal: 0.15/0.40s, fast: 0.08/0.20s)
 - **2026-03-05** `chore`: Cleanup old assets
   - Removed: 13 old scene PNGs, voiceover.wav, subtitles.srt, section-timing.json
   - Removed: Remotion symlinks, test renders, fish-speech-server Podman image (11.4 GB)
@@ -34,9 +63,9 @@
 
 ## Context Carry-Forward
 **For Next Session**:
-- Generate 9 scene illustrations theo storyboard.md prompts
-- Chạy full pipeline: `make all BOOK=atomic-habits` → `make studio`
-- Review voice output quality + gap adjustment deltas
+- Generate 9 scene illustrations from storyboard.md prompts (paste into Gemini)
+- `make sync BOOK=atomic-habits` → `make studio` to preview
+- Voice + subtitle already generated and verified
 
 ## Known Issues & Workarounds
 - **Issue**: viXTTS Podman container cần start thủ công mỗi session
@@ -48,10 +77,11 @@
 
 ## Key Files & Locations
 - `WORKFLOW.md` — Pipeline docs + Makefile usage
-- `Makefile` — `make subtitle/voice/sync/validate/studio/render BOOK=<slug>`
+- `Makefile` — `make voice/subtitle/sync/validate/studio/render BOOK=<slug>`
 - `books/atomic-habits/` — Script, scenes, audio, output (single source of truth)
-- `scripts/generate-subtitle.sh` — Script → SRT (smart mode default)
-- `scripts/generate-voice.sh` — SRT → Voice (match-srt mode default)
+- `scripts/generate-voice.sh` — Voice-first: voiceover + section-timing.json (authority)
+- `scripts/generate-subtitle.sh` — SRT timed to actual voice
+- `scripts/generate-scenes.sh` — Auto-gen scenes.json for Remotion
 - `scripts/sync-assets.sh` — Symlink books/ → remotion/public/
 - `scripts/init-book.sh` — Scaffold new book project
 - `scripts/vixtts-server.sh` — Manage viXTTS container
