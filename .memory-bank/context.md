@@ -1,90 +1,70 @@
 # Current Context
 
-> **Last Updated**: 2026-03-05
-> **Updated By**: Claude Code (với Hải)
+> **Last Updated**: 2026-03-07
+> **Updated By**: Claude Code (with Hai)
 
-## Current Sprint/Focus
-**Goal**: Sản xuất video đầu tiên (Atomic Habits) cho kênh Bookie
-**Deadline**: Không cố định — ưu tiên chất lượng trước tốc độ
-**Progress**: Voice-first pipeline refactored and verified. Voice + subtitle generated. Skills improved. Awaiting scene images for preview.
+## Current Focus
+**Goal**: Publish Atomic Habits video + produce second book
+**Progress**: Pipeline complete and verified. Atomic Habits video rendered. Ready for metadata + publish, then next book.
 
 ## Active Workstreams
 1. **AI Book Video Pipeline**
-   - **Status**: Pipeline verified (voice-first). Scenes in progress (0/9 images).
-   - **Owner**: Hải
+   - **Status**: Production-ready. All pipeline components verified (scripts, skills, Remotion, visual overlays).
+   - **Owner**: Hai
    - **Priority**: High
-   - **Next Action**: Generate 9 scene images → `make sync` → `make studio`
-
-2. **Skill Quality**
-   - **Status**: Complete — all 5 skills evaluated and improved
-   - **Changes**: Expanded descriptions with trigger phrases, fixed content gaps
+   - **Next Actions**:
+     1. `/write-metadata atomic-habits` — YouTube/FB metadata
+     2. Publish Atomic Habits (YouTube + Facebook)
+     3. Pick next book → `/produce-video <slug>` (vault context + template selection activate)
 
 ## Recent Changes (Last 30 Days)
-- **2026-03-05** `chore`: Improve all 5 skills — descriptions + trigger phrases + content fixes
-  - extract-notes, write-script, write-storyboard, write-metadata, new-subproject
-  - Used skill-creator workflow: evaluate → plan → improve
-- **2026-03-05** `chore`: Project review + pipeline reset for full test
-  - Fixed `tech.md` Gemini reference, rewrote `image-prompt.md` template
-  - Expanded `make clean` to cover all generated files (voice-timing, scenes, symlinks)
-  - Updated `.env.example` with optional viXTTS container vars
-  - Reset atomic-habits: deleted all generated outputs, kept source files
-- **2026-03-05** `chore`: Switch image gen from Leonardo to Gemini Nano Banana 2
-  - Storyboard prompts converted from comma-separated keywords to natural language
-  - `/write-storyboard` skill updated for Gemini format
-  - `atomic-habits/storyboard.md` — all 9 scene prompts rewritten
-- **2026-03-05** `feat`: Claude Code skills for creative pipeline steps
-  - 4 skills: `/extract-notes`, `/write-script`, `/write-storyboard`, `/write-metadata`
-  - Replace copy-paste prompts from `templates/claude-prompts.md`
-  - Skills auto-read input files + write output, keep human decision points
-  - Not auto-called from Makefile — creative steps need human judgment
-- **2026-03-05** `feat`: Auto-generate scenes.json (`make scenes`) from timing + images
-  - Derives durations from section-timing.json (start-to-start), images from scenes/
-  - Eliminates manual maintenance of remotion/src/data/scenes.json
-- **2026-03-05** `feat`: Whisper-based subtitle generation (replaces proportional char timing)
-  - faster-whisper large-v3 with word timestamps → accurate SRT
-  - Anti-hallucination: repetition_penalty, dedup, word rate filter
-  - No longer depends on section-timing.json for subtitles
-- **2026-03-05** `feat`: Rewrite Atomic Habits — contrarian angle "Điều mà Atomic Habits không nói với bạn"
-  - New script: 913 words, 9 scenes, 3 blind spots + positive trade-off
-  - New storyboard: all flat/Ken Burns (no parallax), Bookie style prefix
-  - New metadata: YouTube + Facebook + 3 Shorts
-  - Research: NotebookLM + 7 criticism sources
-- **2026-03-05** `refactor`: Voice-first pipeline
-  - Flipped pipeline: voice → subtitle → sync → validate (was subtitle → voice)
-  - Voice is authority — section-timing.json from actual measurements
-  - SRT derives from actual voice timing (no prediction)
-  - Pace-aware gaps (slow: 0.40/0.80s, normal: 0.15/0.40s, fast: 0.08/0.20s)
-- **2026-03-05** `chore`: Cleanup old assets
-  - Removed: 13 old scene PNGs, voiceover.wav, subtitles.srt, section-timing.json
-  - Removed: Remotion symlinks, test renders, fish-speech-server Podman image (11.4 GB)
-- **2026-03-05** `refactor`: Major project restructure — unified `books/` layout + Makefile pipeline
-  - Branch: `restructure/clean-pipeline`
-- **2026-03-03** `feat`: Full pipeline infrastructure (viXTTS, Remotion, scripts)
+
+- **2026-03-07** `feat`: Visual identity upgrade — flat → textured editorial
+  - Updated `brand/style-guide.md` (single source of truth) and `/generate-prompts` skill
+  - Risograph-inspired grain, paper texture, visible brushwork, soft shadows, layered depth
+  - Zero pipeline change — Gemini prompts pick up new style automatically
+  - Atomic Habits ships with flat style; new books use textured editorial
+- **2026-03-07** `chore`: Pipeline cleanup
+  - Deleted dead files: 3 SUPERSEDED templates, content-calendar, ffmpeg temp, 3 stale plan files
+  - Fixed WORKFLOW.md broken `make all` reference → `make produce`
+  - Updated all memory bank docs for accuracy
+  - Added `ffmpeg2pass*` to .gitignore
+- **2026-03-07** `feat`: Visual overlay system
+  - 4 ambient overlay components: AmbientParticles (bokeh), LightLeak (cinematic sweep), CornerAccents (editorial brackets), WaveformDecor (neon edge spectrum)
+  - Plus GrainOverlay (film texture) and Vignette (depth)
+  - Z-order: SceneSlide → AmbientParticles → WaveformDecor → LightLeak → SceneTitle → Vignette → CornerAccents → Grain → BrandBar → Subtitle
+- **2026-03-07** `feat`: Phase 3 — Multi-Modal Outputs + Pipeline Enrichment
+  - Enriched scenes.json: meta, chapters, per-scene visual overrides, isShort
+  - Content-forward Intro, dynamic BookShort compositions, Content Factory (NotebookLM audio)
+- **2026-03-07** `feat`: Phase 2 — Knowledge Vault + Narrative Engine
+  - knowledge-base/ (theme-indexed concepts, author profiles, cross-book connections)
+  - 5 narrative templates, /catalog-insights skill, Master notebook in NotebookLM
+- **2026-03-07** `feat`: Full pipeline automation
+  - produce.sh orchestrator + /produce-video master skill
+- **2026-03-06** `feat`: Story-first pipeline redesign
+  - /create-storyboard, /write-video, /generate-prompts skills
+  - Paired chunk files, balanced subtitle splitting
+- **2026-03-05** `feat`: Full pipeline build-out (viXTTS, Remotion, scripts)
+- **2026-03-03** `feat`: Infrastructure setup
 
 ## Context Carry-Forward
 **For Next Session**:
-- Generate 9 scene illustrations from storyboard.md prompts (paste into Gemini)
-- `make sync BOOK=atomic-habits` → `make studio` to preview
-- Voice + subtitle already generated and verified
+
+- Write metadata for Atomic Habits → publish
+- Pick next book and run `/produce-video <slug>` — first test of vault-aware pipeline
+- Test `make render-shorts BOOK=atomic-habits` if shorts needed
 
 ## Known Issues & Workarounds
-- **Issue**: viXTTS Podman container cần start thủ công mỗi session
-  - **Workaround**: `./scripts/vixtts-server.sh start`
-- **Issue**: NotebookLM CLI (`nlm`) dùng internal APIs — có thể break
-  - **Workaround**: Dùng NotebookLM web UI nếu CLI lỗi
-- **Issue**: Pre-existing TS error `Root.tsx:47` BookShort Composition typing
-  - **Workaround**: Cosmetic only, doesn't affect render
+- **viXTTS manual start**: Podman container needs `./scripts/vixtts-server.sh start` each session
+- **NotebookLM CLI fragility**: `nlm` uses internal APIs — may break on Google updates. Fallback: web UI
+- **vixtts-server.sh speaker mismatch**: `setup` creates speaker `bookie-hai` but pipeline uses `fonos`. Works because `fonos` already exists. Would break on fresh setup.
+- **Gap config duplication**: generate-voice.sh and generate-subtitle.sh define pace gaps independently. Must sync manually if changed.
 
 ## Key Files & Locations
-- `WORKFLOW.md` — Pipeline docs + Makefile usage
-- `Makefile` — `make voice/subtitle/sync/validate/studio/render BOOK=<slug>`
-- `books/atomic-habits/` — Script, scenes, audio, output (single source of truth)
-- `scripts/generate-voice.sh` — Voice-first: voiceover + section-timing.json (authority)
-- `scripts/generate-subtitle.sh` — SRT timed to actual voice
-- `scripts/generate-scenes.sh` — Auto-gen scenes.json for Remotion
-- `scripts/sync-assets.sh` — Symlink books/ → remotion/public/
-- `scripts/init-book.sh` — Scaffold new book project
-- `scripts/vixtts-server.sh` — Manage viXTTS container
-- `brand/` — Style guide + voice reference
-- `templates/` — Script/prompt/checklist templates
-- `remotion/src/data/scenes.json` — Per-video config
+- `WORKFLOW.md` — Pipeline docs + Full Auto Mode + Makefile usage
+- `Makefile` — `make <target> BOOK=<slug>` (produce, voice, subtitle, images, etc.)
+- `scripts/produce.sh` — Full pipeline orchestrator (skip flags)
+- `.claude/skills/produce-video/` — Master orchestration skill
+- `books/<slug>/` — Per-book content (script, scenes, audio, output)
+- `knowledge-base/` — Cross-book intelligence vault
+- `templates/narrative-templates.md` — 5 narrative templates (only surviving template file)

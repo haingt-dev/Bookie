@@ -2,16 +2,22 @@
 
 ## atomic-habits
 
-> "Điều mà Atomic Habits không nói với bạn" — contrarian angle
+> "Dieu ma Atomic Habits khong noi voi ban" — contrarian angle
 
-| Step | Status | Output | Notes |
-|------|--------|--------|-------|
-| Script | Done | script.md | 913 words, 9 scenes, 3 blind spots |
-| Storyboard | Done | storyboard.md | 9 prompts, flat/Ken Burns |
-| Voice | Done | voiceover.wav | 4m41s, voice-first pipeline |
-| Subtitle | Done | subtitles.srt | 107 entries, 838 words |
-| Scenes | In Progress | scenes/ | 0/9 images |
-| Sync | Pending | | Requires scenes |
-| Preview | Pending | | `make studio` |
-| Render | Pending | | `make render` |
-| Publish | Pending | | YouTube + Facebook |
+| # | Step | Status | Output | Notes |
+|---|------|--------|--------|-------|
+| 1 | Extract notes | Done | notes.md | Key Insights, Quotes, Stories, Competitive Analysis |
+| 2 | Create storyboard | Done | storyboard.md | 9 scenes, contrarian narrative arc |
+| 3 | Write video | Done | chunks-display.md + chunks.md | 41 chunks, both paired files |
+| 4 | Generate voice | Done | voiceover.wav | ~5:35, 9 scenes, 41 pre-split chunks |
+| 5 | Generate prompts | Done | image-prompts.md | 9 Gemini prompts with brand style + timing |
+| 6 | Generate images | Done | scenes/*.png | 9 scene images via Gemini API |
+| 7 | Generate subtitles | Done | subtitles.srt | Balanced line-splitting from chunks-display.md |
+| 8 | Render video | Done | video-balanced.mp4 | Visual overlays complete |
+| 9 | Write metadata | Pending | metadata.md | `/write-metadata atomic-habits` |
+| 10 | Publish | Pending | | YouTube + Facebook |
+
+**Notes**:
+
+- Pipeline verified and ready for next book: pick book → `/produce-video <slug>`
+- Knowledge Vault seeded (concepts/habits.md, concepts/identity.md, authors/james-clear.md)
