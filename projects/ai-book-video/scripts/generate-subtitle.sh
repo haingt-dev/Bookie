@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# generate-subtitle.sh — Generate SRT subtitles using Whisper word timestamps
-# Voice-first pipeline: transcribes voiceover audio for accurate subtitle timing
+# generate-subtitle.sh — Generate SRT subtitles from chunks.md + section-timing.json
+# Chunk-based approach: uses ground truth text (no Whisper ASR errors for Vietnamese)
 #
 # Usage:
-#   ./scripts/generate-subtitle.sh <book-slug>            # Whisper → SRT
+#   ./scripts/generate-subtitle.sh <book-slug>            # Chunks → SRT
 #   ./scripts/generate-subtitle.sh <book-slug> --sync     # Scale SRT timestamps to match audio
 
 set -euo pipefail
@@ -13,7 +13,14 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # --- Configuration ---
 MAX_CHARS=55                  # Max chars per subtitle line
-WHISPER_MODEL="${WHISPER_MODEL:-large-v3}"
+
+# Pace-aware gap config (must match generate-voice.sh)
+GAP_SLOW_SENTENCE=0.40
+GAP_SLOW_PARAGRAPH=0.80
+GAP_NORMAL_SENTENCE=0.15
+GAP_NORMAL_PARAGRAPH=0.40
+GAP_FAST_SENTENCE=0.08
+GAP_FAST_PARAGRAPH=0.20
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -24,7 +31,7 @@ NC='\033[0m'
 # --- Validate input ---
 if [[ $# -lt 1 ]]; then
   echo -e "${RED}Usage: $0 <book-slug> [--sync]${NC}"
-  echo "Example: $0 atomic-habits          # Whisper transcription → SRT"
+  echo "Example: $0 atomic-habits          # Chunks → SRT"
   echo "         $0 atomic-habits --sync   # Scale SRT to match audio"
   echo ""
   echo "Requires: make voice BOOK=<slug> first"
@@ -32,15 +39,17 @@ if [[ $# -lt 1 ]]; then
 fi
 
 SLUG="$1"
-MODE="whisper"
+MODE="chunks"
 if [[ "${2:-}" == "--sync" ]]; then
   MODE="sync"
 fi
 
-SCRIPT_FILE="$PROJECT_DIR/books/$SLUG/script.md"
 OUTPUT_DIR="$PROJECT_DIR/books/$SLUG/output"
 OUTPUT_SRT="$OUTPUT_DIR/subtitles.srt"
 INPUT_WAV="$PROJECT_DIR/books/$SLUG/audio/voiceover.wav"
+CHUNKS_FILE="$PROJECT_DIR/books/$SLUG/chunks.md"
+DISPLAY_FILE="$PROJECT_DIR/books/$SLUG/chunks-display.md"
+TIMING_FILE="$PROJECT_DIR/books/$SLUG/output/section-timing.json"
 
 # ============================================================
 # MODE: --sync — Scale SRT timestamps to match audio duration
@@ -136,10 +145,17 @@ if ts_lines:
 fi
 
 # ============================================================
-# Generate SRT via Whisper transcription + word timestamps
+# Generate SRT from chunks.md + section-timing.json
 # ============================================================
-if [[ ! -f "$SCRIPT_FILE" ]]; then
-  echo -e "${RED}Error: Script not found: $SCRIPT_FILE${NC}"
+if [[ ! -f "$CHUNKS_FILE" ]]; then
+  echo -e "${RED}Error: chunks.md not found: $CHUNKS_FILE${NC}"
+  echo "  Run first: /split-script $SLUG"
+  exit 1
+fi
+
+if [[ ! -f "$TIMING_FILE" ]]; then
+  echo -e "${RED}Error: section-timing.json not found: $TIMING_FILE${NC}"
+  echo "  Run first: make voice BOOK=$SLUG"
   exit 1
 fi
 
@@ -149,159 +165,231 @@ if [[ ! -f "$INPUT_WAV" ]]; then
   exit 1
 fi
 
-if ! command -v uv &> /dev/null; then
-  echo -e "${RED}Error: uv not found. Install: curl -LsSf https://astral.sh/uv/install.sh | sh${NC}"
-  exit 1
+echo -e "${YELLOW}Generating SRT from chunks.md + display text...${NC}"
+echo -e "  Chunks: $CHUNKS_FILE"
+echo -e "  Timing: $TIMING_FILE"
+if [[ -f "$DISPLAY_FILE" ]]; then
+  echo -e "  Display: $DISPLAY_FILE (subtitle text source)"
+else
+  echo -e "  ${YELLOW}Warning: chunks-display.md not found, using chunks.md text as-is${NC}"
 fi
-
-echo -e "${YELLOW}Generating SRT via Whisper (${WHISPER_MODEL})...${NC}"
-echo -e "  Audio: $INPUT_WAV"
-echo -e "  Model: $WHISPER_MODEL (first run downloads ~3GB)"
 
 mkdir -p "$OUTPUT_DIR"
 
-uv run --python 3.12 \
-  --with faster-whisper \
-  --with nvidia-cublas-cu12 \
-  --with nvidia-cudnn-cu12 \
-  python3 - \
-  "$OUTPUT_SRT" "$INPUT_WAV" "$MAX_CHARS" "$WHISPER_MODEL" << 'PYTHON_SCRIPT'
-import re, sys, ctypes, os, glob
+python3 - "$CHUNKS_FILE" "$TIMING_FILE" "$OUTPUT_SRT" "$MAX_CHARS" \
+  "$GAP_SLOW_SENTENCE" "$GAP_SLOW_PARAGRAPH" \
+  "$GAP_NORMAL_SENTENCE" "$GAP_NORMAL_PARAGRAPH" \
+  "$GAP_FAST_SENTENCE" "$GAP_FAST_PARAGRAPH" \
+  "$DISPLAY_FILE" \
+  << 'PYTHON_SCRIPT'
+import re, sys, json, os
 
-# Preload CUDA libraries from pip packages (nvidia-cublas-cu12, nvidia-cudnn-cu12)
-try:
-    import nvidia.cublas, nvidia.cudnn
-    for pkg_path in list(nvidia.cublas.__path__) + list(nvidia.cudnn.__path__):
-        lib_dir = os.path.join(pkg_path, 'lib')
-        if os.path.isdir(lib_dir):
-            for lib in sorted(glob.glob(os.path.join(lib_dir, '*.so*'))):
-                try:
-                    ctypes.cdll.LoadLibrary(lib)
-                except OSError:
-                    pass
-except ImportError:
-    pass  # Will fall back to CPU if CUDA libs not available
+from math import ceil
 
-from faster_whisper import WhisperModel
+chunks_path = sys.argv[1]
+timing_path = sys.argv[2]
+srt_path = sys.argv[3]
+max_chars = int(sys.argv[4])
+display_path = sys.argv[11]
 
-srt_path = sys.argv[1]
-audio_path = sys.argv[2]
-max_chars = int(sys.argv[3])
-model_name = sys.argv[4]
+# Gap config per pace
+gap_config = {
+    'slow':   {'sentence': float(sys.argv[5]),  'paragraph': float(sys.argv[6])},
+    'normal': {'sentence': float(sys.argv[7]),  'paragraph': float(sys.argv[8])},
+    'fast':   {'sentence': float(sys.argv[9]),  'paragraph': float(sys.argv[10])},
+}
 
 def format_ts(seconds):
+    seconds = max(0, seconds)
     h = int(seconds // 3600)
     m = int((seconds % 3600) // 60)
     s = int(seconds % 60)
     ms = int(round((seconds % 1) * 1000))
     return f'{h:02d}:{m:02d}:{s:02d},{ms:03d}'
 
-# --- Transcribe with word-level timestamps ---
-print(f'  Loading model: {model_name}...', flush=True)
-model = WhisperModel(model_name, device='auto', compute_type='int8_float16')
+def parse_display_chunks(path):
+    """Parse chunks-display.md to get display text per chunk number."""
+    if not os.path.isfile(path):
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    chunk_re = re.compile(r'^\[(\d+)\]\s+"(.+)"$', re.MULTILINE)
+    return {int(m.group(1)): m.group(2) for m in chunk_re.finditer(content)}
 
-print(f'  Transcribing with word timestamps...', flush=True)
-segments_iter, info = model.transcribe(
-    audio_path,
-    language='vi',
-    word_timestamps=True,
-    vad_filter=True,
-    hallucination_silence_threshold=1.0,
-    repetition_penalty=1.1,
-)
+# --- Parse chunks.md ---
+with open(chunks_path, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-# Collect all words with timestamps
-words = []
-for segment in segments_iter:
-    if segment.words:
-        for w in segment.words:
-            text = w.word.strip()
-            if text and w.end - w.start > 0.01:
-                words.append({'start': w.start, 'end': w.end, 'text': text})
+scene_re = re.compile(r'<!-- scene: (scene-\d+), pace: (\w+) -->')
+chunk_re = re.compile(r'^\[(\d+)\]\s+"(.+)"$')
 
-if not words:
-    print('Error: No words transcribed from audio.', file=sys.stderr)
-    sys.exit(1)
+markers = list(scene_re.finditer(content))
+scenes = []
 
-print(f'  Transcribed: {len(words)} words, {words[-1]["end"]:.1f}s')
+for i, m in enumerate(markers):
+    scene_id = m.group(1)
+    pace = m.group(2)
+    start = m.end()
+    end = markers[i + 1].start() if i + 1 < len(markers) else len(content)
+    section = content[start:end]
 
-# --- Group words into subtitle segments ---
-srt_segments = []
-buf = []
-buf_text = ''
+    chunks = []
+    is_paragraph_break = False
 
-def flush():
-    global buf, buf_text
-    if buf:
-        srt_segments.append({
-            'start': buf[0]['start'],
-            'end': buf[-1]['end'],
-            'text': buf_text.strip()
+    for line in section.split('\n'):
+        s = line.strip()
+        if s == '---':
+            is_paragraph_break = True
+            continue
+        cm = chunk_re.match(s)
+        if cm:
+            chunks.append({
+                'idx': int(cm.group(1)),
+                'text': cm.group(2),
+                'chars': len(cm.group(2)),
+                'paragraph_break': is_paragraph_break and len(chunks) > 0,
+            })
+            is_paragraph_break = False
+
+    if chunks:
+        scenes.append({
+            'scene_id': scene_id,
+            'pace': pace,
+            'chunks': chunks,
         })
-        buf = []
-        buf_text = ''
 
-for w in words:
-    word = w['text']
-    candidate = f'{buf_text} {word}'.strip() if buf_text else word
+# --- Build display text from chunks-display.md ---
+display_chunks = parse_display_chunks(display_path)
+if display_chunks:
+    mapped = 0
+    for scene in scenes:
+        for c in scene['chunks']:
+            if c['idx'] in display_chunks:
+                c['display_text'] = display_chunks[c['idx']]
+                mapped += 1
+    print(f'  Display text: {mapped} chunks mapped from chunks-display.md')
+else:
+    print(f'  Display text: using chunks.md (chunks-display.md not found)')
 
-    # Exceeds max chars? Flush current buffer first
-    if len(candidate) > max_chars and buf:
-        flush()
-        buf = [w]
-        buf_text = word
-    else:
-        buf.append(w)
-        buf_text = candidate
+# --- Load timing ---
+with open(timing_path, 'r', encoding='utf-8') as f:
+    timing = json.load(f)
 
-    # Flush at sentence boundaries
-    if re.search(r'[.!?…]$', word):
-        flush()
+timing_map = {t['scene']: t for t in timing}
 
-flush()
+# --- Generate subtitle entries ---
+srt_entries = []
+entry_num = 0
+total_words = 0
 
-# --- Post-processing: remove duplicates and anomalies ---
-cleaned = []
-seen_texts = set()
-for seg in srt_segments:
-    duration = seg['end'] - seg['start']
-    text = seg['text']
-    word_count = len(text.split())
-    # Skip zero/near-zero duration
-    if duration < 0.05:
+for scene in scenes:
+    sid = scene['scene_id']
+    pace = scene['pace']
+    chunks = scene['chunks']
+
+    if sid not in timing_map:
+        print(f'  WARNING: No timing for {sid}, skipping')
         continue
-    # Skip exact duplicate text (hallucination)
-    if text in seen_texts:
-        continue
-    # Skip suspiciously fast segments (likely hallucination)
-    if duration > 0 and word_count / duration > 15:
-        continue
-    seen_texts.add(text)
-    cleaned.append(seg)
 
-removed = len(srt_segments) - len(cleaned)
-if removed > 0:
-    print(f'  Cleaned: removed {removed} hallucinated segment(s)')
-srt_segments = cleaned
+    t = timing_map[sid]
+    scene_start_s = t['startMs'] / 1000.0
+    scene_duration_s = t['durationSec']
 
-if not srt_segments:
-    print('Error: No subtitle segments produced.', file=sys.stderr)
-    sys.exit(1)
+    # Calculate total gap time within scene
+    gaps = gap_config.get(pace, gap_config['normal'])
+    n_sentence_gaps = 0
+    n_paragraph_gaps = 0
+    for ci, chunk in enumerate(chunks):
+        if ci == 0:
+            continue
+        if chunk['paragraph_break']:
+            n_paragraph_gaps += 1
+        else:
+            n_sentence_gaps += 1
+
+    total_gap_time = (n_sentence_gaps * gaps['sentence'] +
+                      n_paragraph_gaps * gaps['paragraph'])
+
+    # Speech time = scene duration minus gaps
+    speech_time = max(scene_duration_s - total_gap_time, 0.1)
+
+    # Total chars in scene
+    total_chars = sum(c['chars'] for c in chunks)
+    if total_chars == 0:
+        continue
+
+    # Distribute timing across chunks
+    cursor = scene_start_s
+
+    for ci, chunk in enumerate(chunks):
+        # Add gap before this chunk (except first)
+        if ci > 0:
+            if chunk['paragraph_break']:
+                cursor += gaps['paragraph']
+            else:
+                cursor += gaps['sentence']
+
+        # Chunk duration proportional to char count
+        chunk_duration = speech_time * (chunk['chars'] / total_chars)
+        chunk_start = cursor
+        chunk_end = cursor + chunk_duration
+
+        # Split chunk text into subtitle lines (balanced)
+        text = chunk.get('display_text', chunk['text'])
+        words = text.split()
+        n_lines = max(1, ceil(len(text) / max_chars))
+        target_len = len(text) / n_lines
+
+        lines = []
+        current_line = ''
+        for word in words:
+            candidate = f'{current_line} {word}'.strip() if current_line else word
+            remaining = len(text) - sum(len(l) + 1 for l in lines) - len(candidate)
+            if len(current_line) >= target_len * 0.85 and remaining > 15:
+                lines.append(current_line)
+                current_line = word
+            else:
+                current_line = candidate
+        if current_line:
+            lines.append(current_line)
+
+        # Distribute chunk time across subtitle lines
+        line_total_chars = sum(len(l) for l in lines)
+        if line_total_chars == 0:
+            continue
+
+        line_cursor = chunk_start
+        for line in lines:
+            line_duration = chunk_duration * (len(line) / line_total_chars)
+            line_start = line_cursor
+            line_end = line_cursor + line_duration
+
+            entry_num += 1
+            total_words += len(line.split())
+            srt_entries.append({
+                'num': entry_num,
+                'start': line_start,
+                'end': line_end,
+                'text': line,
+            })
+            line_cursor = line_end
+
+        cursor = chunk_end
 
 # --- Write SRT ---
 srt_lines = []
-for i, seg in enumerate(srt_segments, 1):
-    srt_lines.append(str(i))
-    srt_lines.append(f'{format_ts(seg["start"])} --> {format_ts(seg["end"])}')
-    srt_lines.append(seg['text'])
+for e in srt_entries:
+    srt_lines.append(str(e['num']))
+    srt_lines.append(f'{format_ts(e["start"])} --> {format_ts(e["end"])}')
+    srt_lines.append(e['text'])
     srt_lines.append('')
 
 with open(srt_path, 'w', encoding='utf-8') as f:
     f.write('\n'.join(srt_lines))
 
-total = words[-1]['end']
-print(f'')
-print(f'  Total: {len(srt_segments)} segments, {total:.1f}s ({int(total // 60)}m {int(total % 60)}s)')
+last_end = srt_entries[-1]['end'] if srt_entries else 0
+print(f'  Scenes: {len(scenes)}')
+print(f'  Total: {entry_num} segments, {last_end:.1f}s ({int(last_end // 60)}m {int(last_end % 60)}s)')
 PYTHON_SCRIPT
 
 if [[ -f "$OUTPUT_SRT" ]]; then
@@ -309,7 +397,7 @@ if [[ -f "$OUTPUT_SRT" ]]; then
   WORD_COUNT=$(grep -v '^[0-9]' "$OUTPUT_SRT" | grep -v '^\s*$' | grep -v -- '-->' | wc -w)
 
   echo ""
-  echo -e "${GREEN}SRT generated (Whisper word timestamps)!${NC}"
+  echo -e "${GREEN}SRT generated (chunk-based, balanced lines)!${NC}"
   echo -e "  SRT: $OUTPUT_SRT ($ENTRY_COUNT entries, $WORD_COUNT words)"
   echo ""
   echo -e "Next steps:"

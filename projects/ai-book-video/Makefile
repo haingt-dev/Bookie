@@ -2,7 +2,7 @@ BOOK ?= $(error BOOK is required. Usage: make <target> BOOK=atomic-habits)
 SCRIPTS := scripts
 BOOKS := books
 
-.PHONY: init subtitle voice scenes sync validate studio render all clean
+.PHONY: init subtitle voice images scenes sync validate studio render render-shorts produce clean
 
 init:
 	$(SCRIPTS)/init-book.sh $(BOOK)
@@ -12,6 +12,9 @@ subtitle:
 
 voice:
 	$(SCRIPTS)/generate-voice.sh $(BOOK)
+
+images:
+	$(SCRIPTS)/generate-images.sh $(BOOK)
 
 scenes:
 	$(SCRIPTS)/generate-scenes.sh $(BOOK)
@@ -28,8 +31,14 @@ studio: sync
 render: sync
 	cd remotion && npx remotion render BookVideo ../$(BOOKS)/$(BOOK)/output/video.mp4
 
-all: voice subtitle scenes sync validate
-	@echo "Pipeline complete for $(BOOK)"
+render-shorts: sync
+	@cd remotion && npx remotion compositions 2>/dev/null | grep '^BookShort-' | while read CID REST; do \
+		echo "Rendering $$CID..."; \
+		npx remotion render "$$CID" "../$(BOOKS)/$(BOOK)/output/$${CID}.mp4"; \
+	done
+
+produce:
+	$(SCRIPTS)/produce.sh $(BOOK) $(ARGS)
 
 clean:
 	rm -f $(BOOKS)/$(BOOK)/audio/voiceover.wav

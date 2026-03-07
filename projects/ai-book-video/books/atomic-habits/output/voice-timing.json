@@ -2,46 +2,46 @@
   {
     "scene": "scene-01",
     "pace": "slow",
-    "actualSec": 11.51
+    "actualSec": 22.03
   },
   {
     "scene": "scene-02",
     "pace": "normal",
-    "actualSec": 25.73
+    "actualSec": 22.85
   },
   {
     "scene": "scene-03",
     "pace": "normal",
-    "actualSec": 27.16
+    "actualSec": 55.17
   },
   {
     "scene": "scene-04",
     "pace": "normal",
-    "actualSec": 45.25
+    "actualSec": 34.94
   },
   {
     "scene": "scene-05",
     "pace": "normal",
-    "actualSec": 19.15
+    "actualSec": 51.72
   },
   {
     "scene": "scene-06",
-    "pace": "slow",
-    "actualSec": 33.63
+    "pace": "normal",
+    "actualSec": 20.66
   },
   {
     "scene": "scene-07",
-    "pace": "normal",
-    "actualSec": 50.87
+    "pace": "slow",
+    "actualSec": 57.19
   },
   {
     "scene": "scene-08",
     "pace": "slow",
-    "actualSec": 52.46
+    "actualSec": 51.17
   },
   {
     "scene": "scene-09",
     "pace": "fast",
-    "actualSec": 9.7
+    "actualSec": 13.21
   }
 ]

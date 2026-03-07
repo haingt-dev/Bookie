@@ -4,99 +4,129 @@
 > **Notebook ID**: bf41318d-4909-4692-9b0c-4041e61bc485
 > **Ngày extract**: 2026-03-03
 
-## Key Insights (5 ý chính)
+## Key Insights
 
-### 1. Tập trung vào Hệ thống thay vì Mục tiêu
-- **Concept**: Bạn không vươn tới cấp độ mục tiêu. Bạn rơi xuống cấp độ hệ thống.
-- **Ví dụ**: Mục tiêu không phải chạy marathon — hệ thống là lịch tập mỗi ngày. Vận động viên: mục tiêu = vô địch, hệ thống = cách tuyển HLV, tập luyện mỗi ngày.
-- **Ứng dụng**: Thay vì ám ảnh con số trên cân → thiết kế thực đơn + lịch tập cố định.
+### 1. The 1% Rule (Compounding Small Gains)
+- **Concept**: Habit formation = "compound interest" of self-improvement. 1% better/day = 37x better/year.
+- **Story**: Dave Brailsford + British Cycling (2003). Tìm 1% improvement mọi thứ: bike seats, heated suits, cách rửa tay. Từ đội tệ nhất → 5 Tour de France trong 6 năm.
+- **Application**: Gateway habit < 2 phút (đi giày chạy, đọc 1 trang sách).
 
-### 2. Thói quen dựa trên Danh tính (Identity-Based Habits) ⭐
-- **Concept**: Thay đổi bền vững đến từ thay đổi niềm tin về bản thân, không phải kết quả.
-- **Câu chuyện HAY**: Vợ James Clear ngày đầu đi học, đọc tên đúng 30 bạn cùng lớp sau 1 lần giới thiệu. Bạn bên cạnh nói "Bạn giỏi nhớ tên quá" → cô hình thành niềm tin "Tôi là người giỏi nhớ tên" → duy trì tự nhiên từ đó.
-- **Ứng dụng**: Đừng nói "Đọc 1 cuốn/tháng". Nói "Tôi là người ham đọc" → mỗi lần cầm sách = chứng minh danh tính mới.
+### 2. Systems Over Goals
+- **Concept**: "You fall to the level of your systems." Goals = hướng đi, systems = quy trình hàng ngày tạo kết quả.
+- **Story**: Scott Adams (Dilbert): mọi VĐV Olympic đều muốn HCV, nhưng hệ thống tập luyện mới tạo khác biệt.
+- **Application**: Thiết kế lịch hàng ngày khiến tiến bộ là tất yếu, thay vì focus vào deadline.
 
-### 3. Quy luật 1% (The 1 Percent Rule)
-- **Concept**: Thay đổi nhỏ 1%/ngày → kết quả khổng lồ qua thời gian = lãi kép của phát triển bản thân.
-- **Câu chuyện HAY**: Trong rừng Amazon, cây nào mọc nhanh hơn 1 chút sẽ vươn cao hơn → đón nhiều nắng + mưa hơn → năng lượng bổ sung giúp phát triển mạnh hơn hôm sau → dần lấn át tất cả. Gọi là "ưu thế tích lũy" — lợi thế nhỏ ban đầu → phần thưởng khổng lồ sau.
-- **Ứng dụng**: Duy trì 1% tốt hơn mỗi ngày → sự khác biệt mỏng manh tạo phân phối chênh lệch cực kỳ lớn.
+### 3. Identity-Based Habits
+- **Concept**: Thay đổi hiệu quả nhất = focus vào bạn muốn TRỞ LẠI, không phải muốn ĐẠT gì. Khi thói quen = bản sắc, hành vi tự nhiên.
+- **Story**: 2 người từ chối thuốc lá. "Tôi đang cố bỏ" (vẫn là người hút) vs "Tôi không hút thuốc" (identity shift hoàn toàn).
+- **Application**: Chứng minh bản sắc mới bằng small wins: "người không bao giờ bỏ tập" = bước vào gym 5 phút.
 
-### 4. Chồng lớp Thói quen (Habit Stacking)
-- **Concept**: Gắn thói quen mới vào sau thói quen cũ đã thành thục → tận dụng kết nối thần kinh có sẵn.
-- **Minh họa**: "Cắt tỉa khớp thần kinh" (synaptic pruning) — trưởng thành, não bỏ kết nối không dùng, củng cố kết nối dùng thường xuyên. Piano 10 năm = mạng lưới cực mạnh.
-- **Công thức**: "Sau khi [THÓI QUEN CŨ], tôi sẽ [THÓI QUEN MỚI]". VD: "Sau khi rót cà phê sáng, tôi sẽ thiền 1 phút."
+### 4. The Four Laws of Behavior Change
+- **Concept**: Mọi thói quen = Cue → Craving → Response → Reward. Tạo thói quen tốt: Obvious, Attractive, Easy, Satisfying. Bỏ thói quen xấu: ngược lại.
+- **Story**: Edward Thorndike — mèo trong "puzzle boxes". Ban đầu đi lung tung, phát hiện lever (Cue) → được ăn (Reward) → học liên kết, thoát trong vài giây.
+- **Application**: Environment Design — đặt lọ vitamin cạnh vòi nước để thấy mỗi sáng.
 
-### 5. Bắt đầu cực kỳ nhỏ
-- **Concept**: Làm cho thói quen dễ đến mức không thể nói không. Đừng dựa vào motivation.
-- **Ví dụ**: Thay vì 50 hít đất → bắt đầu 5 cái. Thay vì thiền 10 phút → 1 phút.
-- **Ứng dụng**: Quy tắc "không bỏ lỡ 2 lần" — nhất quán > hoàn hảo.
+### 5. Habit Stacking
+- **Concept**: Gắn thói quen mới lên thói quen cũ đã có. Dùng kết nối thần kinh sẵn có để neo thói quen mới.
+- **Story**: Diderot Effect — triết gia Denis Diderot được tặng áo choàng đỏ đẹp, rồi thay toàn bộ đồ vật khác để "match". Habit stacking dùng momentum này theo hướng tích cực.
+- **Application**: "Sau khi [thói quen cũ], tôi sẽ [thói quen mới]". VD: "Sau khi rót cà phê, tôi sẽ thiền 1 phút."
 
-## Quotes đắt giá
+## Quotes
 
-> "You do not rise to the level of your goals. You fall to the level of your systems."
+> "If you can get 1 percent better each day for one year, you'll end up thirty-seven times better by the time you're done." — Ch.1
 
-> "The goal isn't to run a marathon, it's to become a runner."
+> "You do not rise to the level of your goals. You fall to the level of your systems." — Ch.1
 
-> "Habits are the 'compound interest' of self-improvement."
+> "Habits are the compound interest of self-improvement." — Ch.1
 
-> "Get 1% better every day."
+> "The goal is not to read a book, the goal is to become a reader." — Ch.2
 
-> "You just need to be consistent, not perfect."
+> "Every action you take is a vote for the type of person you wish to become." — Ch.2
 
-> "If you're having trouble changing your habits, the problem isn't you. The problem is your system."
+> "Environment is the invisible hand that shapes human behavior." — Ch.6
 
-## Câu chuyện / Ví dụ hay nhất (ranked)
+> "When you start a new habit, it should take less than two minutes to do." — Ch.13 (Two-Minute Rule)
 
-### ⭐ 1. Tai nạn bóng chày & sự phục hồi của James Clear
-- **Bối cảnh**: Năm cuối cấp 3, James bị cây gậy bóng chày văng trúng mặt giữa hai mắt
-- **Chi tiết**: Mũi biến dạng hình chữ U, xương sọ bị rạn, tổn thương mô não. Co giật, ngừng thở, chuyển cấp cứu bằng trực thăng, hôn mê sâu. Bị loại khỏi đội chính, xuống đội hạng hai
-- **Kết quả**: Bắt đầu từ thói quen nhỏ nhất ở đại học: ngủ sớm, phòng ngăn nắp, tập tạ đều đặn → 6 năm sau: VĐV hàng đầu ĐH Denison, đội hình tiêu biểu toàn nước Mỹ
-→ **Kịch tính nhất**, mở đầu cuốn sách, rất visual (bệnh viện → phòng gym → podium)
+> "Never miss twice. If you miss one day, try to get back on track as quickly as possible." — Ch.16
 
-### ⭐ 2. 90% lính Mỹ cai nghiện heroin chỉ sau 1 đêm
-- **Bối cảnh**: 1971, >15% lính Mỹ ở Việt Nam nghiện heroin. Nước Mỹ lo sợ khủng hoảng khi họ về
-- **Chi tiết**: Ở VN: áp lực chiến tranh + bạn bè nghiện + heroin dễ mua → nghiện nặng
-- **Kết quả**: Nghiên cứu Lee Robins: ~90% cai được khi về Mỹ KHÔNG cần điều trị. Đổi môi trường = đổi thói quen
-→ **Chấn động**, phản trực giác hoàn toàn. Visual: chiến trường → sân bay → cuộc sống bình thường
+> "The secret to maximizing your chances of success is to choose the right field of competition." — Ch.18
 
-### ⭐ 3. Cây trong rừng Amazon (1% Rule)
-Cây mọc nhanh hơn 1 chút → vươn cao hơn → đón nhiều nắng/mưa hơn → phát triển mạnh hơn hôm sau → dần lấn át tất cả. "Ưu thế tích lũy" — lợi thế nhỏ → phần thưởng khổng lồ.
-→ **Rất visual**, dễ làm illustration
+> "Humans experience peak motivation when working on tasks that are right on the edge of their current abilities." — Ch.19 (Goldilocks Rule)
 
-### 4. Victor Hugo khóa hết quần áo để viết sách
-- **Bối cảnh**: 1830, Hugo nợ nhà xuất bản 1 tác phẩm nhưng cả năm chỉ đi chơi
-- **Chi tiết**: Nhận tối hậu thư → yêu cầu trợ lý gom HẾT quần áo vào rương khóa kín, chỉ để 1 tấm khăn choàng
-- **Kết quả**: Không có đồ ra ngoài → giam mình viết suốt mùa thu + đông → *Thằng gù nhà thờ Đức Bà* sớm hơn hạn 2 tuần
-→ **Hài hước**, minh họa "commitment device" cực tốt
+## Stories / Examples (ranked by visual + dramatic potential)
 
-### 5. Hệ thống "Chỉ-và-Hô" đường sắt Nhật Bản
-- Nhân viên ga tàu Shinkansen (200+ dặm/giờ) liên tục chỉ tay + hô to từng thông số
-- Phát hiện phụ nữ kẹt tay vào cửa tàu trong <5 giây nhờ quy trình này → cứu sống
-- Giảm sai sót 85%, tai nạn 30%
-→ **Visual tốt**, minh họa "nhận thức" thay vì "ý chí"
+### 1. James Clear's Baseball Injury & Recovery
+- **Context**: Gậy bóng chày trúng mặt, gãy xương sọ, não bị dịch chuyển. Co giật, ngừng thở, trực thăng chuyển viện.
+- **Details**: Mẹ nắm tay trong lúc hôn mê. Không lái xe 8 tháng. Bị cắt khỏi đội bóng. Nhưng sau đó thành Academic All-American.
+- **Why video**: Arc cảm xúc mạnh nhất — từ tai nạn kinh hoàng đến thành công. Highly cinematic.
 
-### 6. Vợ James Clear nhớ tên 30 bạn (Identity)
-Ngày đầu đi học → đọc tên 30 bạn sau 1 lần giới thiệu → bạn bên cạnh khen → niềm tin → duy trì
-→ **Relatable**, minh họa identity-based habits
+### 2. Roger Fisher's Nuclear "Heart Capsule"
+- **Context**: Để ngăn tổng thống bắt đầu chiến tranh hạt nhân, Roger Fisher đề xuất giải pháp "vật lý".
+- **Details**: Mã phóng tên lửa được cấy trong viên nang cạnh tim 1 tình nguyện viên. Muốn phóng tên lửa? Phải tự tay giết người đó bằng dao phân thịt trước.
+- **Why video**: Hình ảnh sốc, tạo tension cao. Tốt cho hook hoặc climax.
+
+### 3. Japanese Railway "Pointing-and-Calling"
+- **Context**: Hệ thống an toàn đường sắt Tokyo — nhân viên chỉ tay vào đồng hồ tốc độ, tín hiệu, và hát to xác nhận.
+- **Details**: Tay phụ nữ bị kẹt giữa cửa Shinkansen, con trai đã ở trên tàu. Nhân viên thực hiện nghi thức, phát hiện, dừng khẩn cấp.
+- **Why video**: Nghi thức lặp đi lặp lại rất visual. Khoảnh khắc cứu người = emotional peak.
+
+### 4. British Cycling Transformation
+- **Context**: Đội xe đạp tệ đến mức hãng sản xuất từ chối bán xe vì sợ hại danh tiếng.
+- **Details**: Brailsford: sơn trắng bên trong xe tải để phát hiện bụi, test bio-sensors, tìm gối + nệm tốt nhất cho từng tay đua.
+- **Why video**: Underdog sports narrative. Chi tiết cụ thể, visual.
+
+### 5. Laszlo Polgar Chess Experiment
+- **Context**: Laszlo tin thiên tài được tạo ra, không phải sinh ra. Chứng minh bằng chính con mình.
+- **Details**: Tìm vợ (Klara) đồng ý tham gia thí nghiệm. Homeschool 3 con gái trong nhà đầy sách cờ và ảnh grandmaster. Judit Polgar — Grandmaster trẻ nhất (15 tuổi).
+- **Why video**: "Mad scientist" vibe. Nhà đầy sách cờ = hình ảnh ấn tượng.
+
+### 6. Victor Hugo & The Locked Trunk
+- **Context**: Hugo trì hoãn viết "Thằng gù Nhà thờ Đức Bà" cả năm — đi chơi, tiếp khách.
+- **Details**: Sai người giúp việc khoá hết quần áo vào rương. Chỉ còn áo choàng dệt. Không đi đâu được → viết điên cuồng → xong trước deadline.
+- **Why video**: Hài hước, dễ hiểu. Minh hoạ "commitment device" hoàn hảo.
+
+### 7. Stephen Luby & Safeguard Soap in Karachi
+- **Context**: Khu ổ chuột Karachi, Pakistan. Người dân biết nên rửa tay nhưng không làm vì không "thoả mãn".
+- **Details**: Xà phòng Safeguard thơm, tạo bọt tốt → rửa tay trở nên satisfying. Kết quả: tiêu chảy giảm 52%, viêm phổi giảm 48% ở trẻ em.
+- **Why video**: Contrast mạnh: khu ổ chuột vs giải pháp đơn giản. Emotional stakes cao.
 
 ## Competitive Analysis
 
-### Các kênh VN đã cover Atomic Habits:
-| Kênh | Angle | Nhận xét |
-|------|-------|----------|
-| Sổ Tay Cuộc Sống | 1%/ngày, 4 quy luật | Tóm tắt chuẩn, views cao |
-| Bài Học Sống | "Thay Đổi Nhỏ, Thói Quen Lớn" | Tóm tắt chung |
-| Thanh Unnie | 8 thói quen nguyên tử | List format |
-| Mỗi Ngày Một Quyển | Tóm tắt chung | Standard |
-| Spiderum Books | Ưu nhược điểm sách | Review, không tóm tắt |
-| Better Version | Vận may + thói quen | Angle lạ hơn |
-| Ngọn Đèn Tri Thức | Lý do thất bại duy trì | Problem-first |
-| Giang Smith Radio | Audiobook tiếng Việt | Audio only |
+> **Source**: yt-dlp YouTube search, 2026-03-05
+> **Queries**: "atomic habits tiếng việt", "thói quen nguyên tử review tóm tắt"
 
-### Keyword gap:
-- ❌ Hầu hết: tóm tắt toàn bộ / 4 laws / chung chung
-- ❌ Không ai focus vào **câu chuyện** của James Clear
-- ✅ **Gap**: Storytelling-first approach — kể qua câu chuyện, rút insight
+### Top Videos (deduplicated, sorted by views)
+
+| # | Title | Channel | Views | Date | Dur | Angle |
+|---|-------|---------|---------|------|-----|-------|
+| 1 | Vận may của bạn ẩn chứa trong thói quen | Better Version | 1.1M | 2023-03 | 24m | Tóm tắt + motivation |
+| 2 | Thay Đổi Nhỏ, Hiệu Quả Cao | The Present Writer | 188K | 2024-04 | 17m | Tóm tắt có góc nhìn |
+| 3 | Thói quen nguyên tử (sách nói full) | Thư viện Sách nói | 100K | 2023-12 | 7h | Sách nói full |
+| 4 | Không cần kỷ luật thép: Thói quen nhỏ giúp giỏi tiếng Anh | The Present Writer | 53K | 2025-09 | 19m | Ứng dụng vào học tiếng Anh |
+| 5 | Chiến lược thay đổi thói quen - Tóm tắt và phân tích | Vui Lên | 20K | 2024-02 | 14m | Tóm tắt + phân tích |
+| 6 | Làm thế nào để trở nên giỏi hơn gấp 37.78 lần | Tủ Sách 5 Phút | 11K | 2025-09 | 37m | Tóm tắt chi tiết |
+| 7 | Không chỉ hiểu - Cách để thay đổi và làm mọi thứ | Người VN Ham Đi Học | 11K | 2023-05 | 20m | Tóm tắt + ứng dụng |
+| 8 | Vì Sao Thói Quen Nhỏ Có Thể Tạo Ra Kết Quả Lớn | Mỗi Ngày Một Quyển | 4K | 2025-08 | 33m | Tóm tắt |
+| 9 | Thói quen nguyên tử - SÁCH NÓI TÓM TẮT | ngheluon | 3K | 2020-12 | 3m | Tóm tắt ngắn |
+| 10 | Tóm tắt sách "Thay Đổi Tí Hon" | MICCO Bookee | 566 | 2023-09 | 13m | Tóm tắt |
+
+### Phân tích
+
+**Angle distribution:**
+- **Tóm tắt / 4 Laws**: 8/10 videos — angle chi phối hoàn toàn
+- **Sách nói full**: 1/10 — không phải "content", chỉ là audio book
+- **Ứng dụng cụ thể** (học tiếng Anh): 1/10 — niche nhưng 53K views, cho thấy góc ứng dụng có demand
+- **Criticism / contrarian**: 0/10 — KHÔNG CÓ VIDEO NÀO
+
+**Top performer analysis:**
+- Better Version (1.1M views) = storytelling + motivation tone, production cao
+- The Present Writer (188K) = có góc nhìn riêng, không chỉ tóm tắt
+- Các kênh nhỏ (<20K) = tóm tắt thuần tuý, không có differentiation
+
+**Gap confirmed:**
+- Góc contrarian/criticism = **trống hoàn toàn** trên YouTube VN
+- Góc "điểm mù của sách" chưa ai làm — cơ hội lớn cho differentiation và CTR cao
+- Audience đã quen với tóm tắt → sẵn sàng cho perspective mới
 
 ## Criticism Research (NotebookLM + Web)
 

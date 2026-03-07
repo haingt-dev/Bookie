@@ -1,232 +1,97 @@
-# Storyboard & Image Prompts: Atomic Habits — Điều sách không nói
+# Storyboard: Atomic Habits — Điều mà Atomic Habits không nói với bạn
 
-> Kết hợp visual notes + AI image prompts cho mỗi scene
-> Script: ~900 từ, ~7 phút, 9 scenes
-> Angle: Nuanced criticism — 3 điểm mù + trade-off
+> **Tác giả**: James Clear
+> **Angle**: Nuanced criticism — tôn trọng sách, chỉ ra 3 điểm mù, kết thúc tích cực
+> **Scenes**: 9 scenes
 
-## Style Instruction (dùng cho MỌI prompt — Gemini natural language)
+## Story Arc
 
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-No text, no watermark in the image.
-```
-
----
+Bắt đầu bằng con số quen thuộc nhất của sách (37x) rồi đặt câu hỏi — tạo doubt ngay giây đầu. Context nhanh để thiết lập fairness: đây không phải chỉ trích, mà tìm điểm mù. Ba điểm mù leo thang từ con số (dễ hiểu) → phương pháp (2-minute trap) → triết lý (systems vs goals). Mỗi điểm mù đi kèm bằng chứng cụ thể và liên hệ đời thường giới trẻ VN. Sau khi phá xong, xây lại: identity shift vẫn là giá trị thật — kết thúc ấm áp, không cynical. CTA nhẹ, mời gọi.
 
 ## Scenes
 
-### Scene 01 — Hook: Cuốn sách hot nhất thập kỷ
+### Scene 01 — HOOK
+- **Purpose**: Gây doubt với con số thiêng 37x mà ai cũng biết
+- **Emotion**: Tò mò, bất ngờ nhẹ
+- **Key content**: "1% mỗi ngày = 37 lần" — câu quote nổi tiếng nhất sách
+- **Visual concept**: Con số/phương trình đang phát sáng rồi rạn nứt, tan vỡ — đẹp nhưng mong manh
+- **Pace**: slow
+- **Shorts**: Yes
 
-- **Timestamp**: 0:00 - 0:15
-- **Script**: "Mười lăm triệu bản. Hơn năm mươi ngôn ngữ..."
-- **Visual**: Bìa Atomic Habits ở giữa, xung quanh là các con số "15M" và "50+" hiện dần, hiệu ứng phát sáng. Cuối cùng xuất hiện dấu "?" lớn
-- **Image prompt**:
+### Scene 02 — CONTEXT
+- **Purpose**: Thiết lập fairness — không phải anti, mà là tìm blind spots
+- **Emotion**: Tôn trọng, tò mò trí tuệ
+- **Key content**: "Mọi cuốn sách đều có điểm mù" — framing cho toàn bộ video
+- **Visual concept**: Kính lúp soi cuốn sách, lộ ra những vùng ẩn bên dưới bề mặt
+- **Pace**: normal
+- **Shorts**: No
 
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-The scene shows a book with an orange cover standing upright at the center with a warm glow,
-surrounded by floating abstract shapes suggesting popularity and global reach.
-Small globe icons and sparkle elements are scattered around the book.
-A large translucent question mark looms behind it, creating a dramatic but clean composition
-with warm ambient lighting. No text, no watermark in the image.
-```
+### Scene 03 — ĐIỂM MÙ 1: Lãi kép không áp dụng cho con người
+- **Purpose**: Phá vỡ ẩn dụ cốt lõi của sách — compound interest cho hành vi
+- **Emotion**: "À, đúng rồi" — nhận ra điều mình ngầm tin nhưng chưa ai nói
+- **Key content**: Diminishing returns, plateaus + bước nhảy, tiến bộ thực ≠ đường cong mượt (Dr. Gina Cleo)
+- **Visual concept**: Hai đường cong đối lập — exponential mượt (kỳ vọng) vs bậc thang gồ ghề (thực tế)
+- **Pace**: normal
+- **Shorts**: Yes
 
-- **Layers**: Không cần tách — flat/Ken Burns
-- **Status**: [ ] Generated  [ ] Approved
+### Scene 04 — BẰNG CHỨNG: British Cycling vs đời thường
+- **Purpose**: Giải thích TẠI SAO 1% works cho đội xe đạp nhưng không dễ cho bạn
+- **Emotion**: Thấu hiểu — "à nên mình cảm thấy vậy là có lý do"
+- **Key content**: Brailsford có hệ thống đo lường chuyên nghiệp; đời thường không có. Con số 37x = động lực, không phải dự đoán.
+- **Visual concept**: Split — đội pro với dashboard đo lường chi tiết vs người bình thường đạp xe một mình, không thiết bị
+- **Pace**: normal
+- **Shorts**: No
 
-### Scene 02 — Context: Yêu nhưng không tin mọi thứ
+### Scene 05 — ĐIỂM MÙ 2: Bẫy 2 phút
+- **Purpose**: Đặt câu hỏi về 2-minute rule — trick ≠ motivation thật
+- **Emotion**: Nhận diện bản thân — "mình từng như vậy"
+- **Key content**: Ép gym 2 phút → ghét → bỏ → tự trách. Vấn đề thật: sách dạy CÁCH, không dạy CHỌN
+- **Visual concept**: Người đứng trước gym, bóng của họ quay lưng đi hướng khác — nội tâm xung đột
+- **Pace**: normal
+- **Shorts**: Yes
 
-- **Timestamp**: 0:15 - 0:45
-- **Script**: "Mình nói trước: mình thích cuốn này..."
-- **Visual**: Split composition — bên trái: trái tim ôm cuốn sách (yêu), bên phải: kính lúp soi cuốn sách (phản biện). Giữa là đường phân cách mềm
-- **Image prompt**:
+### Scene 06 — LIÊN HỆ: Giới trẻ chạy theo trend
+- **Purpose**: Kéo về đời thường VN — làm cho insight trở nên personal
+- **Emotion**: Thức tỉnh nhẹ, hơi buồn cười vì nhận ra
+- **Key content**: Dậy 5h, learn coding, tập gym — chỉ vì thấy người khác làm, không phải vì phù hợp
+- **Visual concept**: Băng chuyền chở những hình bóng giống nhau làm cùng routine; một người bước ra, nhìn con đường khác
+- **Pace**: normal
+- **Shorts**: No
 
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-The composition is split down the center with a soft dividing line.
-On the left side, a warm heart shape embraces a small book in green tones.
-On the right side, a magnifying glass examines the same book in orange tones.
-Both sides feel harmonious, not adversarial, with a balanced symmetrical layout
-and plenty of clean open space. No text, no watermark in the image.
-```
+### Scene 07 — ĐIỂM MÙ 3: Hệ thống không mục tiêu = giậm chân tại chỗ
+- **Purpose**: Thách thức "Systems > Goals" — câu quote nổi tiếng thứ 2 của sách
+- **Emotion**: Tension — "vậy sách sai à?" → dẫn đến nuance
+- **Key content**: Gym 5 năm cùng routine, không tiến bộ. Peter Thiel: hệ thống không hướng = giỏi mọi thứ, xuất sắc không gì. Hệ thống cần mục tiêu làm la bàn.
+- **Visual concept**: Hamster wheel quay hoàn hảo (hệ thống chạy tốt, đi đâu?) vs la bàn chỉ về đỉnh núi xa
+- **Pace**: slow
+- **Shorts**: Yes
 
-- **Layers**: Không cần tách — composition phẳng
-- **Status**: [ ] Generated  [ ] Approved
+### Scene 08 — TRADE-OFF: Giá trị thật — chuyển đổi danh tính
+- **Purpose**: Xây lại sau khi phá — identity shift vẫn là insight mạnh nhất
+- **Emotion**: Ấm áp, truyền cảm hứng, hopeful
+- **Key content**: "Mỗi hành động = phiếu bầu cho con người bạn muốn trở thành." Identity shift > mọi con số.
+- **Visual concept**: Hộp bỏ phiếu với phiếu bay vào; bóng người dần thay đổi — tự tin hơn, đứng thẳng hơn
+- **Pace**: slow
+- **Shorts**: Yes
 
-### Scene 03 — Insight 1a: Đồ thị hứa hẹn vs thực tế
-
-- **Timestamp**: 0:45 - 1:45
-- **Script**: "James Clear nói nếu bạn tốt hơn 1% mỗi ngày... Nhưng con người không phải tài khoản ngân hàng"
-- **Visual**: Hai đồ thị chồng lên nhau — đường exponential (xanh, "sách hứa") bay lên trời vs đường diminishing returns (cam, "thực tế") cong lên rồi phẳng dần. Gap giữa hai đường ngày càng lớn
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-The scene shows a clean chart with two curves starting from the same point on the left.
-The upper line in green curves exponentially upward, soaring high.
-The lower line in orange rises then gradually flattens into a plateau.
-The widening gap between them is highlighted with a subtle shaded area.
-Minimal grid lines and clean axis marks. A small upward arrow icon sits near the green line
-and a flat arrow near the orange plateau. No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — infographic phẳng
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 04 — Insight 1b: Gym diminishing returns
-
-- **Timestamp**: 1:45 - 2:30
-- **Script**: "Tháng đầu tiên, cơ thể thay đổi rõ rệt. Tháng thứ sáu, chậm hẳn..."
-- **Visual**: Progression 3 khung ngang — tháng 1 (người tập, thay đổi rõ, nhiều sparkle), tháng 6 (ít sparkle hơn), tháng 12 (gần như không sparkle). Mũi tên giảm dần giữa các khung
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-The scene shows a horizontal three-panel progression of a person exercising.
-The left panel depicts an energetic workout with many sparkle and star effects around them.
-The center panel shows the same exercise with fewer sparkles and slightly muted colors.
-The right panel shows the same exercise with almost no sparkles and flat subdued tones.
-Diminishing arrows connect the panels, visually conveying the concept of diminishing returns.
-No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — triptych phẳng
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 05 — Insight 2a: Bẫy 2 phút
-
-- **Timestamp**: 2:30 - 3:20
-- **Script**: "Muốn tập gym? Hứa mặc đồ tập. Chỉ hai phút. Nghe rất thông minh..."
-- **Visual**: Đồng hồ bấm giờ hiện "2:00", bên cạnh là người mặc đồ tập nhưng biểu cảm chán nản, vai rũ xuống. Timer đang đếm ngược
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-A person wearing workout clothes stands with slumped shoulders and a discouraged expression,
-next to a large circular timer showing a countdown. The person looks reluctant and unenthusiastic.
-Gym equipment is faintly visible in the background. Muted orange tones suggest frustration,
-and the timer is prominent in the composition. No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — flat/Ken Burns
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 06 — Insight 2b: Hai đường rẽ
-
-- **Timestamp**: 3:20 - 4:15
-- **Script**: "Có thể vấn đề không phải bạn thiếu kỷ luật... đang ép mình vào thói quen của người khác"
-- **Visual**: Ngã rẽ Y-shape — đường bên trái tối, nặng nề (icons: alarm 5AM, code laptop, dumbbell, mồ hôi) — đường bên phải sáng, nhẹ nhàng (icons: sách, cây xanh, nhạc cụ, nụ cười). Người đứng ở ngã ba
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-A Y-shaped fork in the road with a person standing at the junction.
-The left path is darker with heavy orange-brown tones and small icons of an alarm clock
-and dumbbells, suggesting forced discipline. The right path is brighter with green tones
-and small icons of a book and a plant, suggesting a natural fit.
-The person looks between both paths with a contemplative pose.
-The left path feels slightly foggy while the right path is clear.
-No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — flat/Ken Burns
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 07 — Insight 3: Cỗ máy không đích đến
-
-- **Timestamp**: 4:15 - 5:45
-- **Script**: "Bạn đi gym năm năm, cùng một bài tập... không mạnh hơn"
-- **Visual**: Người chạy trên treadmill, xung quanh là đồng hồ quay nhanh (5 năm trôi qua), cảnh vật bên ngoài cửa sổ đổi mùa liên tục nhưng người vẫn y nguyên. Hamster wheel vibe
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-A person is running on a treadmill in a room with a large window.
-Through the window, seasons are changing rapidly — layered panels show spring flowers,
-then summer sun, then autumn leaves, then winter snow. A clock on the wall has its hands
-spinning fast. The person looks exactly the same, unchanged despite time passing,
-evoking a subtle hamster wheel metaphor. Warm but slightly melancholic color tones.
-No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — flat/Ken Burns
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 08 — Trade-off: Phiếu bầu cho con người mới
-
-- **Timestamp**: 5:45 - 6:45
-- **Script**: "Mỗi hành động nhỏ là một lá phiếu bầu cho con người bạn muốn trở thành"
-- **Visual**: Thùng phiếu ở giữa, các phiếu bầu nhỏ rơi vào — mỗi phiếu có icon khác nhau (sách, giày chạy, bút viết). Phía sau thùng phiếu là hình bóng người đang mỉm cười, phát sáng dần
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-A ballot box sits at the center with small paper ballots floating down into it.
-Each ballot has a tiny icon — a book, a running shoe, or a pen.
-Behind the box, a soft glowing human silhouette is becoming more defined and bright
-as more ballots enter. A warm green glow emanates from the figure.
-The atmosphere is uplifting and hopeful, with a clean centered composition
-and subtle sparkle effects around the forming silhouette.
-No text, no watermark in the image.
-```
-
-- **Layers**: Không cần tách — flat/Ken Burns
-- **Status**: [ ] Generated  [ ] Approved
-
-### Scene 09 — CTA: Subscribe Bookie
-
-- **Timestamp**: 6:45 - 7:00
-- **Script**: "Cuốn sách nào bạn muốn mình phân tích tiếp?"
-- **Visual**: Logo Bookie ở giữa, subscribe bell icon, comment bubble, kính lúp icon (thể hiện "mổ xẻ sách")
-- **Image prompt**:
-
-```
-Create a flat, minimalist editorial illustration in 16:9 landscape format.
-Use a soft warm color palette with green (#368C06) and orange (#C86108) as accent colors
-on a light (#FAFDF5) background. Simple geometric shapes, clean lines, no outlines.
-A centered composition with a bell notification icon, a magnifying glass icon,
-and a speech bubble icon arranged in a triangle formation.
-Floating book icons and small heart sparkles surround the arrangement.
-A subtle circular green glow sits behind it all, creating an inviting warm friendly atmosphere
-with plenty of clean open space. No text, no watermark in the image.
-```
-
-- **Note**: Logo Bookie overlay trong Remotion (không generate trong illustration)
-- **Layers**: Không cần tách — dùng Remotion animation
-- **Status**: [ ] Generated  [ ] Approved
-
----
+### Scene 09 — CTA
+- **Purpose**: Mời gọi tương tác, gợi ý video tiếp
+- **Emotion**: Nhẹ nhàng, friendly
+- **Key content**: "Cuốn sách nào bạn muốn mình mổ xẻ tiếp?"
+- **Visual concept**: Logo Bookie giữa, sách xếp vòng tròn xung quanh — nhiều cuốn chờ được khám phá
+- **Pace**: fast
+- **Shorts**: No
 
 ## Summary
 
-| Scene | Mô tả | Effect |
-| ----- | ----- | :----: |
-| 01 Hook | Sách + question mark | Ken Burns |
-| 02 Context | Heart vs magnifying glass | Ken Burns |
-| 03 Insight 1a | Đồ thị exponential vs plateau | Ken Burns |
-| 04 Insight 1b | Gym diminishing returns triptych | Ken Burns |
-| 05 Insight 2a | Timer + người chán nản | Ken Burns |
-| 06 Insight 2b | Ngã rẽ Y-shape | Ken Burns |
-| 07 Insight 3 | Treadmill + mùa đổi | Ken Burns |
-| 08 Trade-off | Thùng phiếu + silhouette | Ken Burns |
-| 09 CTA | Bell + magnifying glass | Remotion |
-
-**Tổng**: 9 scenes, tất cả flat illustration + Ken Burns trong Remotion.
+| Scene | Label | Emotion | Pace | Shorts |
+|-------|-------|---------|------|--------|
+| 01 | HOOK | Tò mò, doubt | slow | Yes |
+| 02 | CONTEXT | Tôn trọng, tò mò | normal | No |
+| 03 | ĐIỂM MÙ 1 | Nhận ra | normal | Yes |
+| 04 | BẰNG CHỨNG | Thấu hiểu | normal | No |
+| 05 | ĐIỂM MÙ 2 | Nhận diện | normal | Yes |
+| 06 | LIÊN HỆ | Thức tỉnh | normal | No |
+| 07 | ĐIỂM MÙ 3 | Tension → nuance | slow | Yes |
+| 08 | TRADE-OFF | Ấm áp, hopeful | slow | Yes |
+| 09 | CTA | Nhẹ nhàng | fast | No |

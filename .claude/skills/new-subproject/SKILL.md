@@ -5,7 +5,7 @@ description: >-
   structure (assets, scripts, output, README). Use when the user wants to
   start a new project, scaffold a project folder, or initialize a sub-project.
   Triggers: "new project", "create project", "init project", "scaffold project",
-  "new subproject", "tao project moi".
+  "new subproject".
 argument-hint: "<project-name>"
 ---
 
@@ -49,7 +49,7 @@ Create a new sub-project under `projects/` with the standard Bookie structure.
    - Status: Planning
    ```
 
-4. **Add .gitkeep** to `assets/` and `scripts/`. For `output/`, create `.gitignore` with `*` and `!.gitignore` (align with "khong commit output" convention).
+4. **Add .gitkeep** to `assets/` and `scripts/`. For `output/`, create `.gitignore` with `*` and `!.gitignore` (output is not committed).
 
 5. **Update brief.md**: Add the new sub-project to `.memory-bank/brief.md` under "Active Sub-projects" using format:
    ```

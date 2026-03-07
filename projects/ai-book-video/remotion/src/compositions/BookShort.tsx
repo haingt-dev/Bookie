@@ -40,7 +40,7 @@ export const BookShort: React.FC<BookShortProps> = ({
       {/* Scenes — center-cropped for 9:16 */}
       {sceneEntries.map(({ scene, from, duration, index }) => (
         <Sequence key={scene.id} from={from} durationInFrames={duration}>
-          <SceneSlide image={scene.image} sceneIndex={index} />
+          <SceneSlide image={scene.image} sceneIndex={index} layout="bleed" />
         </Sequence>
       ))}
 

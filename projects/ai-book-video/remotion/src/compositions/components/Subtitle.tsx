@@ -8,13 +8,13 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { ANIM, SUBTITLE } from "../../constants";
+import { ANIM, BRAND_BAR, SUBTITLE } from "../../constants";
 import type { SubtitleEntry } from "../../types";
 import { parseSRT } from "../../utils/srt";
 
 interface SubtitleProps {
-  offsetMs?: number; // voiceover start offset in ms
-  adjustMs?: number; // fine-tune sync (negative = subs appear earlier)
+  offsetMs?: number;
+  adjustMs?: number;
 }
 
 export const Subtitle: React.FC<SubtitleProps> = ({
@@ -28,13 +28,20 @@ export const Subtitle: React.FC<SubtitleProps> = ({
 
   useEffect(() => {
     fetch(staticFile("subtitles.srt"))
-      .then((r) => r.text())
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error(`Subtitle fetch failed: ${r.status} ${r.statusText}`);
+        }
+        return r.text();
+      })
       .then((t) => {
-        setSubs(parseSRT(t));
+        const parsed = parseSRT(t);
+        console.log(`[Subtitle] Loaded ${parsed.length} entries`);
+        setSubs(parsed);
         continueRender(handle);
       })
-      .catch(() => {
-        // No subtitle file — continue without subtitles
+      .catch((err) => {
+        console.error("[Subtitle] Failed to load subtitles:", err);
         continueRender(handle);
       });
   }, [handle]);
@@ -46,7 +53,6 @@ export const Subtitle: React.FC<SubtitleProps> = ({
 
   if (!current) return null;
 
-  // Fade in/out animation
   const fadeMs = (ANIM.subtitleFadeFrames / fps) * 1000;
   const opacity = Math.min(
     interpolate(
@@ -63,12 +69,15 @@ export const Subtitle: React.FC<SubtitleProps> = ({
     ),
   );
 
+  // Position above BrandBar
+  const bottomPx = SUBTITLE.bottomPx + BRAND_BAR.height + BRAND_BAR.progressHeight;
+
   return (
     <AbsoluteFill>
       <div
         style={{
           position: "absolute",
-          bottom: `${SUBTITLE.bottomOffset * 100}%`,
+          bottom: bottomPx,
           width: "100%",
           display: "flex",
           justifyContent: "center",
@@ -76,22 +85,45 @@ export const Subtitle: React.FC<SubtitleProps> = ({
       >
         <div
           style={{
-            backgroundColor: SUBTITLE.bgColor,
-            color: SUBTITLE.textColor,
-            fontFamily: SUBTITLE.fontFamily,
-            fontSize: SUBTITLE.fontSize,
-            paddingLeft: SUBTITLE.paddingX,
-            paddingRight: SUBTITLE.paddingX,
-            paddingTop: SUBTITLE.paddingY,
-            paddingBottom: SUBTITLE.paddingY,
-            borderRadius: SUBTITLE.borderRadius,
-            maxWidth: "80%",
-            textAlign: "center",
-            lineHeight: 1.4,
+            display: "flex",
+            alignItems: "stretch",
+            maxWidth: SUBTITLE.maxWidth,
             opacity,
+            backdropFilter: "blur(10px)",
+            boxShadow: "0 4px 16px rgba(0, 0, 0, 0.2)",
+            borderRadius: SUBTITLE.borderRadius,
           }}
         >
-          {current.text}
+          {/* Green accent bar with glow */}
+          <div
+            style={{
+              width: SUBTITLE.accentWidth,
+              backgroundColor: SUBTITLE.accentColor,
+              borderRadius: `${SUBTITLE.borderRadius}px 0 0 ${SUBTITLE.borderRadius}px`,
+              flexShrink: 0,
+              boxShadow: "2px 0 12px rgba(27, 107, 42, 0.3)",
+            }}
+          />
+          {/* Text pill */}
+          <div
+            style={{
+              backgroundColor: SUBTITLE.bgColor,
+              color: SUBTITLE.textColor,
+              fontFamily: SUBTITLE.fontFamily,
+              fontSize: SUBTITLE.fontSize,
+              fontWeight: 500,
+              paddingLeft: SUBTITLE.paddingX,
+              paddingRight: SUBTITLE.paddingX,
+              paddingTop: SUBTITLE.paddingY,
+              paddingBottom: SUBTITLE.paddingY,
+              borderRadius: `0 ${SUBTITLE.borderRadius}px ${SUBTITLE.borderRadius}px 0`,
+              textAlign: "left",
+              lineHeight: 1.4,
+              textShadow: "0 1px 3px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            {current.text}
+          </div>
         </div>
       </div>
     </AbsoluteFill>

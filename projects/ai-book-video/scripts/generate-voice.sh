@@ -172,14 +172,23 @@ generate_audio() {
   local output_wav="$2"
   local label="${3:-section}"
   local pace="${4:-normal}"
+  local presplit_dir="${5:-}"
 
-  local work_dir=$(mktemp -d)
+  local work_dir
   local parts_dir=$(mktemp -d)
 
-  # Split text into units
-  local n_units
-  n_units=$(split_into_units "$text" "$MIN_BATCH_CHARS" "$work_dir")
-  echo -e "    ${label}: ${GREEN}${n_units}${NC} units"
+  if [[ -n "$presplit_dir" ]] && ls "$presplit_dir"/unit-*.txt >/dev/null 2>&1; then
+    # Use pre-split chunks from chunks.md
+    work_dir="$presplit_dir"
+    local n_units=$(ls "$work_dir"/unit-*.txt | wc -l)
+    echo -e "    ${label}: ${GREEN}${n_units}${NC} units (pre-split)"
+  else
+    # Fallback: split text into units
+    work_dir=$(mktemp -d)
+    local n_units
+    n_units=$(split_into_units "$text" "$MIN_BATCH_CHARS" "$work_dir")
+    echo -e "    ${label}: ${GREEN}${n_units}${NC} units"
+  fi
 
   # Load voice overrides
   declare -A overrides=()
@@ -220,16 +229,30 @@ generate_audio() {
       apply_voice_settings "$cur_temp" "$cur_rep"
     fi
 
-    # TTS call
-    curl -s -X POST "$VIXTTS_API_URL/tts_to_audio/" \
-      -H "Content-Type: application/json" \
-      -d "$(jq -n --arg text "$utext" --arg speaker "$SPEAKER_NAME" \
-        '{"text": $text, "speaker_wav": $speaker, "language": "vi"}')" \
-      -o "$uout"
+    # TTS call with retry (3 attempts, 2s backoff)
+    local tts_ok=0
+    for attempt in 1 2 3; do
+      curl -s --max-time 30 -X POST "$VIXTTS_API_URL/tts_to_audio/" \
+        -H "Content-Type: application/json" \
+        -d "$(jq -n --arg text "$utext" --arg speaker "$SPEAKER_NAME" \
+          '{"text": $text, "speaker_wav": $speaker, "language": "vi"}')" \
+        -o "$uout"
 
-    if [[ ! -s "$uout" ]]; then
-      echo -e "${RED}Error: TTS failed for $uname${NC}"
-      rm -rf "$work_dir" "$parts_dir"
+      if [[ -s "$uout" ]]; then
+        tts_ok=1
+        break
+      fi
+
+      if [[ $attempt -lt 3 ]]; then
+        echo -e "${YELLOW}  Retry $((attempt))/3 for $uname (waiting 2s)...${NC}"
+        sleep 2
+      fi
+    done
+
+    if [[ $tts_ok -eq 0 ]]; then
+      echo -e "${RED}Error: TTS failed for $uname after 3 attempts${NC}"
+      [[ -z "$presplit_dir" ]] && rm -rf "$work_dir"
+      rm -rf "$parts_dir"
       return 1
     fi
 
@@ -302,7 +325,11 @@ generate_audio() {
   local total_gaps=$(echo "$n_sentence_gaps * $gap_s + $n_paragraph_gaps * $gap_p" | bc)
   echo -e "      speech=${total_speech}s gaps=${total_gaps}s (sent=${gap_s}s×${n_sentence_gaps} para=${gap_p}s×${n_paragraph_gaps})"
 
-  rm -rf "$work_dir" "$parts_dir"
+  # Only clean up work_dir if it's a temp dir (not presplit scene dir)
+  if [[ -z "$presplit_dir" ]]; then
+    rm -rf "$work_dir"
+  fi
+  rm -rf "$parts_dir"
 }
 
 # ============================================================
@@ -316,13 +343,27 @@ if [[ $# -lt 1 ]]; then
 fi
 
 SLUG="$1"
-SCRIPT_FILE="$PROJECT_DIR/books/$SLUG/script.md"
+CHUNKS_FILE="$PROJECT_DIR/books/$SLUG/chunks.md"
 OUTPUT_DIR="$PROJECT_DIR/books/$SLUG/audio"
 OUTPUT_FILE="$OUTPUT_DIR/voiceover.wav"
 
-if [[ ! -f "$SCRIPT_FILE" ]]; then
-  echo -e "${RED}Error: Script file not found: $SCRIPT_FILE${NC}"
+if [[ ! -f "$CHUNKS_FILE" ]]; then
+  echo -e "${RED}Error: chunks.md not found in books/$SLUG/${NC}"
+  echo "  Run: /write-video $SLUG"
   exit 1
+fi
+
+echo -e "${GREEN}Found chunks.md — using pre-split chunks${NC}"
+if ! grep -q '<!-- scene: scene-' "$CHUNKS_FILE"; then
+  echo -e "${RED}Error: No scene markers in $CHUNKS_FILE${NC}"
+  echo "  chunks.md must have <!-- scene: scene-XX, pace: YY --> markers."
+  echo "  Run: /write-video $SLUG"
+  exit 1
+fi
+WARN_COUNT=$(grep -c '<!-- WARNING' "$CHUNKS_FILE" 2>/dev/null || echo "0")
+if [[ "$WARN_COUNT" -gt 0 ]]; then
+  echo -e "${YELLOW}Warning: chunks.md has $WARN_COUNT chunk(s) outside optimal range${NC}"
+  echo -e "  Review chunks before voice generation for best quality."
 fi
 
 # --- Check viXTTS server ---
@@ -349,73 +390,76 @@ echo -e "${YELLOW}Generating voiceover (voice-first, pace-aware gaps)...${NC}"
 SCENE_WORK=$(mktemp -d)
 trap "rm -rf $SCENE_WORK" EXIT
 
+# Parse pre-split chunks.md → unit files per scene
 python3 -c "
 import re, sys, os
 
-script_path = sys.argv[1]
+chunks_path = sys.argv[1]
 out_dir = sys.argv[2]
 
-with open(script_path, 'r', encoding='utf-8') as f:
+with open(chunks_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
-# Parse scene markers
 scene_re = re.compile(r'<!-- scene: (scene-\d+), pace: (\w+) -->')
+chunk_re = re.compile(r'^\[(\d+)\]\s+\"(.+)\"$')
+
+# Split content by scene markers
 markers = list(scene_re.finditer(content))
+n_scenes = 0
 
 for i, m in enumerate(markers):
     scene_id = m.group(1)
     pace = m.group(2)
     start = m.end()
-    if i + 1 < len(markers):
-        end = markers[i + 1].start()
-    else:
-        notes = re.search(r'^## Notes', content[start:], re.MULTILINE)
-        end = start + notes.start() if notes else len(content)
-
-    raw = content[start:end]
-
-    # Clean but KEEP voice markers for TTS pipeline
-    lines = []
-    in_code = False
-    for line in raw.split('\n'):
-        s = line.strip()
-        if s.startswith('\`\`\`'):
-            in_code = not in_code
-            continue
-        if in_code:
-            continue
-        # Keep voice markers
-        if re.match(r'^<!-- voice:', s):
-            lines.append(s)
-            continue
-        # Skip other markers/metadata
-        if s.startswith('#') or s.startswith('>') or s == '---':
-            continue
-        if s.startswith('**Visual**') or re.match(r'^\*\*\[SHORT\]\*\*$', s):
-            continue
-        if re.match(r'^<!-- scene:', s):
-            continue
-        if re.match(r'^\*\*(Target|Tác|Thể|Ngày)', s):
-            continue
-        # Clean inline formatting
-        s = s.replace('**', '').replace('*', '').replace('[SHORT]', '').strip()
-        lines.append(s)
-
-    text = '\n'.join(lines).strip()
-    text = re.sub(r'\n{3,}', '\n\n', text)
-
-    if not text:
-        continue
+    end = markers[i + 1].start() if i + 1 < len(markers) else len(content)
+    section = content[start:end]
 
     scene_dir = os.path.join(out_dir, scene_id)
     os.makedirs(scene_dir, exist_ok=True)
-    with open(os.path.join(scene_dir, 'text.txt'), 'w') as f:
-        f.write(text)
+
+    # Parse chunks and paragraph breaks
+    unit_num = 0
+    paragraph_breaks = []
+    prev_was_break = False
+    all_text_lines = []
+
+    for line in section.split('\n'):
+        s = line.strip()
+        if s == '---':
+            prev_was_break = True
+            continue
+        cm = chunk_re.match(s)
+        if cm:
+            unit_num += 1
+            text = cm.group(2)
+            padded = f'{unit_num:03d}'
+            with open(os.path.join(scene_dir, f'unit-{padded}.txt'), 'w') as f:
+                f.write(text)
+            if prev_was_break and unit_num > 1:
+                paragraph_breaks.append(str(unit_num))
+            prev_was_break = False
+            all_text_lines.append(text)
+
+    # Write paragraph-breaks.txt
+    with open(os.path.join(scene_dir, 'paragraph-breaks.txt'), 'w') as f:
+        f.write('\n'.join(paragraph_breaks) + '\n' if paragraph_breaks else '')
+
+    # Write pace file
     with open(os.path.join(scene_dir, 'pace'), 'w') as f:
         f.write(pace)
 
-print(f'Extracted {len(markers)} scenes')
-" "$SCRIPT_FILE" "$SCENE_WORK"
+    # Write text.txt (for reference, not used in presplit mode)
+    with open(os.path.join(scene_dir, 'text.txt'), 'w') as f:
+        f.write('\n'.join(all_text_lines))
+
+    # Write presplit flag
+    with open(os.path.join(scene_dir, 'presplit'), 'w') as f:
+        f.write('1')
+
+    n_scenes += 1
+
+print(f'Parsed {n_scenes} scenes from chunks.md')
+" "$CHUNKS_FILE" "$SCENE_WORK"
 
 # Process each scene
 SCENE_FINALS=()
@@ -431,7 +475,11 @@ for scene_dir in $(find "$SCENE_WORK" -mindepth 1 -maxdepth 1 -type d | sort); d
 
     # Generate audio with pace-aware gaps (no target)
     FINAL_WAV="$scene_dir/final.wav"
-    generate_audio "$scene_text" "$FINAL_WAV" "$scene_id" "$pace"
+    if [[ -f "$scene_dir/presplit" ]]; then
+      generate_audio "$scene_text" "$FINAL_WAV" "$scene_id" "$pace" "$scene_dir"
+    else
+      generate_audio "$scene_text" "$FINAL_WAV" "$scene_id" "$pace"
+    fi
 
     # Measure actual duration
     ACTUAL_SEC=$(ffprobe -v quiet -show_entries format=duration -of csv=p=0 "$FINAL_WAV")

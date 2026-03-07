@@ -4,34 +4,34 @@
 
 ## About
 
-**Book!e Inspires Everyone** — Cộng đồng người đọc sách, truyền cảm hứng đọc sách và học hỏi.
+**Book!e Inspires Everyone** — A reading community that inspires reading and learning.
 
 - Website: bookiecommunity.com
 - Fanpage: facebook.com/bookie.community
 
 ## Project Structure
 
-Resource hub cho multiple sub-projects. Không phải codebase — chủ yếu chứa assets, scripts, và configs.
+Resource hub for multiple sub-projects. Not a codebase — primarily holds assets, scripts, and configs.
 
 ```
 Bookie/
-├── projects/           ← sub-projects (mỗi dự án con 1 folder)
+├── projects/           ← sub-projects (each gets a folder)
 │   └── <name>/
 │       ├── assets/     ← media resources
 │       ├── scripts/    ← scripts, prompts
 │       └── output/     ← final output
-├── shared/             ← resources dùng chung
+├── shared/             ← shared resources
 │   ├── branding/       ← logo, brand assets
-│   └── templates/      ← templates tái sử dụng
+│   └── templates/      ← reusable templates
 └── .memory-bank/       ← project knowledge
 ```
 
 ### Sub-project Conventions
 
-- Mỗi sub-project nằm trong `projects/<name>/`
-- Tạo sub-project mới theo structure trên
-- Large media files tracked bằng Git LFS (video, PSD, audio, etc.)
-- Output cuối cùng đặt trong `output/`, không commit output vào git trừ khi cần thiết
+- Each sub-project lives in `projects/<name>/`
+- New sub-projects follow the structure above
+- Large media files tracked with Git LFS (video, PSD, audio, etc.)
+- Final output goes in `output/`, don't commit output to git unless necessary
 - When pipeline logic changes, update WORKFLOW.md and `.memory-bank/` (architecture, context, task) to stay in sync
 
 ## Project Values
@@ -39,10 +39,14 @@ Bookie/
 - **No dirty state** — Don't leave the environment broken. Verify changes work before completing a task
 - **Reversibility** — Ensure significant changes can be undone if needed
 
+### Language
+- **All project output in Vietnamese**: scripts, content, copy, descriptions, comments in output files
+- AGENTS.md and config files stay English (instructions to Claude)
+
 ### Boundaries
-- Project này là resource hub, không phải application code
-- Không setup backend/frontend infrastructure
-- Notes chi tiết về dự án nằm ở Obsidian Idea_Vault, không duplicate ở đây
+- This project is a resource hub, not application code
+- No backend/frontend infrastructure setup
+- Detailed project notes live in Obsidian Idea_Vault, don't duplicate here
 
 ## Memory Bank
 Auto-loaded at session start (brief, context, tech). Full files in `.memory-bank/`:

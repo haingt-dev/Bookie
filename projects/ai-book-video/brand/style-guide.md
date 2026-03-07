@@ -3,8 +3,8 @@
 > Source: `shared/branding/Bookie Branding Guideline.md`
 
 ## Art Direction
-- **Style**: Flat illustration, minimal, editorial
-- **Vibe**: Ấm áp, gần gũi, truyền cảm hứng — không academic hay lạnh lùng
+- **Style**: Textured editorial illustration — risograph-inspired grain, subtle paper texture, visible brushwork, soft shadows, layered depth. Minimal composition, metaphor-driven.
+- **Vibe**: Ấm áp, gần gũi, truyền cảm hứng — handmade tactile quality, like a premium magazine illustration. Không flat/sterile, không photorealistic.
 
 ## Color Palette
 
@@ -39,5 +39,5 @@
 - [ ] Cùng color palette xuyên suốt video
 - [ ] Cùng font family cho toàn bộ text
 - [ ] Logo Bookie xuất hiện đúng vị trí
-- [ ] Illustration style đồng nhất (không mix realistic + flat)
+- [ ] Illustration style đồng nhất (textured editorial — grain, brushwork, depth)
 - [ ] Subtitle font + size giống nhau mọi video
