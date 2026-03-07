@@ -1,0 +1,42 @@
+[
+  {
+    "scene": "scene-01",
+    "pace": "slow",
+    "actualSec": 33.49
+  },
+  {
+    "scene": "scene-02",
+    "pace": "normal",
+    "actualSec": 33.5
+  },
+  {
+    "scene": "scene-03",
+    "pace": "normal",
+    "actualSec": 32.82
+  },
+  {
+    "scene": "scene-04",
+    "pace": "normal",
+    "actualSec": 39.01
+  },
+  {
+    "scene": "scene-05",
+    "pace": "slow",
+    "actualSec": 27.64
+  },
+  {
+    "scene": "scene-06",
+    "pace": "normal",
+    "actualSec": 37.55
+  },
+  {
+    "scene": "scene-07",
+    "pace": "slow",
+    "actualSec": 34.83
+  },
+  {
+    "scene": "scene-08",
+    "pace": "fast",
+    "actualSec": 17.53
+  }
+]

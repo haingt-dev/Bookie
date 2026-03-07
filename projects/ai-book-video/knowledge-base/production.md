@@ -5,3 +5,4 @@
 | Book | Template | Duration | Scenes | Hook | Date |
 | ---- | -------- | -------- | ------ | ---- | ---- |
 | Atomic Habits | Contrarian Analysis | ~7 min | 9 | "Mỗi ngày tốt hơn 1%, một năm sau bạn sẽ giỏi hơn 37 lần." — Con số này có thật không? | 2026-03 |
+| Không Gia Đình & Trong Gia Đình | Author Portrait | 4:39 | 8 | "Năm 1878, một nhà văn Pháp viết câu chuyện về một đứa trẻ mất gia đình. 15 năm sau, chính ông viết lại câu chuyện đó." | 2026-03 |
