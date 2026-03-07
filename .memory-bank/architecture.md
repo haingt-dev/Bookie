@@ -103,8 +103,9 @@ projects/ai-book-video/
 
 ### Makefile Orchestration
 - **Location**: `Makefile`
-- **Targets**: init, voice, subtitle, images, scenes, sync, validate, studio, render, render-shorts, produce, clean
+- **Targets**: start, stop, status (viXTTS server), init, voice, subtitle, images, scenes, sync, validate, studio, render, render-shorts, produce, clean
 - **Usage**: `make <target> BOOK=<slug>` (produce accepts `ARGS="--skip-voice"` etc.)
+- **Guard**: `need-book` macro — targets that need BOOK= fail with clear error if missing
 
 ### viXTTS (Self-hosted)
 - **Location**: Podman container on local GPU, port 8020

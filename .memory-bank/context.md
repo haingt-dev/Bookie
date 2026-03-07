@@ -4,21 +4,29 @@
 > **Updated By**: Claude Code (with Hai)
 
 ## Current Focus
-**Goal**: Publish Atomic Habits video + produce second book
-**Progress**: Pipeline complete and verified. Atomic Habits video rendered. Ready for metadata + publish, then next book.
+**Goal**: Complete gia-dinh-hector-malot production + publish both videos
+**Progress**: Second book (Không Gia Đình & Trong Gia Đình) fully produced — research, storyboard, script, voice, images, subtitles, render all done. Knowledge vault cataloged. Extract-notes skill upgraded with deep research hub methodology.
 
 ## Active Workstreams
 1. **AI Book Video Pipeline**
-   - **Status**: Production-ready. All pipeline components verified (scripts, skills, Remotion, visual overlays).
+   - **Status**: Two videos produced. Pipeline improvements shipped (Makefile UX, Remotion render quality, extract-notes deep research).
    - **Owner**: Hai
    - **Priority**: High
    - **Next Actions**:
      1. `/write-metadata atomic-habits` — YouTube/FB metadata
-     2. Publish Atomic Habits (YouTube + Facebook)
-     3. Pick next book → `/produce-video <slug>` (vault context + template selection activate)
+     2. `/write-metadata gia-dinh-hector-malot` — YouTube/FB metadata
+     3. Publish both videos (YouTube + Facebook)
+     4. Pick next book → `/produce-video <slug>`
 
 ## Recent Changes (Last 30 Days)
 
+- **2026-03-07** `feat`: Second book produced — Không Gia Đình & Trong Gia Đình (Hector Malot)
+  - Full pipeline: research → storyboard → script → voice → images → subtitle → render
+  - Author Portrait template, 8 scenes, 4:39 duration
+  - Knowledge vault cataloged (identity, family concepts + cross-book connections)
+  - Extract-notes skill upgraded: deep research hub (7 source categories, min 15 sources, multilingual yt-dlp)
+  - Makefile: added `make start/stop/status` (viXTTS), `need-book` guard macro, `--audio-bitrate 320k`
+  - Remotion: YouTube-optimal render (H.264, CRF 18, GPU accel, auto concurrency)
 - **2026-03-07** `feat`: Visual identity upgrade — flat → textured editorial
   - Updated `brand/style-guide.md` (single source of truth) and `/generate-prompts` skill
   - Risograph-inspired grain, paper texture, visible brushwork, soft shadows, layered depth
@@ -50,9 +58,9 @@
 ## Context Carry-Forward
 **For Next Session**:
 
-- Write metadata for Atomic Habits → publish
-- Pick next book and run `/produce-video <slug>` — first test of vault-aware pipeline
-- Test `make render-shorts BOOK=atomic-habits` if shorts needed
+- Write metadata for both videos → publish
+- Pick next book and run `/produce-video <slug>`
+- Test `make render-shorts` for both books if shorts needed
 
 ## Known Issues & Workarounds
 - **viXTTS manual start**: Podman container needs `./scripts/vixtts-server.sh start` each session

@@ -17,7 +17,25 @@
 | 9 | Write metadata | Pending | metadata.md | `/write-metadata atomic-habits` |
 | 10 | Publish | Pending | | YouTube + Facebook |
 
+## gia-dinh-hector-malot
+
+> "Tai Sao Hector Malot Viet Lai Cung Mot Cau Chuyen?" — author portrait angle
+
+| # | Step | Status | Output | Notes |
+|---|------|--------|--------|-------|
+| 1 | Extract notes | Done | notes.md | Deep research hub (15+ sources, 7 categories), multilingual |
+| 2 | Create storyboard | Done | storyboard.md | 8 scenes, Author Portrait template |
+| 3 | Write video | Done | chunks-display.md + chunks.md | Paired files |
+| 4 | Generate voice | Done | voiceover.wav | 4:39, 8 scenes |
+| 5 | Generate prompts | Done | image-prompts.md | 8 Gemini prompts with textured editorial style |
+| 6 | Generate images | Done | scenes/*.png | 8 scene images via Gemini API |
+| 7 | Generate subtitles | Done | subtitles.srt | Balanced line-splitting |
+| 8 | Render video | Done | video.mp4 | YouTube-optimal render (H.264, CRF 18) |
+| 9 | Write metadata | Pending | metadata.md | `/write-metadata gia-dinh-hector-malot` |
+| 10 | Publish | Pending | | YouTube + Facebook |
+
 **Notes**:
 
-- Pipeline verified and ready for next book: pick book → `/produce-video <slug>`
-- Knowledge Vault seeded (concepts/habits.md, concepts/identity.md, authors/james-clear.md)
+- Both videos produced and rendered. Next: metadata + publish.
+- Knowledge Vault now has cross-book connections (Clear vs Malot on identity, environment)
+- Extract-notes skill upgraded: deep research hub methodology (7 source categories, min 15 sources)
