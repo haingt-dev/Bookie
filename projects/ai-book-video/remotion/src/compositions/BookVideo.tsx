@@ -22,6 +22,7 @@ import { SceneSlide } from "./components/SceneSlide";
 import { SceneTitleOverlay } from "./components/SceneTitleOverlay";
 import { Subtitle } from "./components/Subtitle";
 import { Vignette } from "./components/Vignette";
+import { AudioSpectrum } from "./components/AudioSpectrum";
 import { WaveformDecor } from "./components/WaveformDecor";
 
 /** Determine which scene is active at a given absolute frame */
@@ -173,6 +174,11 @@ export const BookVideo: React.FC<{ config: VideoConfig }> = ({ config }) => {
       {/* Vignette — over scenes only */}
       <Sequence from={introFrames} durationInFrames={totalContentFrames}>
         <Vignette />
+      </Sequence>
+
+      {/* Audio spectrum — bottom center, reactive to voiceover */}
+      <Sequence from={introFrames} durationInFrames={totalContentFrames}>
+        <AudioSpectrum audioSrc={staticFile("audio/voiceover.wav")} />
       </Sequence>
 
       {/* Corner accents — editorial brackets, above vignette */}

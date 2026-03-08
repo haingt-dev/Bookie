@@ -125,3 +125,18 @@ export const WAVEFORM = {
   breatheMin: 0.6,
   breatheMax: 1.0,
 } as const;
+
+// Audio spectrum — bottom-center reactive visualizer
+export const AUDIO_SPECTRUM = {
+  barCount: 40,
+  barWidth: 6,
+  barSpacing: 12,
+  barMinHeight: 2,
+  barMaxHeight: 70,
+  bottomY: 68,
+  glowStdDev: 8,
+  baseOpacity: 0.85,
+  breathCycleFrames: 300,
+  breathMin: 1.0,
+  breathMax: 1.0,
+} as const;
