@@ -1,12 +1,8 @@
 ---
 name: catalog-insights
 description: >-
-  Catalog knowledge from a completed book video into the persistent knowledge base.
-  Extracts concepts, author positions, cross-references, and production metadata.
-  Runs after video production, before publish. Use when the user wants to catalog
-  insights, update the knowledge vault, or save learnings from a completed video.
-  Triggers: "catalog insights", "catalog [book]", "update vault",
-  "add to vault", "save insights for [book]".
+  Catalog book video knowledge into the persistent knowledge vault. Runs after
+  production. Triggers: "catalog insights", "catalog [book]", "update vault".
 argument-hint: "<book-slug>"
 ---
 

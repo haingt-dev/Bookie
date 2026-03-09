@@ -37,6 +37,9 @@ Trẻ em mồ côi trong nghịch cảnh giai cấp là lăng kính phơi bày c
 - → concepts/identity.md (bản sắc qua nguồn gốc gia đình)
 - → connections/contradictions.md #clear-vs-malot-identity
 - → connections/evolutions.md #malot-1878-1893
+- → connections/evolutions.md #3-tang-ban-sac
+- → connections/contradictions.md #kukai-vs-malot-class
+- → connections/agreements.md #environment-design-3-books
 
 ## NotebookLM
 - **Notebook**: "Bookie: Hector Malot"

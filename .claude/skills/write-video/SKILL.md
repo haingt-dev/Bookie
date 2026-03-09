@@ -1,14 +1,9 @@
 ---
 name: write-video
 description: >-
-  Write a Bookie book video script directly as TTS-ready chunks with paired
-  display text. Combines script writing, text normalization, and chunking into
-  one step. Outputs two files: chunks-display.md (natural Vietnamese for
-  subtitles) and chunks.md (TTS-normalized for viXTTS). Use this skill whenever
-  the user wants to write a video script, create chunks for voice generation,
-  draft or revise a book video, or prepare text for TTS. Triggers: "write video",
-  "write script", "viết script", "script cho [book]", "tạo video", "draft video",
-  "revise script", "fix hook", "rewrite section", "chunk script", "prepare voice".
+  Write a book video script as paired TTS-ready chunks (chunks.md + chunks-display.md).
+  Triggers: "write video", "write script", "viết script", "script cho [book]",
+  "revise script", "draft video".
 argument-hint: "<book-slug>"
 ---
 

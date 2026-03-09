@@ -31,6 +31,12 @@
 - **Position**: Anchor new habits to existing neural pathways. "After [existing habit], I will [new habit]."
 - **Nuance**: Leverages Diderot Effect — one change cascades into related changes. Effective when the anchor habit is truly automatic, less so when both habits require willpower.
 
+### "Trộm Mật" — Học tập chủ động phi chính thống
+- **Source**: Sa Môn Không Hải (Baku Yumemakura)
+- **Position**: Không Hải không dành 20 năm theo quy định. Tự học tiếng Đường từ Nhật, học Phạn thần tốc từ Đại Hầu, tham gia vụ án kỳ bí để "ép" đóa hoa Mật pháp nở sớm. Gọi hành trình của mình là "trộm Mật" — lấy Mật pháp bằng trải nghiệm thực tế thay vì lộ trình sẵn có.
+- **Nuance**: Đối lập với Clear (hệ thống hóa, lặp lại hàng ngày, tiến bộ tuyến tính). Không Hải: chuyển hóa = phi tuyến, bước nhảy vọt qua thay đổi môi trường cực đoan (rời Nhật sang Trường An) + trải nghiệm thực tế. Cùng "environment design" như Clear nhưng ở quy mô văn minh, không phải quy mô bàn làm việc.
+- **Cross-ref**: → connections/contradictions.md #clear-vs-kukai-linear, → connections/agreements.md #environment-design-3-books
+
 ### Environment design
 - **Source**: Atomic Habits (James Clear)
 - **Position**: "Environment is the invisible hand that shapes human behavior." Redesign physical space to make good habits obvious and bad habits invisible.

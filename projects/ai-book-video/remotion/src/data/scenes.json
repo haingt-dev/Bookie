@@ -1,6 +1,6 @@
 {
-  "title": "Tại Sao Hector Malot Viết Lại Cùng Một Câu Chuyện?",
-  "bookSlug": "gia-dinh-hector-malot",
+  "title": "Xây Dựng Hay Phá Bỏ Bản Sắc?",
+  "bookSlug": "sa-mon-khong-hai",
   "hasBgm": true,
   "subtitleAdjustMs": 0,
   "intro": {
@@ -15,7 +15,7 @@
     {
       "id": "scene-01",
       "image": "scene-01.png",
-      "duration": 34.3,
+      "duration": 37.6,
       "label": "HOOK",
       "zoomDir": "out",
       "isShort": true
@@ -23,59 +23,60 @@
     {
       "id": "scene-02",
       "image": "scene-02.png",
-      "duration": 34.3,
-      "label": "THE AUTHOR",
+      "duration": 47.0,
+      "label": "POSITION A — JAMES CLEAR",
       "zoomDir": "in"
     },
     {
       "id": "scene-03",
       "image": "scene-03.png",
-      "duration": 33.6,
-      "label": "LOSING",
-      "panDir": "right"
+      "duration": 38.6,
+      "label": "EVIDENCE A — SỨC MẠNH CỦA IDENTITY",
+      "layout": "framed",
+      "isShort": true
     },
     {
       "id": "scene-04",
       "image": "scene-04.png",
-      "duration": 39.8,
-      "label": "FINDING",
-      "panDir": "right",
+      "duration": 64.5,
+      "label": "POSITION B — KHÔNG HẢI",
+      "zoomDir": "in",
       "isShort": true
     },
     {
       "id": "scene-05",
       "image": "scene-05.png",
-      "duration": 28.4,
-      "label": "THE MIRROR",
-      "layout": "framed",
+      "duration": 55.8,
+      "label": "EVIDENCE B — HUYỄN THUẬT VÀ ĐIỂM MÙ",
+      "panDir": "right",
       "isShort": true
     },
     {
       "id": "scene-06",
       "image": "scene-06.png",
-      "duration": 38.4,
-      "label": "THE EVOLUTION",
+      "duration": 59.8,
+      "label": "THE CLASH",
       "zoomDir": "in"
     },
     {
       "id": "scene-07",
       "image": "scene-07.png",
-      "duration": 35.6,
-      "label": "THE FLAW",
-      "zoomDir": "in"
+      "duration": 65.7,
+      "label": "SYNTHESIS",
+      "zoomDir": "out"
     },
     {
       "id": "scene-08",
       "image": "scene-08.png",
-      "duration": 17.5,
+      "duration": 22.0,
       "label": "CTA",
-      "zoomDir": "out"
+      "layout": "framed"
     }
   ],
   "meta": {
-    "bookTitle": "Không Gia Đình & Trong Gia Đình",
-    "author": "Hector Malot",
-    "angle": "Tại Sao Hector Malot Viết Lại Cùng Một Câu Chuyện?"
+    "bookTitle": "Sa Môn Không Hải Thết Yến Bầy Quỷ Đại Đường",
+    "author": "Baku Yumemakura",
+    "angle": "Xây Dựng Hay Phá Bỏ Bản Sắc?"
   },
   "chapters": [
     {
@@ -84,32 +85,32 @@
       "endIndex": 0
     },
     {
-      "title": "THE AUTHOR",
+      "title": "POSITION A — JAMES CLEAR",
       "startIndex": 1,
       "endIndex": 1
     },
     {
-      "title": "LOSING",
+      "title": "EVIDENCE A — SỨC MẠNH CỦA IDENTITY",
       "startIndex": 2,
       "endIndex": 2
     },
     {
-      "title": "FINDING",
+      "title": "POSITION B — KHÔNG HẢI",
       "startIndex": 3,
       "endIndex": 3
     },
     {
-      "title": "THE MIRROR",
+      "title": "EVIDENCE B — HUYỄN THUẬT VÀ ĐIỂM MÙ",
       "startIndex": 4,
       "endIndex": 4
     },
     {
-      "title": "THE EVOLUTION",
+      "title": "THE CLASH",
       "startIndex": 5,
       "endIndex": 5
     },
     {
-      "title": "THE FLAW",
+      "title": "SYNTHESIS",
       "startIndex": 6,
       "endIndex": 6
     },

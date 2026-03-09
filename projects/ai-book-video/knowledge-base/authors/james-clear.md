@@ -23,6 +23,10 @@ Small changes + right systems + identity shift = transformation. The compound ef
 
 ## Cross-references
 - **Contradicts**: Peter Thiel (Zero to One) on systems vs goals → connections/contradictions.md #clear-vs-thiel
+- **Contradicts**: Baku Yumemakura / Không Hải (Sa Môn Không Hải) on identity building vs vô ngã → connections/contradictions.md #clear-vs-kukai-identity
+- **Contradicts**: Baku Yumemakura / Không Hải on linear progress vs quantum leap → connections/contradictions.md #clear-vs-kukai-linear
+- **Agrees**: Hector Malot + Baku Yumemakura on environment shaping behavior → connections/agreements.md #environment-design-3-books
+- **Evolves into**: 3-tầng bản sắc (Malot → Clear → Không Hải) → connections/evolutions.md #3-tang-ban-sac
 - **Extends**: Charles Duhigg (The Power of Habit) — Clear builds on Duhigg's habit loop with identity layer
 - **Parallels**: BJ Fogg (Tiny Habits) — similar "start small" philosophy, different framing
 

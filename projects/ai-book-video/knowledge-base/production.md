@@ -6,3 +6,4 @@
 | ---- | -------- | -------- | ------ | ---- | ---- |
 | Atomic Habits | Contrarian Analysis | ~7 min | 9 | "Mỗi ngày tốt hơn 1%, một năm sau bạn sẽ giỏi hơn 37 lần." — Con số này có thật không? | 2026-03 |
 | Không Gia Đình & Trong Gia Đình | Author Portrait | 4:39 | 8 | "Năm 1878, một nhà văn Pháp viết câu chuyện về một đứa trẻ mất gia đình. 15 năm sau, chính ông viết lại câu chuyện đó." | 2026-03 |
+| Sa Môn Không Hải | The Tension | ~7 min | 8 | "Mỗi hành động là một phiếu bầu cho con người bạn muốn trở thành." — James Clear. "Bản sắc đó không tồn tại." — Không Hải. Ai đúng? | 2026-03 |

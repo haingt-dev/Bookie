@@ -1,13 +1,9 @@
 ---
 name: create-storyboard
 description: >-
-  Plan story direction for a Bookie book video — scene breakdown, narrative arc,
-  emotion, visual concepts, and pacing. This is the FIRST creative step in the
-  video pipeline, before writing the script. Use this skill whenever the user
-  wants to create a storyboard, plan video scenes, define story direction, or
-  structure a book video narrative. Triggers on: "create storyboard",
-  "storyboard cho [book]", "plan scenes", "story direction", "lên storyboard",
-  "plan video", "scene breakdown", "cấu trúc video".
+  Plan story direction — scenes, narrative arc, visual concepts, pacing. First
+  creative step before script. Triggers: "create storyboard", "storyboard cho
+  [book]", "plan scenes", "story direction".
 argument-hint: "<book-slug>"
 ---
 

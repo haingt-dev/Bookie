@@ -1,12 +1,8 @@
 ---
 name: generate-prompts
 description: >-
-  Generate per-scene AI image prompts (Gemini format) for a Bookie book video.
-  Reads the storyboard visual concepts, narration text, and actual voice timing
-  to create self-contained prompts with brand styling. Use after make voice when
-  actual timing is available. Triggers: "generate prompts", "image prompts",
-  "tạo prompt ảnh", "visual prompts cho [book]", "generate images",
-  "prompts cho [book]", "Gemini prompts".
+  Generate per-scene Gemini image prompts with brand styling. Use after make
+  voice. Triggers: "generate prompts", "image prompts", "generate images".
 argument-hint: "<book-slug>"
 ---
 

@@ -1,17 +1,10 @@
 ---
 name: extract-notes
 description: >-
-  Deep-research a book using NotebookLM as a multi-source hub (wiki, academic,
-  YouTube, Vietnamese context, reader reviews) and propose differentiated video
-  angles for Bookie. This is the FIRST step for any new book video — it must run
-  before storyboard, script, or production. Use this skill whenever the user wants
-  to research a book for video, build a NotebookLM research hub, find a video angle,
-  do competitive analysis on YouTube/blogs, gather book insights across languages,
-  or start the book video pipeline from scratch. Also use when comparing multiple
-  books to choose which one to make a video about. Triggers: "extract notes",
-  "research book", "new book video", "start pipeline", "analyze book for video",
-  "choose angle", "find angle", "tìm angle", "research [book name]", "build hub",
-  "competitive analysis", "gather insights", "cuốn tiếp theo", "bắt đầu research".
+  Deep-research a book using NotebookLM as a multi-source hub and propose video
+  angles. First step for any new book video. Triggers: "extract notes",
+  "research book", "new book video", "start pipeline", "research [book name]",
+  "competitive analysis", "bắt đầu research".
 argument-hint: "<book-slug>"
 ---
 
@@ -75,98 +68,13 @@ This is the most important step. The NotebookLM notebook becomes a research hub 
 - Check `projects/ai-book-video/books/$SLUG/` for existing text files (`.txt`, `.pdf`, `.md`). If found, `source_add` (type=file) for each — no need to ask Hai.
 - If no text files found in the folder, ask Hai: "Book text chưa có trong folder. Cung cấp file path, URL, hoặc paste text?"
 
-#### 3b. Enrich: 6 source categories
+#### 3b. Enrich: 7 source categories
 
-Systematically search and add sources across ALL 6 categories below. Use `WebSearch` to find URLs, then `source_add` (type=url) for each. Run searches in parallel where possible.
+Systematically search and add sources across all categories. Run searches in parallel where possible.
 
-**Category 1 — Wikipedia & Encyclopedias** (target: 3-5 sources)
-Search for and add:
-- Wikipedia page for the book (English)
-- Wikipedia page for the book (Vietnamese, if exists)
-- Wikipedia page for the book (French/original language, if applicable)
-- Wikipedia page for the author
-- Britannica or other encyclopedia entry for the author
+Read `references/search-categories.md` for Categories 1-6 (Wikipedia, Academic, Adaptations, Vietnamese Context, Reader Reviews, Author Deep Dive) with search queries and targets per category.
 
-Search queries: `"[book title]" wikipedia`, `"[author]" wikipedia`, `"[book title Vietnamese]" wikipedia`
-
-**Category 2 — Academic & Literary Criticism** (target: 2-4 sources)
-Search for and add:
-- Scholarly analysis from Cairn.info, OpenEdition, JSTOR, Google Scholar
-- University press publications about the book/author
-- University course materials or thesis excerpts
-- Comparative literary analysis
-
-Search queries: `"[author]" "[book title]" analysis literary criticism`, `"[author]" scholarly article`, `"[book title]" academic analysis comparison`
-
-**Category 3 — Adaptations & Cultural Impact** (target: 1-3 sources)
-Search for and add:
-- Anime/film/TV adaptations (Wikipedia or fan wiki pages)
-- Adaptation comparison articles
-- Cultural impact articles
-
-Search queries: `"[book title]" anime adaptation`, `"[book title]" film movie adaptation`, `"[book title]" cultural impact`
-
-**Category 4 — Vietnamese Context** (target: 3-5 sources)
-This is critical — Bookie's audience is Vietnamese 20-35. Search for and add:
-- Vietnamese Wikipedia entry
-- Vietnamese book review blogs (Bến Nghé Books, BILA, NhânVăn, etc.)
-- Vietnamese educational analysis (Studocu, university sites, school sites)
-- Vietnamese news articles about the book (Thanh Niên, ZNews, etc.)
-- Vietnamese forum discussions (Tinhte, etc.)
-
-Search queries: `"[Vietnamese book title]" review cảm nhận`, `"[Vietnamese book title]" phân tích giáo dục`, `"[Vietnamese book title]" diễn đàn`
-
-**Category 5 — Reader Reviews & Discussions** (target: 2-4 sources)
-Search for and add:
-- Goodreads page (English)
-- Goodreads page (Vietnamese edition, if separate)
-- TV Tropes page (excellent for narrative structure analysis)
-- Reddit discussions
-- Blog reviews with substantive analysis
-
-Search queries: `"[book title]" goodreads`, `"[book title]" reddit discussion`, `"[book title]" tv tropes`, `"[book title]" book review blog`
-
-**Category 6 — Author Deep Dive** (target: 1-3 sources)
-Search for and add:
-- Dedicated author websites or fan sites
-- Author biography articles
-- Interviews or letters (if available)
-- Other works by the same author (context for their evolution)
-
-Search queries: `"[author]" biography website`, `"[author]" interview`, `"[author]" dedicated site fan`
-
-**Category 7 — YouTube Analysis** (target: 3-6 sources)
-
-YouTube analysis/review videos show how people *talk* about the book — which angles resonate, what the audience already knows, and what emotional beats land. NotebookLM accepts YouTube URLs directly as sources and extracts the transcript automatically, so these become fully cross-referenceable with the book text and academic sources.
-
-Search in **multiple languages** — not just Vietnamese. An English video essay, a French literary analysis, or a Japanese anime discussion can surface angles that no Vietnamese creator has covered. Bookie can always adapt a foreign angle for Vietnamese audience. The goal is maximum data diversity.
-
-WebFetch cannot access YouTube. Use `yt-dlp` (installed locally) for discovery and metadata.
-
-**Search broadly across languages and content types:**
-```bash
-# Vietnamese — analysis, review, summary
-yt-dlp "ytsearch5:[Vietnamese book title] phân tích review" --dump-json --flat-playlist 2>/dev/null | jq -r '[.title, .channel, .view_count, .duration, .id] | @tsv'
-
-# English — essay, analysis, deep dive
-yt-dlp "ytsearch5:[English book title] analysis essay" --dump-json --flat-playlist 2>/dev/null | jq -r '[.title, .channel, .view_count, .duration, .id] | @tsv'
-
-# Original language (French, Japanese, etc.) — if applicable
-yt-dlp "ytsearch5:[Original title] analyse critique" --dump-json --flat-playlist 2>/dev/null | jq -r '[.title, .channel, .view_count, .duration, .id] | @tsv'
-
-# Author-focused — any language
-yt-dlp "ytsearch5:[author name] book analysis" --dump-json --flat-playlist 2>/dev/null | jq -r '[.title, .channel, .view_count, .duration, .id] | @tsv'
-```
-
-Vary search terms across runs: `analysis`, `essay`, `deep dive`, `explained`, `review`, `comparison`, `phân tích`, `cảm nhận`, `tóm tắt`. Combine all results, deduplicate by video ID, rank by view count.
-
-**Add top videos to NotebookLM** via `source_add(source_type=url, url="https://youtube.com/watch?v=VIDEO_ID")`. Prioritize:
-- Analytical depth over surface-level plot summaries (analysis gives NotebookLM richer cross-reference material)
-- Unique angles — especially foreign-language videos with perspectives absent from Vietnamese content
-- Higher view count (indicates the angle resonated with audience)
-- Diversity of perspectives — mix Vietnamese, English, and original-language sources when available
-
-Save the full yt-dlp search metadata — you'll reuse it in Step 4 for competitive analysis.
+Read `references/youtube-search-patterns.md` for Category 7 (YouTube Analysis) with yt-dlp commands and selection criteria. Save the yt-dlp search metadata — reused in Step 4 for competitive analysis.
 
 #### 3c. Verify hub completeness
 
@@ -193,27 +101,7 @@ Trả lời bằng tiếng Việt.
 
 #### 3e. Deep queries
 
-Now that the hub has rich context, query for structured insights. These queries benefit from ALL sources — not just the book text.
-
-First, detect the book configuration and run the matching query set:
-
-**Base queries (always run):**
-- "What are the 5 most important concepts? For each, give the concept, a compelling story/example, and practical application."
-- "What are the most quotable lines? Include exact quotes with context."
-- "What stories or examples are most dramatic and visually interesting? Describe in detail."
-- "What are the main criticisms or limitations? Use evidence from all sources."
-- "What do Vietnamese readers and reviewers say? What resonates most with Vietnamese audiences?"
-- "How has this been adapted (anime, film, etc.)? How do adaptations differ from the original?"
-
-**Twin/multi-book same author — add these queries:**
-- "Compare [Book A] vs [Book B] in detail: character journeys, themes, tone, structure. What's symmetric? What's opposite?"
-- "How did the author's thinking evolve between the books? What changed in their worldview, and why?"
-- "What does reading both books together reveal that reading either one alone doesn't?"
-
-**Multi-book different authors — add these queries:**
-- "Where do these authors fundamentally agree? Where do they contradict each other?"
-- "What does NONE of these books address? What's the blind spot they all share?"
-- "If these authors debated each other, what would the core disagreement be?"
+Now that the hub has rich context, query for structured insights. Read `references/notebooklm-queries.md` for the base query set and conditional multi-book queries. Detect the book configuration (single book, twin/multi-book same author, multi-book different authors) and run the matching query set.
 
 If any MCP tool fails, fall back: tell Hai to use NotebookLM web UI (notebooklm.google.com) and paste results manually.
 
@@ -260,62 +148,7 @@ Note angles and depth — written content often goes deeper than YouTube summari
 
 ### Step 5: Structure notes
 
-Follow the reference format. The notes should reflect the depth of the research hub — not just book text, but academic insights, author bio, Vietnamese context, and adaptations.
-
-```
-# Notes: [Book Title] — [Author]
-> **Source**: NotebookLM MCP ([N] sources)
-> **Notebook ID**: [ID from step 4]
-> **Extract date**: [Today's date]
-
-## Vault Context
-[Summary from Step 0 — what the vault already knows about this author/themes]
-[Cross-book query results from Step 0b, if available]
-
-## Key Insights (3-5)
-### 1. [Insight title]
-- **Concept**: ...
-- **Story/Example**: ...
-- **Application**: ...
-
-## Quotes
-> "..." — [speaker/context]
-
-## Stories / Examples (ranked by visual + dramatic potential)
-### 1. [Story title]
-- **Context**: ...
-- **Details**: ...
-- **Visual**: [why it works for video illustration]
-
-## Competitive Analysis
-| Channel | Title | Views | Angle |
-...
-**Keywords gap**: [untapped search terms]
-
-## Author Bio
-- Key biographical facts sourced from wiki + academic sources
-- Personal connection to the work (why they wrote it)
-- Influences, literary relationships
-- Vietnamese cultural relevance
-
-## Academic Insights
-- Scholarly perspectives not obvious from just reading the book
-- Literary criticism positions
-- Comparative analysis with other works
-
-## Adaptations
-- Anime, film, TV adaptations (if any)
-- How adaptations changed the source material
-- Adaptation popularity in different markets
-
-## Vietnamese Reception
-- How Vietnamese readers receive this book
-- Educational context (school curriculum, if applicable)
-- Vietnamese-specific resonance points
-
-## Criticism & Counterarguments
-- ...
-```
+Read `references/notes-template.md` for the full output format. The notes should reflect the depth of the research hub — not just book text, but academic insights, author bio, Vietnamese context, and adaptations. See `projects/ai-book-video/books/atomic-habits/notes.md` as a reference example.
 
 ### Step 6: Propose angles
 
