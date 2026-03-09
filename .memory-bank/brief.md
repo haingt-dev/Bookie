@@ -1,31 +1,19 @@
 # Project Brief
 
-## Goal
-Resource hub cho Book!e Inspires Everyone — cộng đồng người đọc sách, truyền cảm hứng đọc sách và học hỏi.
+Book!e Inspires Everyone — cộng đồng đọc sách, truyền cảm hứng đọc sách và học hỏi.
 
-## Links
-- Website: bookiecommunity.com
-- Fanpage: facebook.com/bookie.community
+- Website: bookiecommunity.com | Fanpage: facebook.com/bookie.community
+- Repo này là resource hub (assets, scripts, configs) — không phải application code
 
-## Scope
-**In Scope:**
-- Lưu trữ assets và media resources cho các sub-projects
-- Scripts, prompts, và automation tools
-- Brand materials dùng chung (logo, templates)
-- Agent configs cho workflow automation
+## Active Sub-project
 
-**Out of Scope:**
-- Strategy/planning notes (nằm ở Obsidian Idea_Vault)
-- Website/app code (nếu có sẽ là repo riêng)
-- Content writing/blog posts
+**ai-book-video**: Video sách với AI automation (viXTTS voice, Remotion render, NotebookLM research)
 
-## Active Sub-projects
-1. **ai-book-video**: Video sách với AI automation (viXTTS voice, Remotion render, NotebookLM MCP)
+- Target: 1 video dài + 2-3 shorts/tuần, <10h effort
+- Audience: Người Việt 20-35, self-improvement — angle cụ thể, kể chuyện, visual đẹp (không tóm tắt khô khan)
 
-## Target Users
-- **Primary**: Hải — producer duy nhất, vận hành toàn bộ pipeline
-- **Secondary**: Bookie audience (người Việt 20-35, self-improvement)
+## Constraints
 
-## Status
-- **Start Date**: 2026-03-02
-- **Status**: Feature-complete — pipeline ready for first production run
+- 1-person operation (Hải) — automate tối đa
+- GPU: RTX 4070 Super Ti (16GB VRAM)
+- Budget: minimize — free/open-source tools, Remotion (code-based)
