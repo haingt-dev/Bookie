@@ -1,5 +1,7 @@
 # Claude Code — Bookie
 
+@~/.claude/brains/indie-ecosystem.md
+
 ## About
 
 **Book!e Inspires Everyone** — A reading community that inspires reading and learning.
