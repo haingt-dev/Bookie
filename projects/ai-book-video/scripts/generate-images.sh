@@ -12,10 +12,8 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 GEMINI_API_KEY="${GEMINI_API_KEY:-}"
 GEMINI_MODEL="${GEMINI_MODEL:-gemini-3.1-flash-image-preview}"
 GEMINI_IMAGE_SIZE="${GEMINI_IMAGE_SIZE:-2K}"
-GEMINI_API_BASE="https://generativelanguage.googleapis.com/v1beta/models"
-MAX_RETRIES=3
-RETRY_DELAY=2
 REQUEST_DELAY=1  # seconds between API calls
+GEN_IMAGE_SCRIPT="$SCRIPT_DIR/gemini-gen-image.sh"
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -56,82 +54,16 @@ extract_prompts() {
 }
 
 # generate_image <prompt> <output_path>
-# Returns 0 on success, 1 on failure
+# Delegates to the global gen-image skill script
 generate_image() {
   local prompt="$1"
   local output="$2"
-  local response=""
-  local tmp_response
-  tmp_response=$(mktemp)
-
-  for attempt in $(seq 1 "$MAX_RETRIES"); do
-    local http_code
-    http_code=$(curl -s -w '%{http_code}' --max-time 60 -X POST \
-      "${GEMINI_API_BASE}/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}" \
-      -H "Content-Type: application/json" \
-      -d "$(jq -n --arg prompt "$prompt" --arg size "$GEMINI_IMAGE_SIZE" '{
-        contents: [{parts: [{text: $prompt}]}],
-        generationConfig: {
-          responseModalities: ["IMAGE"],
-          imageConfig: {aspectRatio: "16:9", imageSize: $size}
-        }
-      }')" \
-      -o "$tmp_response")
-
-    # Check HTTP status
-    if [[ "$http_code" != "200" ]]; then
-      local error_msg
-      error_msg=$(jq -r '.error.message // "Unknown error"' "$tmp_response" 2>/dev/null || echo "HTTP $http_code")
-      if [[ $attempt -lt $MAX_RETRIES ]]; then
-        echo -e "${YELLOW}  Retry ${attempt}/${MAX_RETRIES}: ${error_msg} (waiting ${RETRY_DELAY}s)...${NC}"
-        sleep "$RETRY_DELAY"
-        continue
-      fi
-      echo -e "${RED}  Error: ${error_msg}${NC}"
-      rm -f "$tmp_response"
-      return 1
-    fi
-
-    # Extract base64 image data from response
-    local image_data
-    image_data=$(jq -r '.candidates[0].content.parts[] | select(.inlineData) | .inlineData.data' "$tmp_response" 2>/dev/null)
-
-    if [[ -z "$image_data" || "$image_data" == "null" ]]; then
-      # Check if response was blocked by safety filters
-      local block_reason
-      block_reason=$(jq -r '.candidates[0].finishReason // .promptFeedback.blockReason // empty' "$tmp_response" 2>/dev/null)
-      if [[ -n "$block_reason" && "$block_reason" != "STOP" ]]; then
-        echo -e "${RED}  Blocked: ${block_reason}${NC}"
-        rm -f "$tmp_response"
-        return 1
-      fi
-
-      if [[ $attempt -lt $MAX_RETRIES ]]; then
-        echo -e "${YELLOW}  Retry ${attempt}/${MAX_RETRIES}: No image in response (waiting ${RETRY_DELAY}s)...${NC}"
-        sleep "$RETRY_DELAY"
-        continue
-      fi
-      echo -e "${RED}  Error: No image data in response after ${MAX_RETRIES} attempts${NC}"
-      rm -f "$tmp_response"
-      return 1
-    fi
-
-    # Decode base64 → PNG
-    echo "$image_data" | base64 -d > "$output"
-
-    if [[ -s "$output" ]]; then
-      rm -f "$tmp_response"
-      return 0
-    fi
-
-    if [[ $attempt -lt $MAX_RETRIES ]]; then
-      echo -e "${YELLOW}  Retry ${attempt}/${MAX_RETRIES}: Decoded file empty (waiting ${RETRY_DELAY}s)...${NC}"
-      sleep "$RETRY_DELAY"
-    fi
-  done
-
-  rm -f "$tmp_response"
-  return 1
+  "$GEN_IMAGE_SCRIPT" \
+    --prompt "$prompt" \
+    --output "$output" \
+    --aspect "16:9" \
+    --size "${GEMINI_IMAGE_SIZE:-2K}" \
+    --model "${GEMINI_MODEL}"
 }
 
 # ============================================================

@@ -6,9 +6,8 @@ __pycache__/
 # Node
 node_modules/
 
-# Generated video output
-books/*/output/video.mp4
-books/*/output/short-*.mp4
+# Generated output (video, audio, subtitles, timing — all reproducible)
+books/*/output/
 
 # Remotion symlinks (populated by sync-assets.sh)
 remotion/public/scenes
