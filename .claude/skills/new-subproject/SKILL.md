@@ -1,11 +1,7 @@
 ---
 name: new-subproject
-description: >-
-  Create a new Bookie sub-project under projects/ with standard directory
-  structure (assets, scripts, output, README). Use when the user wants to
-  start a new project, scaffold a project folder, or initialize a sub-project.
-  Triggers: "new project", "create project", "init project", "scaffold project",
-  "new subproject".
+description: "Create new Bookie sub-project with standard structure"
+disable-model-invocation: false
 argument-hint: "<project-name>"
 ---
 

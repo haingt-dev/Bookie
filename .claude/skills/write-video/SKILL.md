@@ -1,9 +1,7 @@
 ---
 name: write-video
-description: >-
-  Write a book video script as paired TTS-ready chunks (chunks.md + chunks-display.md).
-  Triggers: "write video", "write script", "viết script", "script cho [book]",
-  "revise script", "draft video".
+description: "Write book video script as paired TTS-ready chunks"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 

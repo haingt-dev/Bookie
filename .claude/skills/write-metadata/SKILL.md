@@ -1,11 +1,7 @@
 ---
 name: write-metadata
-description: >-
-  Generate YouTube and Facebook metadata (title, description, tags, shorts,
-  Facebook caption) for a Bookie book video. Use when the user wants to
-  write metadata, prepare upload info, or generate titles/tags for a video.
-  Triggers: "write metadata", "metadata cho [book]", "YouTube title",
-  "generate tags", "Facebook post", "prepare upload".
+description: "Generate YouTube and Facebook metadata for book video"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 

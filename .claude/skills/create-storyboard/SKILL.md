@@ -1,9 +1,7 @@
 ---
 name: create-storyboard
-description: >-
-  Plan story direction — scenes, narrative arc, visual concepts, pacing. First
-  creative step before script. Triggers: "create storyboard", "storyboard cho
-  [book]", "plan scenes", "story direction".
+description: "Plan story direction, scenes, narrative arc, pacing"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 

@@ -1,0 +1,277 @@
+{
+  "name": "07 — Assembly & Render",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Assembly & Render",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Assembly & Render",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "assembly-render"
+    },
+    {
+      "id": "gen-scenes",
+      "name": "Generate Scenes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'scenes', book: $('Assembly & Render').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "id": "sync-assets",
+      "name": "Sync Assets",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'sync', book: $('Assembly & Render').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "id": "validate",
+      "name": "Validate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'validate', book: $('Assembly & Render').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 60000
+        }
+      }
+    },
+    {
+      "id": "check-validation",
+      "name": "Check Validation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const response = $('Validate').first().json;\nconst output = (response.output || '') + '\\n' + (response.error || '');\nconst lines = output.split('\\n');\n\n// Check for errors (not warnings)\nconst errorLines = lines.filter(l => /\\bERROR\\b/i.test(l) || /\\bFAIL\\b/i.test(l));\nconst warningLines = lines.filter(l => /\\bWARN/i.test(l));\nconst hasErrors = errorLines.length > 0 || response.status === 'error';\n\nreturn [{\n  json: {\n    hasErrors,\n    errorCount: errorLines.length,\n    warningCount: warningLines.length,\n    report: output.trim().split('\\n').slice(-10).join('\\n'),\n    errors: errorLines.join('\\n'),\n    warnings: warningLines.join('\\n')\n  }\n}];"
+      }
+    },
+    {
+      "id": "if-valid",
+      "name": "Validation Passed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond-no-errors",
+              "operator": {
+                "type": "boolean",
+                "operation": "false"
+              },
+              "leftValue": "={{ $json.hasErrors }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "trigger-render",
+      "name": "Render Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'render', book: $('Assembly & Render').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 600000
+        }
+      }
+    },
+    {
+      "id": "render-results",
+      "name": "Render Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Assembly & Render').first().json.book_slug;\nconst response = $('Render Video').first().json;\nconst validation = $('Check Validation').first().json;\n\nconst lines = [\n  `Render completed for: ${slug}`,\n  ``,\n  `Validation:`,\n  `  Warnings: ${validation.warningCount}`,\n  ``,\n  `Render output:`,\n  ...(response.output || '').trim().split('\\n').slice(-10).map(l => `  ${l}`),\n  ``,\n  response.status === 'ok' ? 'Status: OK' : `Status: ${response.status || 'unknown'}`,\n  ``,\n  `Next step: Run 08 — Post-production workflow.`\n];\n\nreturn [{ json: { status: 'completed', book: slug, summary: lines.join('\\n') } }];"
+      }
+    },
+    {
+      "id": "validation-errors",
+      "name": "Validation Errors",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Assembly & Render').first().json.book_slug;\nconst validation = $('Check Validation').first().json;\n\nreturn [{\n  json: {\n    status: 'validation_failed',\n    book: slug,\n    errorCount: validation.errorCount,\n    warningCount: validation.warningCount,\n    errors: validation.errors,\n    report: validation.report,\n    message: `Validation failed for \"${slug}\". Fix ${validation.errorCount} error(s) before rendering.\\n\\nErrors:\\n${validation.errors}\\n\\nReport (last 10 lines):\\n${validation.report}`\n  }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Assembly & Render": {
+      "main": [
+        [
+          {
+            "node": "Generate Scenes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Scenes": {
+      "main": [
+        [
+          {
+            "node": "Sync Assets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sync Assets": {
+      "main": [
+        [
+          {
+            "node": "Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate": {
+      "main": [
+        [
+          {
+            "node": "Check Validation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Validation": {
+      "main": [
+        [
+          {
+            "node": "Validation Passed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validation Passed?": {
+      "main": [
+        [
+          {
+            "node": "Render Video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Validation Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Render Video": {
+      "main": [
+        [
+          {
+            "node": "Render Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

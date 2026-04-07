@@ -1,9 +1,7 @@
 ---
 name: produce-video
-description: >-
-  Full pipeline: deep research to rendered video. User chooses angle, rest is
-  automated. Triggers: "produce video", "produce [book]", "full pipeline",
-  "make video for [book]".
+description: "Full pipeline: deep research to rendered video"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 

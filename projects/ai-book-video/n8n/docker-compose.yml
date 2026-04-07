@@ -1,0 +1,26 @@
+services:
+  n8n:
+    build: .
+    network_mode: host
+    userns_mode: keep-id
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+      - N8N_PUBLIC_API_DISABLED=false
+      - EXECUTIONS_TIMEOUT=3600
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
+      - N8N_RUNNERS_ENABLED=false
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ../books:/data/books
+      - ../scripts:/data/scripts
+      - ../remotion:/data/remotion
+      - ../knowledge-base:/data/knowledge-base
+      - ../brand:/data/brand:ro
+      - ../templates:/data/templates:ro
+      - ../tts-config.json:/data/tts-config.json:ro
+      - ./prompts:/data/prompts:ro
+    env_file:
+      - .env

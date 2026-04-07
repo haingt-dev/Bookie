@@ -1,0 +1,221 @@
+{
+  "name": "06 — Visuals Production",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Visual Production",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Visual Production",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "visuals-production"
+    },
+    {
+      "id": "check-prompts",
+      "name": "Check Image Prompts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Visual Production').item.json.book_slug + '/image-prompts.md'}) }}",
+        "options": {
+          "timeout": 30000
+        }
+      }
+    },
+    {
+      "id": "if-prompts-exist",
+      "name": "Prompts Exist?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "cond-status-ok",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ok"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gen-images",
+      "name": "Generate Images",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'images', book: $('Visual Production').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 300000
+        }
+      }
+    },
+    {
+      "id": "gen-subtitles",
+      "name": "Generate Subtitles",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'subtitle', book: $('Visual Production').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "id": "summary",
+      "name": "Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Visual Production').first().json.book_slug;\nconst imagesRes = $('Generate Images').first().json;\nconst subtitlesRes = $('Generate Subtitles').first().json;\n\nconst imagesOutput = imagesRes.output || '';\nconst subtitlesOutput = subtitlesRes.output || '';\n\nconst lines = [\n  `Visuals production completed for: ${slug}`,\n  ``,\n  `Images:`,\n  imagesRes.status === 'ok' ? '  Status: OK' : `  Status: ${imagesRes.status || 'unknown'}`,\n  `  Output (last 5 lines):`,\n  ...imagesOutput.trim().split('\\n').slice(-5).map(l => `    ${l}`),\n  ``,\n  `Subtitles:`,\n  subtitlesRes.status === 'ok' ? '  Status: OK' : `  Status: ${subtitlesRes.status || 'unknown'}`,\n  `  Output (last 5 lines):`,\n  ...subtitlesOutput.trim().split('\\n').slice(-5).map(l => `    ${l}`),\n  ``,\n  `Next step: Run 07 — Assembly & Render workflow.`\n];\n\nreturn [{ json: { status: 'completed', book: slug, summary: lines.join('\\n') } }];"
+      }
+    },
+    {
+      "id": "error-no-prompts",
+      "name": "Error - No Prompts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Visual Production').first().json.book_slug;\nreturn [{\n  json: {\n    status: 'error',\n    book: slug,\n    message: `image-prompts.md not found for \"${slug}\".\\n\\nRun the generate-prompts step first to create image prompts.`\n  }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Visual Production": {
+      "main": [
+        [
+          {
+            "node": "Check Image Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Image Prompts": {
+      "main": [
+        [
+          {
+            "node": "Prompts Exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompts Exist?": {
+      "main": [
+        [
+          {
+            "node": "Generate Images",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error - No Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Images": {
+      "main": [
+        [
+          {
+            "node": "Generate Subtitles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Subtitles": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

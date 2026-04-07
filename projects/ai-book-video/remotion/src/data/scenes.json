@@ -1,6 +1,6 @@
 {
-  "title": "Xây Dựng Hay Phá Bỏ Bản Sắc?",
-  "bookSlug": "sa-mon-khong-hai",
+  "title": "Điều mà Atomic Habits không nói với bạn",
+  "bookSlug": "atomic-habits",
   "hasBgm": true,
   "subtitleAdjustMs": 0,
   "intro": {
@@ -15,68 +15,76 @@
     {
       "id": "scene-01",
       "image": "scene-01.png",
-      "duration": 37.6,
+      "duration": 22.8,
       "label": "HOOK",
-      "zoomDir": "out",
+      "zoomDir": "in",
       "isShort": true
     },
     {
       "id": "scene-02",
       "image": "scene-02.png",
-      "duration": 47.0,
-      "label": "POSITION A — JAMES CLEAR",
-      "zoomDir": "in"
+      "duration": 23.6,
+      "label": "CONTEXT",
+      "layout": "framed"
     },
     {
       "id": "scene-03",
       "image": "scene-03.png",
-      "duration": 38.6,
-      "label": "EVIDENCE A — SỨC MẠNH CỦA IDENTITY",
-      "layout": "framed",
+      "duration": 56.0,
+      "label": "ĐIỂM MÙ 1: LÃI KÉP KHÔNG ÁP DỤNG CHO CON NGƯỜI",
+      "panDir": "right",
       "isShort": true
     },
     {
       "id": "scene-04",
       "image": "scene-04.png",
-      "duration": 64.5,
-      "label": "POSITION B — KHÔNG HẢI",
-      "zoomDir": "in",
-      "isShort": true
+      "duration": 35.7,
+      "label": "BẰNG CHỨNG",
+      "layout": "framed"
     },
     {
       "id": "scene-05",
       "image": "scene-05.png",
-      "duration": 55.8,
-      "label": "EVIDENCE B — HUYỄN THUẬT VÀ ĐIỂM MÙ",
-      "panDir": "right",
+      "duration": 52.5,
+      "label": "ĐIỂM MÙ 2: BẪY 2 PHÚT",
+      "zoomDir": "out",
       "isShort": true
     },
     {
       "id": "scene-06",
       "image": "scene-06.png",
-      "duration": 59.8,
-      "label": "THE CLASH",
-      "zoomDir": "in"
+      "duration": 21.5,
+      "label": "LIÊN HỆ",
+      "layout": "framed"
     },
     {
       "id": "scene-07",
       "image": "scene-07.png",
-      "duration": 65.7,
-      "label": "SYNTHESIS",
-      "zoomDir": "out"
+      "duration": 58.0,
+      "label": "ĐIỂM MÙ 3: HỆ THỐNG KHÔNG MỤC TIÊU",
+      "panDir": "right",
+      "isShort": true
     },
     {
       "id": "scene-08",
       "image": "scene-08.png",
-      "duration": 22.0,
+      "duration": 52.0,
+      "label": "TRADE-OFF",
+      "zoomDir": "out",
+      "isShort": true
+    },
+    {
+      "id": "scene-09",
+      "image": "scene-09.png",
+      "duration": 13.2,
       "label": "CTA",
       "layout": "framed"
     }
   ],
   "meta": {
-    "bookTitle": "Sa Môn Không Hải Thết Yến Bầy Quỷ Đại Đường",
-    "author": "Baku Yumemakura",
-    "angle": "Xây Dựng Hay Phá Bỏ Bản Sắc?"
+    "bookTitle": "Atomic Habits",
+    "author": "James Clear",
+    "angle": "Điều mà Atomic Habits không nói với bạn"
   },
   "chapters": [
     {
@@ -85,39 +93,44 @@
       "endIndex": 0
     },
     {
-      "title": "POSITION A — JAMES CLEAR",
+      "title": "CONTEXT",
       "startIndex": 1,
       "endIndex": 1
     },
     {
-      "title": "EVIDENCE A — SỨC MẠNH CỦA IDENTITY",
+      "title": "ĐIỂM MÙ",
       "startIndex": 2,
       "endIndex": 2
     },
     {
-      "title": "POSITION B — KHÔNG HẢI",
+      "title": "BẰNG CHỨNG",
       "startIndex": 3,
       "endIndex": 3
     },
     {
-      "title": "EVIDENCE B — HUYỄN THUẬT VÀ ĐIỂM MÙ",
+      "title": "ĐIỂM MÙ",
       "startIndex": 4,
       "endIndex": 4
     },
     {
-      "title": "THE CLASH",
+      "title": "LIÊN HỆ",
       "startIndex": 5,
       "endIndex": 5
     },
     {
-      "title": "SYNTHESIS",
+      "title": "ĐIỂM MÙ",
       "startIndex": 6,
       "endIndex": 6
     },
     {
-      "title": "CTA",
+      "title": "TRADE-OFF",
       "startIndex": 7,
       "endIndex": 7
+    },
+    {
+      "title": "CTA",
+      "startIndex": 8,
+      "endIndex": 8
     }
   ]
 }

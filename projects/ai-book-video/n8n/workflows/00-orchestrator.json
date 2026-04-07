@@ -1,0 +1,904 @@
+{
+  "name": "00 \u2014 Sheet Orchestrator",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 1 Minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1HYvw5T7J3qUQaYQLUgiqOwc8jhuM-gdNBPit0b4B4qs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "options": {}
+      },
+      "id": "read-sheet",
+      "name": "Read Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4PVF1Z6y3WGRIT70",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json);\nconst actionable = rows.filter(r => r.status === '\u25b6 Start');\n\nif (actionable.length === 0) {\n  return [];\n}\n\n// Process one book at a time to avoid race conditions\nreturn [{ json: actionable[0] }];"
+      },
+      "id": "find-actionable",
+      "name": "Find Actionable",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "has-slug",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.book_slug }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "has-items",
+      "name": "Has Items?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "no-action",
+      "name": "No Action",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        880,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command:'scan-books'}) }}",
+        "options": {}
+      },
+      "id": "scan-books",
+      "name": "Scan Books",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const slug = $('Find Actionable').first().json.book_slug;\nconst scanResult = $('Scan Books').first().json;\nconst books = scanResult.books || {};\nconst fileMap = books[slug] || {};\n\nconst pipeline = [\n  { phase: 'research',   artifact: 'notes.md',                type: 'llm' },\n  { phase: 'storyboard', artifact: 'storyboard.md',            type: 'llm' },\n  { phase: 'script',     artifact: 'chunks.md',                type: 'llm' },\n  { phase: 'voice',      artifact: 'audio/voiceover.wav',      type: 'production' },\n  { phase: 'visuals',    artifact: 'image-prompts.md',         type: 'production' },\n  { phase: 'render',     artifact: 'output/video.mp4',         type: 'production' },\n  { phase: 'post',       artifact: 'metadata.md',              type: 'llm' }\n];\n\nlet currentPhase = 'done';\nlet currentType = 'done';\nlet completedCount = 0;\n\nfor (const step of pipeline) {\n  if (fileMap[step.artifact] === true) {\n    completedCount++;\n  } else {\n    currentPhase = step.phase;\n    currentType = step.type;\n    break;\n  }\n}\n\nif (completedCount === pipeline.length) {\n  currentPhase = 'done';\n  currentType = 'done';\n}\n\nreturn [{ json: {\n  book_slug: slug,\n  phase: currentPhase,\n  phaseType: currentType,\n  progress: completedCount + '/' + pipeline.length,\n  completedCount,\n  totalPhases: pipeline.length\n} }];"
+      },
+      "id": "determine-phase",
+      "name": "Determine Phase",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "book_slug",
+              "value": "={{ $json.book_slug }}",
+              "type": "string"
+            },
+            {
+              "id": "r2",
+              "name": "status",
+              "value": "\ud83d\udd04 Running",
+              "type": "string"
+            },
+            {
+              "id": "r3",
+              "name": "phase",
+              "value": "={{ $json.phase }}",
+              "type": "string"
+            },
+            {
+              "id": "r4",
+              "name": "progress",
+              "value": "={{ $json.progress }}",
+              "type": "string"
+            },
+            {
+              "id": "r5",
+              "name": "error",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "prep-running",
+      "name": "Prep Running Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1HYvw5T7J3qUQaYQLUgiqOwc8jhuM-gdNBPit0b4B4qs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "book_slug"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED",
+          "handlingExtraData": "ignoreIt"
+        }
+      },
+      "id": "set-running",
+      "name": "Set Running",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1328,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4PVF1Z6y3WGRIT70",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-voice",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $('Determine Phase').item.json.phase }}",
+                    "rightValue": "voice"
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-visuals",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $('Determine Phase').item.json.phase }}",
+                    "rightValue": "visuals"
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-render",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $('Determine Phase').item.json.phase }}",
+                    "rightValue": "render"
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-llm",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "leftValue": "={{ $('Determine Phase').item.json.phaseType }}",
+                    "rightValue": "llm"
+                  }
+                ]
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c-done",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $('Determine Phase').item.json.phase }}",
+                    "rightValue": "done"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "id": "route-phase",
+      "name": "Route Phase",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1552,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'voice', book: $('Determine Phase').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 600000
+        }
+      },
+      "id": "run-voice",
+      "name": "Run Voice",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'produce-visuals', book: $('Determine Phase').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 600000
+        }
+      },
+      "id": "run-visuals",
+      "name": "Run Visuals",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'produce-render', book: $('Determine Phase').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 600000
+        }
+      },
+      "id": "run-render",
+      "name": "Run Render",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const phase = $('Determine Phase').item.json.phase;\nconst slug = $('Determine Phase').item.json.book_slug;\nconst progress = $('Determine Phase').item.json.progress;\n\nconst workflowMap = {\n  research:   { id: '02', name: 'Book Research' },\n  storyboard: { id: '03', name: 'Storyboard Creation' },\n  script:     { id: '04', name: 'Script Writing' },\n  post:       { id: '08', name: 'Post-production' }\n};\n\nconst wf = workflowMap[phase] || { id: '??', name: phase };\n\nreturn [{ json: {\n  book_slug: slug,\n  status: '\\u23F8 Manual \\u2014 run ' + wf.id + ' (' + wf.name + ')',\n  phase: phase,\n  progress: progress,\n  notes: 'Open workflow ' + wf.id + ' \\u2014 ' + wf.name + ' for ' + slug,\n  error: ''\n} }];"
+      },
+      "id": "flag-llm",
+      "name": "Flag LLM Phase",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1",
+              "name": "book_slug",
+              "value": "={{ $('Determine Phase').item.json.book_slug }}",
+              "type": "string"
+            },
+            {
+              "id": "d2",
+              "name": "status",
+              "value": "\u2705 Done",
+              "type": "string"
+            },
+            {
+              "id": "d3",
+              "name": "phase",
+              "value": "done",
+              "type": "string"
+            },
+            {
+              "id": "d4",
+              "name": "progress",
+              "value": "7/7",
+              "type": "string"
+            },
+            {
+              "id": "d5",
+              "name": "error",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "d6",
+              "name": "notes",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-done",
+      "name": "Set Done",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.first().json;\nconst slug = $('Determine Phase').item.json.book_slug;\nconst phase = $('Determine Phase').item.json.phase;\nconst progress = $('Determine Phase').item.json.progress;\n\nif (result.status === 'error') {\n  return [{ json: {\n    book_slug: slug,\n    status: '\\u274C Error',\n    phase: phase,\n    progress: progress,\n    error: (result.error || result.output || 'Unknown error').substring(0, 500),\n    notes: ''\n  } }];\n}\n\nreturn [{ json: {\n  book_slug: slug,\n  status: '\\u25B6 Start',\n  phase: phase,\n  progress: progress,\n  error: '',\n  notes: phase + ' completed'\n} }];"
+      },
+      "id": "check-bridge-result",
+      "name": "Check Bridge Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1HYvw5T7J3qUQaYQLUgiqOwc8jhuM-gdNBPit0b4B4qs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "book_slug"
+          ],
+          "schema": [
+            {
+              "id": "book_slug",
+              "displayName": "book_slug",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phase",
+              "displayName": "phase",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "progress",
+              "displayName": "progress",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "angle_choice",
+              "displayName": "angle_choice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error",
+              "displayName": "error",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED",
+          "handlingExtraData": "ignoreIt"
+        }
+      },
+      "id": "update-sheet-production",
+      "name": "Update Sheet (Production)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2208,
+        -144
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4PVF1Z6y3WGRIT70",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1HYvw5T7J3qUQaYQLUgiqOwc8jhuM-gdNBPit0b4B4qs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": [
+            "book_slug"
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED",
+          "handlingExtraData": "ignoreIt"
+        }
+      },
+      "id": "update-sheet-llm",
+      "name": "Update Sheet (LLM)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1984,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4PVF1Z6y3WGRIT70",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1HYvw5T7J3qUQaYQLUgiqOwc8jhuM-gdNBPit0b4B4qs"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "book_slug"
+          ],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED",
+          "handlingExtraData": "ignoreIt"
+        }
+      },
+      "id": "update-sheet-done",
+      "name": "Update Sheet (Done)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1984,
+        304
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4PVF1Z6y3WGRIT70",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 1 Minute": {
+      "main": [
+        [
+          {
+            "node": "Read Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Sheet": {
+      "main": [
+        [
+          {
+            "node": "Find Actionable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Actionable": {
+      "main": [
+        [
+          {
+            "node": "Has Items?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Items?": {
+      "main": [
+        [
+          {
+            "node": "Scan Books",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Books": {
+      "main": [
+        [
+          {
+            "node": "Determine Phase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine Phase": {
+      "main": [
+        [
+          {
+            "node": "Prep Running Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Running Data": {
+      "main": [
+        [
+          {
+            "node": "Set Running",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Running": {
+      "main": [
+        [
+          {
+            "node": "Route Phase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Phase": {
+      "main": [
+        [
+          {
+            "node": "Run Voice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Run Visuals",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Run Render",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Flag LLM Phase",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Voice": {
+      "main": [
+        [
+          {
+            "node": "Check Bridge Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Visuals": {
+      "main": [
+        [
+          {
+            "node": "Check Bridge Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Render": {
+      "main": [
+        [
+          {
+            "node": "Check Bridge Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Bridge Result": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet (Production)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flag LLM Phase": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet (LLM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Done": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet (Done)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false,
+    "binaryMode": "separate"
+  }
+}

@@ -328,3 +328,36 @@ make produce BOOK=atomic-habits ARGS="--skip-render"   # stop before render (pre
 | `clean` | Remove generated files |
 
 All targets require `BOOK=<slug>` parameter.
+
+## n8n Workflows
+
+An alternative to the CLI pipeline above. n8n provides a web UI with form-based inputs, visual workflow management, and execution logs.
+
+**Setup:** See [n8n/README.md](n8n/README.md) for Docker setup and quick start.
+
+**Requirement:** The host bridge must be running (`./n8n/host-bridge/bridge.sh`) for n8n to execute any host commands (voice, render, images, etc.).
+
+### Workflow Mapping
+
+| n8n Workflow | Replaces CLI Step |
+|---|---|
+| 00 — Sheet Orchestrator | Google Sheets control panel → auto-runs pipeline |
+| 01 — Pipeline Dashboard | Main orchestrator (no CLI equivalent) |
+| 02 — Book Research | `/extract-notes` skill |
+| 03 — Storyboard Creation | `/create-storyboard` skill |
+| 04 — Script Writing | `/write-video` skill |
+| 05 — Voice Production | `make voice` |
+| 06 — Visuals Production | `/generate-prompts` + `make images` |
+| 07 — Assembly & Render | `make scenes` + `make sync` + `make render` |
+| 08 — Post-production | `/write-metadata` + `make subtitle` + `/catalog-insights` |
+| 09 — Status Dashboard | `make status` |
+
+All workflows use form triggers — submit via the n8n form UI. Creative steps (02-04, 08) call Claude via Anthropic API. Production steps (05-07) call make targets through the host bridge.
+
+### Google Sheets Control Panel
+
+The **00 — Sheet Orchestrator** workflow polls a Google Sheet every 1 minute. Add a book row with status `▶ Start` → orchestrator auto-runs production phases sequentially. LLM phases pause and tell you which workflow to run manually.
+
+Sheet columns: `book_slug | status | phase | progress | angle_choice | notes | error`
+
+Sheet ID: configured in workflow (see n8n/README.md for setup).

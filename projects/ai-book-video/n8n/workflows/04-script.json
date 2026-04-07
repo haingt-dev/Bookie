@@ -1,0 +1,385 @@
+{
+  "name": "04 — Script Writing",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Script Writing",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Script Writing",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "script-writing-form"
+    },
+    {
+      "id": "read-notes",
+      "name": "Read Notes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Script Writing').item.json.book_slug + '/notes.md'}) }}"
+      }
+    },
+    {
+      "id": "read-storyboard",
+      "name": "Read Storyboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Script Writing').item.json.book_slug + '/storyboard.md'}) }}"
+      }
+    },
+    {
+      "id": "read-tts-config",
+      "name": "Read TTS Config",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'tts-config.json'}) }}"
+      }
+    },
+    {
+      "id": "read-style-guide",
+      "name": "Read Style Guide",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'brand/style-guide.md'}) }}"
+      }
+    },
+    {
+      "id": "read-prompt",
+      "name": "Read Prompt",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'n8n/prompts/script.md'}) }}"
+      }
+    },
+    {
+      "id": "build-prompt",
+      "name": "Build Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Script Writing').item.json.book_slug;\nconst notesContent = $('Read Notes').item.json.content;\nconst storyboardContent = $('Read Storyboard').item.json.content;\nconst ttsConfig = $('Read TTS Config').item.json.content || '{ \"chunk\": { \"min\": 75, \"target\": 140, \"max\": 250 } }';\nconst styleGuide = $('Read Style Guide').item.json.content || '(style guide not available)';\nlet systemPrompt = $('Read Prompt').item.json.content;\n\nif (!storyboardContent) {\n  throw new Error('Storyboard not found for book: ' + slug + '. Run storyboard step first.');\n}\nif (!notesContent) {\n  throw new Error('Notes not found for book: ' + slug + '. Run research step first.');\n}\nif (!systemPrompt) {\n  throw new Error('Script prompt not found at n8n/prompts/script.md');\n}\n\n// Replace placeholders\nsystemPrompt = systemPrompt.replace(/\\{\\{book_slug\\}\\}/g, slug);\nsystemPrompt = systemPrompt.replace(/\\{\\{storyboard_content\\}\\}/g, storyboardContent);\nsystemPrompt = systemPrompt.replace(/\\{\\{notes_content\\}\\}/g, notesContent);\nsystemPrompt = systemPrompt.replace(/\\{\\{tts_config\\}\\}/g, ttsConfig);\nsystemPrompt = systemPrompt.replace(/\\{\\{style_guide\\}\\}/g, styleGuide);\n\nconst userMessage = 'Write the video script following the storyboard. Output both chunks-display (natural Vietnamese) and chunks (TTS-normalized) versions. Follow the output format with ---OUTPUT START--- / ---OUTPUT END--- delimiters and === CHUNKS-DISPLAY === / === CHUNKS-TTS === / === SUMMARY === separators.';\n\nreturn [{ json: { systemPrompt, userMessage, slug } }];"
+      }
+    },
+    {
+      "id": "anthropic-api",
+      "name": "Anthropic API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 16384, system: $json.systemPrompt, messages: [{ role: 'user', content: $json.userMessage }] }) }}",
+        "options": {
+          "timeout": 180000
+        }
+      }
+    },
+    {
+      "id": "parse-response",
+      "name": "Parse Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Build Prompt').item.json.slug;\nconst responseText = $json.content[0].text;\n\n// Extract content between delimiters if present\nlet output;\nconst startMarker = '---OUTPUT START---';\nconst endMarker = '---OUTPUT END---';\nconst startIdx = responseText.indexOf(startMarker);\nconst endIdx = responseText.indexOf(endMarker);\n\nif (startIdx !== -1 && endIdx !== -1) {\n  output = responseText.substring(startIdx + startMarker.length, endIdx).trim();\n} else {\n  output = responseText.trim();\n}\n\n// Split into chunks-display and chunks-tts sections\nconst displayMarker = '=== CHUNKS-DISPLAY ===';\nconst ttsMarker = '=== CHUNKS-TTS ===';\nconst summaryMarker = '=== SUMMARY ===';\n\nlet chunksDisplay = '';\nlet chunksTts = '';\nlet llmSummary = '';\n\nconst displayIdx = output.indexOf(displayMarker);\nconst ttsIdx = output.indexOf(ttsMarker);\nconst summaryIdx = output.indexOf(summaryMarker);\n\nif (displayIdx !== -1 && ttsIdx !== -1) {\n  chunksDisplay = output.substring(displayIdx + displayMarker.length, ttsIdx).trim();\n  if (summaryIdx !== -1) {\n    chunksTts = output.substring(ttsIdx + ttsMarker.length, summaryIdx).trim();\n    llmSummary = output.substring(summaryIdx + summaryMarker.length).trim();\n  } else {\n    chunksTts = output.substring(ttsIdx + ttsMarker.length).trim();\n  }\n} else {\n  // Fallback: save the entire output as both\n  chunksDisplay = output;\n  chunksTts = output;\n}\n\n// Count chunks from display version\nconst chunkMatches = chunksDisplay.match(/^\\[\\d{3}\\]/gm);\nconst chunkCount = chunkMatches ? chunkMatches.length : 0;\n\nreturn [{ json: { slug, chunksDisplay, chunksTts, llmSummary, chunkCount } }];"
+      }
+    },
+    {
+      "id": "write-display",
+      "name": "Write Display",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1980,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'write-file', path: 'books/' + $json.slug + '/chunks-display.md', content: $json.chunksDisplay}) }}"
+      }
+    },
+    {
+      "id": "write-tts",
+      "name": "Write TTS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'write-file', path: 'books/' + $('Parse Response').item.json.slug + '/chunks.md', content: $('Parse Response').item.json.chunksTts}) }}"
+      }
+    },
+    {
+      "id": "validate-chunks",
+      "name": "Validate Chunks",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const data = $('Parse Response').item.json;\nconst ttsContent = data.chunksTts;\n\n// Parse TTS config for sweet spot bounds\nlet min = 75;\nlet max = 250;\ntry {\n  const configStr = $('Read TTS Config').item.json.content;\n  if (configStr) {\n    const config = JSON.parse(configStr);\n    min = config.chunk?.min || 75;\n    max = config.chunk?.max || 250;\n  }\n} catch (e) {}\n\n// Extract chunk texts\nconst chunkRegex = /^\\[(\\d{3})\\]\\s*\"(.+?)\"$/gm;\nlet match;\nconst chunks = [];\nwhile ((match = chunkRegex.exec(ttsContent)) !== null) {\n  chunks.push({ num: match[1], text: match[2], len: match[2].length });\n}\n\nconst tooShort = chunks.filter(c => c.len < 30);\nconst short = chunks.filter(c => c.len >= 30 && c.len < min);\nconst sweetSpot = chunks.filter(c => c.len >= min && c.len <= max);\nconst tooLong = chunks.filter(c => c.len > max);\n\nconst warnings = [];\nif (tooShort.length > 0) {\n  warnings.push(tooShort.length + ' chunk(s) < 30 chars (noise): ' + tooShort.map(c => '[' + c.num + '] ' + c.len + 'ch').join(', '));\n}\nif (short.length > 0) {\n  warnings.push(short.length + ' chunk(s) 30-' + (min - 1) + ' chars (short): ' + short.map(c => '[' + c.num + '] ' + c.len + 'ch').join(', '));\n}\nif (tooLong.length > 0) {\n  warnings.push(tooLong.length + ' chunk(s) > ' + max + ' chars (long): ' + tooLong.map(c => '[' + c.num + '] ' + c.len + 'ch').join(', '));\n}\n\nreturn [{\n  json: {\n    slug: data.slug,\n    chunkCount: data.chunkCount,\n    displayLength: data.chunksDisplay.length,\n    ttsLength: data.chunksTts.length,\n    llmSummary: data.llmSummary,\n    validation: {\n      totalChunks: chunks.length,\n      sweetSpot: sweetSpot.length,\n      short: short.length,\n      tooShort: tooShort.length,\n      tooLong: tooLong.length,\n      warnings\n    }\n  }\n}];"
+      }
+    },
+    {
+      "id": "summary",
+      "name": "Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const data = $json;\nconst v = data.validation;\n\nconst lines = [\n  'Script written for: ' + data.slug,\n  '',\n  'Files:',\n  '  Display: books/' + data.slug + '/chunks-display.md (' + data.displayLength + ' chars)',\n  '  TTS: books/' + data.slug + '/chunks.md (' + data.ttsLength + ' chars)',\n  '',\n  'Chunks: ' + data.chunkCount + ' total',\n];\n\nif (typeof v === 'object' && v !== null) {\n  lines.push('');\n  lines.push('Validation:');\n  lines.push('  In sweet spot (75-250 chars): ' + v.sweetSpot);\n  lines.push('  Short (30-74 chars): ' + v.short);\n  lines.push('  Too short (<30 chars): ' + v.tooShort);\n  lines.push('  Too long (>250 chars): ' + v.tooLong);\n\n  if (v.warnings && v.warnings.length > 0) {\n    lines.push('');\n    lines.push('Warnings:');\n    for (const w of v.warnings) {\n      lines.push('  - ' + w);\n    }\n  }\n}\n\nif (data.llmSummary) {\n  lines.push('');\n  lines.push('LLM Summary:');\n  lines.push(data.llmSummary);\n}\n\nlines.push('');\nlines.push('Next step: Run 05-Voice workflow to generate audio.');\n\nreturn [{ json: { summary: lines.join('\\n') } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Script Writing": {
+      "main": [
+        [
+          {
+            "node": "Read Notes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Notes": {
+      "main": [
+        [
+          {
+            "node": "Read Storyboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Storyboard": {
+      "main": [
+        [
+          {
+            "node": "Read TTS Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read TTS Config": {
+      "main": [
+        [
+          {
+            "node": "Read Style Guide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Style Guide": {
+      "main": [
+        [
+          {
+            "node": "Read Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Prompt": {
+      "main": [
+        [
+          {
+            "node": "Build Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Prompt": {
+      "main": [
+        [
+          {
+            "node": "Anthropic API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic API": {
+      "main": [
+        [
+          {
+            "node": "Parse Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Response": {
+      "main": [
+        [
+          {
+            "node": "Write Display",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Display": {
+      "main": [
+        [
+          {
+            "node": "Write TTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write TTS": {
+      "main": [
+        [
+          {
+            "node": "Validate Chunks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Chunks": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

@@ -1,9 +1,13 @@
 # Environment & secrets
 .env*
+!.env.example
 credentials.*
 secrets.*
 *.key
 *.pem
+
+# n8n
+**/n8n_data/
 
 # OS
 .DS_Store

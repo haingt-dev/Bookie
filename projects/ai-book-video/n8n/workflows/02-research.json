@@ -1,0 +1,253 @@
+{
+  "name": "02 — Book Research",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Book Research",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Book Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            },
+            {
+              "fieldLabel": "Paste NotebookLM or external research here",
+              "fieldType": "textarea",
+              "requiredField": false,
+              "placeholder": "Optional: paste research notes, NotebookLM output, or any external research"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "book-research-form"
+    },
+    {
+      "id": "read-library",
+      "name": "Read Library",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'knowledge-base/library.md'}) }}"
+      }
+    },
+    {
+      "id": "read-prompt",
+      "name": "Read Prompt",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'n8n/prompts/research.md'}) }}"
+      }
+    },
+    {
+      "id": "build-prompt",
+      "name": "Build Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Book Research').item.json.book_slug;\nconst optionalResearch = $('Book Research').item.json['Paste NotebookLM or external research here'] || '';\nconst libraryContent = $('Read Library').item.json.content || '(knowledge vault empty — first book)';\nlet systemPrompt = $('Read Prompt').item.json.content;\n\nif (!systemPrompt) {\n  throw new Error('Research prompt not found at n8n/prompts/research.md');\n}\n\n// Replace placeholders\nsystemPrompt = systemPrompt.replace(/\\{\\{book_slug\\}\\}/g, slug);\nsystemPrompt = systemPrompt.replace(/\\{\\{vault_library\\}\\}/g, libraryContent);\n\n// Set optional vault placeholders to empty if not available\nsystemPrompt = systemPrompt.replace(/\\{\\{vault_authors\\}\\}/g, '(not available)');\nsystemPrompt = systemPrompt.replace(/\\{\\{vault_concepts\\}\\}/g, '(not available)');\nsystemPrompt = systemPrompt.replace(/\\{\\{vault_connections\\}\\}/g, '(not available)');\nsystemPrompt = systemPrompt.replace(/\\{\\{narrative_templates\\}\\}/g, '(not available)');\n\n// Inject optional research if provided\nif (optionalResearch.trim()) {\n  systemPrompt += '\\n\\n## Additional Research (provided by user)\\n\\n' + optionalResearch.trim();\n}\n\nconst userMessage = \"Research the book '\" + slug + \"' and propose 3 video angles with reasoning.\";\n\nreturn [{ json: { systemPrompt, userMessage, slug } }];"
+      }
+    },
+    {
+      "id": "anthropic-api",
+      "name": "Anthropic API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 16384, system: $json.systemPrompt, messages: [{ role: 'user', content: $json.userMessage }] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "id": "extract-response",
+      "name": "Extract Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Build Prompt').item.json.slug;\nconst responseText = $json.content[0].text;\n\n// Extract content between delimiters if present\nlet output;\nconst startMarker = '---OUTPUT START---';\nconst endMarker = '---OUTPUT END---';\nconst startIdx = responseText.indexOf(startMarker);\nconst endIdx = responseText.indexOf(endMarker);\n\nif (startIdx !== -1 && endIdx !== -1) {\n  output = responseText.substring(startIdx + startMarker.length, endIdx).trim();\n} else {\n  output = responseText.trim();\n}\n\nreturn [{ json: { slug, notesContent: output } }];"
+      }
+    },
+    {
+      "id": "write-notes",
+      "name": "Write Notes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'write-file', path: 'books/' + $('Book Research').item.json.book_slug + '/notes.md', content: $json.notesContent}) }}"
+      }
+    },
+    {
+      "id": "summary",
+      "name": "Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Extract Response').item.json.slug;\nconst content = $('Extract Response').item.json.notesContent;\n\n// Word count\nconst wordCount = content.split(/\\s+/).filter(w => w.length > 0).length;\n\nconst lines = [\n  'Research complete for: ' + slug,\n  '',\n  'Stats:',\n  '  File: books/' + slug + '/notes.md',\n  '  Characters: ' + content.length,\n  '  Words: ' + wordCount,\n  '',\n  'Notes saved. Review in n8n or at books/' + slug + '/notes.md',\n  '',\n  'Next step: Run 03-Storyboard workflow to create storyboard.'\n];\n\nreturn [{ json: { summary: lines.join('\\n') } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Book Research": {
+      "main": [
+        [
+          {
+            "node": "Read Library",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Library": {
+      "main": [
+        [
+          {
+            "node": "Read Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Prompt": {
+      "main": [
+        [
+          {
+            "node": "Build Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Prompt": {
+      "main": [
+        [
+          {
+            "node": "Anthropic API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic API": {
+      "main": [
+        [
+          {
+            "node": "Extract Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Response": {
+      "main": [
+        [
+          {
+            "node": "Write Notes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Notes": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

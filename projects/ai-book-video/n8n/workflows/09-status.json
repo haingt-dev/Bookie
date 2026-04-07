@@ -1,0 +1,117 @@
+{
+  "name": "09 — Status Dashboard",
+  "nodes": [
+    {
+      "id": "webhook-trigger",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "bookie-status",
+        "responseMode": "responseNode"
+      },
+      "webhookId": "bookie-status-dashboard"
+    },
+    {
+      "id": "scan-books",
+      "name": "Scan Books",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"command\":\"scan-books\"}"
+      }
+    },
+    {
+      "id": "format-html",
+      "name": "Format HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const response = $input.all()[0].json;\nconst books = response.books || {};\n\nconst artifacts = [\n  'notes.md', 'storyboard.md', 'chunks.md', 'chunks-display.md',\n  'audio/voiceover.wav', 'output/section-timing.json',\n  'output/subtitles.srt', 'output/video.mp4',\n  'image-prompts.md', 'metadata.md'\n];\n\nconst shortNames = artifacts.map(a => a.replace('output/', '').replace('audio/', ''));\nconst headerCells = shortNames.map(a => `<th style=\"padding:6px 8px;font-size:12px;white-space:nowrap\">${a}</th>`).join('');\n\nconst slugs = Object.keys(books).sort();\nlet rows = '';\nlet totalBooks = slugs.length;\nlet completedBooks = 0;\n\nfor (const slug of slugs) {\n  const fileMap = books[slug] || {};\n  let cells = '';\n  let allDone = true;\n  for (const art of artifacts) {\n    const has = fileMap[art] === true;\n    if (!has) allDone = false;\n    cells += `<td style=\"text-align:center;color:${has ? '#22c55e' : '#ef4444'}\">${has ? '\\u2713' : '\\u2717'}</td>`;\n  }\n  if (allDone) completedBooks++;\n  rows += `<tr><td style=\"font-weight:600;padding:6px 12px;white-space:nowrap\">${slug}</td>${cells}</tr>`;\n}\n\nconst html = `<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"><title>Bookie Pipeline Status</title></head>\n<body style=\"font-family:system-ui,-apple-system,sans-serif;max-width:1200px;margin:40px auto;padding:0 20px;background:#0f172a;color:#e2e8f0\">\n  <h1 style=\"font-size:24px;margin-bottom:8px\">Bookie Pipeline Status</h1>\n  <p style=\"color:#94a3b8;margin-bottom:24px\">${totalBooks} books | ${completedBooks} complete</p>\n  <div style=\"overflow-x:auto\">\n    <table style=\"border-collapse:collapse;width:100%\">\n      <thead><tr style=\"background:#1e293b\"><th style=\"padding:6px 12px;text-align:left\">Book</th>${headerCells}</tr></thead>\n      <tbody>${rows}</tbody>\n    </table>\n  </div>\n  <p style=\"color:#64748b;font-size:12px;margin-top:24px\">Generated at ${new Date().toISOString()}</p>\n</body>\n</html>`;\n\nreturn [{ json: { html } }];"
+      }
+    },
+    {
+      "id": "respond-webhook",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Scan Books",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Books": {
+      "main": [
+        [
+          {
+            "node": "Format HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format HTML": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

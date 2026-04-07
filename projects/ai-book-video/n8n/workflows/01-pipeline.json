@@ -1,0 +1,118 @@
+{
+  "name": "01 — Pipeline Dashboard",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Bookie Pipeline",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Bookie Pipeline Dashboard",
+        "formDescription": "Check pipeline status and get next-step link for a book.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "bookie-pipeline-form"
+    },
+    {
+      "id": "scan-books",
+      "name": "Scan Books",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command:'scan-books'}) }}"
+      }
+    },
+    {
+      "id": "pipeline-status",
+      "name": "Pipeline Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Bookie Pipeline').item.json.book_slug;\nconst response = $('Scan Books').item.json;\nconst books = response.books || {};\nconst fileMap = books[slug] || {};\n\n// Define pipeline phases and their key artifacts\nconst phases = [\n  { id: '02', name: 'Research',        artifact: 'notes.md',               workflowId: 'PLACEHOLDER_02' },\n  { id: '03', name: 'Storyboard',      artifact: 'storyboard.md',          workflowId: 'zUNMy5NQMHXbrNBU' },\n  { id: '04', name: 'Script',          artifact: 'chunks.md',              workflowId: 'Zdb8sm2EYdwhdzVr' },\n  { id: '05', name: 'Voice',           artifact: 'audio/voiceover.wav',    workflowId: 'O2iDURAusKkmQAB8' },\n  { id: '06', name: 'Visuals',         artifact: 'image-prompts.md',       workflowId: '9YYIcAKpr3SI7kNf' },\n  { id: '07', name: 'Render',          artifact: 'output/video.mp4',       workflowId: 'cxEVlQIrsEOU5oH4' },\n  { id: '08', name: 'Post-production', artifact: 'metadata.md',            workflowId: 'PLACEHOLDER_08' }\n];\n\n// Build artifact status\nconst artifacts = {};\nfor (const p of phases) {\n  artifacts[p.artifact] = fileMap[p.artifact] === true;\n}\n\n// Determine current stage\nlet currentPhaseIndex = -1;\nfor (let i = 0; i < phases.length; i++) {\n  if (!artifacts[phases[i].artifact]) {\n    currentPhaseIndex = i;\n    break;\n  }\n}\n\nlet stage, nextWorkflowUrl;\nif (currentPhaseIndex === -1) {\n  stage = 'Pipeline Complete \\u2713';\n  nextWorkflowUrl = null;\n} else {\n  const p = phases[currentPhaseIndex];\n  stage = `Ready for ${p.name} (${p.id})`;\n  nextWorkflowUrl = p.workflowId.startsWith('PLACEHOLDER')\n    ? null\n    : `http://localhost:5678/form/${p.workflowId}`;\n}\n\nconst completedCount = phases.filter(p => artifacts[p.artifact]).length;\n\n// Build summary lines\nconst lines = [];\nfor (const p of phases) {\n  const done = artifacts[p.artifact];\n  lines.push(`${done ? '\\u2713' : '\\u2717'} ${p.id} ${p.name} — ${p.artifact}`);\n}\nconst summary = lines.join('\\n');\n\nreturn [{ json: {\n  slug,\n  stage,\n  summary,\n  artifacts,\n  completedCount,\n  totalPhases: phases.length,\n  nextWorkflowUrl,\n  bookExists: Object.keys(fileMap).length > 0,\n  phases\n} }];"
+      }
+    },
+    {
+      "id": "format-report",
+      "name": "Format Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const d = $('Pipeline Status').item.json;\nconst pct = Math.round((d.completedCount / d.totalPhases) * 100);\n\nlet phaseRows = '';\nfor (const p of d.phases) {\n  const done = d.artifacts[p.artifact];\n  const icon = done ? '\\u2713' : '\\u2717';\n  const color = done ? '#22c55e' : '#ef4444';\n  const link = p.workflowId.startsWith('PLACEHOLDER')\n    ? `<span style=\"color:#64748b\">not yet created</span>`\n    : `<a href=\"http://localhost:5678/form/${p.workflowId}\" style=\"color:#38bdf8;text-decoration:none\">Run ${p.id}</a>`;\n  phaseRows += `<tr>\n    <td style=\"padding:8px 12px;color:${color};font-size:18px;text-align:center\">${icon}</td>\n    <td style=\"padding:8px 12px;font-weight:600\">${p.id} ${p.name}</td>\n    <td style=\"padding:8px 12px;color:#94a3b8;font-size:13px\">${p.artifact}</td>\n    <td style=\"padding:8px 12px;text-align:center\">${link}</td>\n  </tr>`;\n}\n\nconst nextBtn = d.nextWorkflowUrl\n  ? `<a href=\"${d.nextWorkflowUrl}\" style=\"display:inline-block;margin-top:20px;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px\">\\u25B6 Go to next step</a>`\n  : (d.stage.includes('Complete') ? '<p style=\"color:#22c55e;font-weight:600;margin-top:20px\">\\u2713 All phases complete!</p>' : '<p style=\"color:#f59e0b;margin-top:20px\">Next workflow not yet created.</p>');\n\nconst barColor = pct === 100 ? '#22c55e' : '#3b82f6';\n\nconst html = `<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"><title>Pipeline — ${d.slug}</title></head>\n<body style=\"font-family:system-ui,-apple-system,sans-serif;max-width:700px;margin:40px auto;padding:0 20px;background:#0f172a;color:#e2e8f0\">\n  <h1 style=\"font-size:22px;margin-bottom:4px\">Pipeline: ${d.slug}</h1>\n  <p style=\"color:#94a3b8;margin-bottom:20px\">${d.stage}</p>\n\n  <div style=\"background:#1e293b;border-radius:8px;height:28px;overflow:hidden;margin-bottom:24px;position:relative\">\n    <div style=\"background:${barColor};height:100%;width:${pct}%;transition:width .3s;border-radius:8px\"></div>\n    <span style=\"position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;font-weight:600\">${d.completedCount}/${d.totalPhases} phases (${pct}%)</span>\n  </div>\n\n  <table style=\"border-collapse:collapse;width:100%\">\n    <thead><tr style=\"background:#1e293b\">\n      <th style=\"padding:8px 12px;width:36px\"></th>\n      <th style=\"padding:8px 12px;text-align:left\">Phase</th>\n      <th style=\"padding:8px 12px;text-align:left\">Artifact</th>\n      <th style=\"padding:8px 12px;text-align:center\">Action</th>\n    </tr></thead>\n    <tbody>${phaseRows}</tbody>\n  </table>\n\n  ${nextBtn}\n\n  <p style=\"color:#64748b;font-size:11px;margin-top:32px\">Generated ${new Date().toISOString()}</p>\n</body>\n</html>`;\n\nreturn [{ json: { report: html } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Bookie Pipeline": {
+      "main": [
+        [
+          {
+            "node": "Scan Books",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Books": {
+      "main": [
+        [
+          {
+            "node": "Pipeline Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pipeline Status": {
+      "main": [
+        [
+          {
+            "node": "Format Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

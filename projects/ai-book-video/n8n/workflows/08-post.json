@@ -1,0 +1,331 @@
+{
+  "name": "08 — Post-production",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Post-production",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Post-production",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "post-production-form"
+    },
+    {
+      "id": "read-chunks",
+      "name": "Read Chunks Display",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Post-production').item.json.book_slug + '/chunks-display.md'}) }}"
+      }
+    },
+    {
+      "id": "read-storyboard",
+      "name": "Read Storyboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Post-production').item.json.book_slug + '/storyboard.md'}) }}"
+      }
+    },
+    {
+      "id": "read-notes",
+      "name": "Read Notes",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Post-production').item.json.book_slug + '/notes.md'}) }}"
+      }
+    },
+    {
+      "id": "read-prompt",
+      "name": "Read Metadata Prompt",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'n8n/prompts/metadata.md'}) }}"
+      }
+    },
+    {
+      "id": "read-reference",
+      "name": "Read Metadata Reference",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/atomic-habits/metadata.md'}) }}"
+      }
+    },
+    {
+      "id": "build-prompt",
+      "name": "Build Metadata Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Post-production').item.json.book_slug;\nconst chunksContent = $('Read Chunks Display').item.json.content;\nconst storyboardContent = $('Read Storyboard').item.json.content;\nconst notesContent = $('Read Notes').item.json.content;\nconst referenceContent = $('Read Metadata Reference').item.json.content || '(reference not available)';\nlet systemPrompt = $('Read Metadata Prompt').item.json.content;\n\nif (!chunksContent) {\n  throw new Error('chunks-display.md not found for book: ' + slug + '. Run script step first.');\n}\nif (!storyboardContent) {\n  throw new Error('storyboard.md not found for book: ' + slug + '. Run storyboard step first.');\n}\nif (!notesContent) {\n  throw new Error('notes.md not found for book: ' + slug + '. Run research step first.');\n}\nif (!systemPrompt) {\n  throw new Error('Metadata prompt not found at n8n/prompts/metadata.md');\n}\n\n// Replace placeholders\nsystemPrompt = systemPrompt.replace(/\\{\\{book_slug\\}\\}/g, slug);\nsystemPrompt = systemPrompt.replace(/\\{\\{chunks_display\\}\\}/g, chunksContent);\nsystemPrompt = systemPrompt.replace(/\\{\\{storyboard\\}\\}/g, storyboardContent);\nsystemPrompt = systemPrompt.replace(/\\{\\{notes\\}\\}/g, notesContent);\nsystemPrompt = systemPrompt.replace(/\\{\\{metadata_reference\\}\\}/g, referenceContent);\n\nconst userMessage = 'Generate YouTube and Facebook metadata for the book video based on the provided chunks-display, storyboard, and notes. Follow the reference format exactly. Output the complete metadata document.';\n\nreturn [{ json: { systemPrompt, userMessage, slug } }];"
+      }
+    },
+    {
+      "id": "anthropic-api",
+      "name": "Anthropic API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{ $env.ANTHROPIC_API_KEY }}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 8192, system: $json.systemPrompt, messages: [{ role: 'user', content: $json.userMessage }] }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      }
+    },
+    {
+      "id": "extract-metadata",
+      "name": "Extract Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Build Metadata Prompt').item.json.slug;\nconst responseText = $json.content[0].text;\n\n// Extract content between delimiters if present\nlet output;\nconst startMarker = '---OUTPUT START---';\nconst endMarker = '---OUTPUT END---';\nconst startIdx = responseText.indexOf(startMarker);\nconst endIdx = responseText.indexOf(endMarker);\n\nif (startIdx !== -1 && endIdx !== -1) {\n  output = responseText.substring(startIdx + startMarker.length, endIdx).trim();\n} else {\n  output = responseText.trim();\n}\n\nreturn [{ json: { slug, metadataContent: output } }];"
+      }
+    },
+    {
+      "id": "write-metadata",
+      "name": "Write Metadata",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1980,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'write-file', path: 'books/' + $json.slug + '/metadata.md', content: $json.metadataContent}) }}"
+      }
+    },
+    {
+      "id": "summary",
+      "name": "Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Extract Metadata').item.json.slug;\nconst content = $('Extract Metadata').item.json.metadataContent;\n\n// Count title options\nconst titleMatches = content.match(/^\\d+\\./gm);\nconst titleCount = titleMatches ? titleMatches.length : 0;\n\n// Count shorts\nconst shortMatches = content.match(/^\\|\\s*\\d+/gm);\nconst shortCount = shortMatches ? shortMatches.length : 0;\n\n// Check sections present\nconst hasYouTube = /## YouTube/i.test(content);\nconst hasFacebook = /## Facebook/i.test(content);\nconst hasTags = /### Tags/i.test(content);\nconst hasShorts = /### Shorts/i.test(content);\n\nconst wordCount = content.split(/\\s+/).filter(w => w.length > 0).length;\n\nconst lines = [\n  'Metadata generated for: ' + slug,\n  '',\n  'Stats:',\n  '  File: books/' + slug + '/metadata.md',\n  '  Characters: ' + content.length,\n  '  Words: ' + wordCount,\n  '  Title options: ' + titleCount,\n  '  Shorts candidates: ' + shortCount,\n  '',\n  'Sections:',\n  '  YouTube: ' + (hasYouTube ? 'yes' : 'MISSING'),\n  '  Facebook: ' + (hasFacebook ? 'yes' : 'MISSING'),\n  '  Tags: ' + (hasTags ? 'yes' : 'MISSING'),\n  '  Shorts: ' + (hasShorts ? 'yes' : 'MISSING'),\n  '',\n  'Next step: Review metadata and upload to YouTube/Facebook.'\n];\n\nreturn [{ json: { summary: lines.join('\\n') } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Post-production": {
+      "main": [
+        [
+          {
+            "node": "Read Chunks Display",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Chunks Display": {
+      "main": [
+        [
+          {
+            "node": "Read Storyboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Storyboard": {
+      "main": [
+        [
+          {
+            "node": "Read Notes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Notes": {
+      "main": [
+        [
+          {
+            "node": "Read Metadata Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Metadata Prompt": {
+      "main": [
+        [
+          {
+            "node": "Read Metadata Reference",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Metadata Reference": {
+      "main": [
+        [
+          {
+            "node": "Build Metadata Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Metadata Prompt": {
+      "main": [
+        [
+          {
+            "node": "Anthropic API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic API": {
+      "main": [
+        [
+          {
+            "node": "Extract Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Metadata": {
+      "main": [
+        [
+          {
+            "node": "Write Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Metadata": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

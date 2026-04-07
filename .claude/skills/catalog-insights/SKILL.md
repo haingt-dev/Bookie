@@ -1,8 +1,7 @@
 ---
 name: catalog-insights
-description: >-
-  Catalog book video knowledge into the persistent knowledge vault. Runs after
-  production. Triggers: "catalog insights", "catalog [book]", "update vault".
+description: "Catalog book video knowledge into knowledge vault"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 

@@ -1,0 +1,215 @@
+{
+  "name": "05 — Voice Production",
+  "nodes": [
+    {
+      "id": "form-trigger",
+      "name": "Voice Production",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "formTitle": "Voice Production",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "book_slug",
+              "fieldType": "text",
+              "requiredField": true,
+              "placeholder": "e.g. atomic-habits"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "webhookId": "voice-production-form"
+    },
+    {
+      "id": "check-vixtts",
+      "name": "Check viXTTS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"command\":\"vixtts-health\"}"
+      }
+    },
+    {
+      "id": "if-vixtts-ok",
+      "name": "viXTTS Running?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "condition-vixtts",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ok"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "error-message",
+      "name": "Error - viXTTS Down",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [{\n  json: {\n    status: 'error',\n    message: 'viXTTS is not running. Start it first:\\n\\n1. cd to the viXTTS directory\\n2. Run: docker compose up -d\\n3. Wait for the model to load (~30s)\\n4. Verify: curl http://localhost:8020/speakers\\n5. Then re-run this workflow'\n  }\n}];"
+      }
+    },
+    {
+      "id": "generate-voice",
+      "name": "Generate Voice",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'voice', book: $('Voice Production').item.json.book_slug}) }}",
+        "options": {
+          "timeout": 600000
+        }
+      }
+    },
+    {
+      "id": "read-timing",
+      "name": "Read Timing Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:3456",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({command: 'read-file', path: 'books/' + $('Voice Production').item.json.book_slug + '/output/section-timing.json'}) }}"
+      }
+    },
+    {
+      "id": "summary",
+      "name": "Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const slug = $('Voice Production').item.json.book_slug;\nconst voiceResult = $('Generate Voice').first().json;\nconst timingResult = $('Read Timing Stats').first().json;\n\n// Check if voice generation succeeded\nif (voiceResult.status === 'error') {\n  return [{\n    json: {\n      summary: 'Voice generation failed for: ' + slug + '\\n\\nError: ' + (voiceResult.error || voiceResult.output || 'Unknown error')\n    }\n  }];\n}\n\n// Try to parse timing stats\nlet timingInfo = '';\ntry {\n  const timing = JSON.parse(timingResult.output);\n  const sections = timing.sections || timing;\n  const sceneCount = Array.isArray(sections) ? sections.length : Object.keys(sections).length;\n\n  let totalDuration = 0;\n  const durations = [];\n\n  if (Array.isArray(sections)) {\n    for (const s of sections) {\n      const dur = s.duration || (s.end - s.start) || 0;\n      durations.push(dur);\n      totalDuration += dur;\n    }\n  } else {\n    for (const [key, val] of Object.entries(sections)) {\n      const dur = val.duration || (val.end - val.start) || 0;\n      durations.push(dur);\n      totalDuration += dur;\n    }\n  }\n\n  const mins = Math.floor(totalDuration / 60);\n  const secs = Math.round(totalDuration % 60);\n\n  timingInfo = '\\n\\nStats:\\n' +\n    '  Total duration: ' + mins + 'm ' + secs + 's\\n' +\n    '  Scenes: ' + sceneCount + '\\n\\n' +\n    'Per-scene durations:\\n' +\n    durations.map((d, i) => '  Scene ' + (i + 1) + ': ' + (Math.round(d * 100) / 100) + 's').join('\\n');\n} catch (e) {\n  timingInfo = '\\n\\nNote: Could not parse timing stats: ' + e.message;\n}\n\nreturn [{\n  json: {\n    summary: 'Voice generation complete for: ' + slug + timingInfo + '\\n\\nOutput: /data/books/' + slug + '/audio/voiceover.wav'\n  }\n}];"
+      }
+    }
+  ],
+  "connections": {
+    "Voice Production": {
+      "main": [
+        [
+          {
+            "node": "Check viXTTS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check viXTTS": {
+      "main": [
+        [
+          {
+            "node": "viXTTS Running?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "viXTTS Running?": {
+      "main": [
+        [
+          {
+            "node": "Generate Voice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error - viXTTS Down",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Voice": {
+      "main": [
+        [
+          {
+            "node": "Read Timing Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Timing Stats": {
+      "main": [
+        [
+          {
+            "node": "Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  }
+}

@@ -1,10 +1,7 @@
 ---
 name: extract-notes
-description: >-
-  Deep-research a book using NotebookLM as a multi-source hub and propose video
-  angles. First step for any new book video. Triggers: "extract notes",
-  "research book", "new book video", "start pipeline", "research [book name]",
-  "competitive analysis", "bắt đầu research".
+description: "Deep-research a book and propose video angles"
+disable-model-invocation: false
 argument-hint: "<book-slug>"
 ---
 
