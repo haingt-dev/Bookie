@@ -11,6 +11,10 @@ Book!e Inspires Everyone — cộng đồng đọc sách, truyền cảm hứng 
 
 - Target: 1 video dài + 2-3 shorts/tuần, <10h effort
 - Audience: Người Việt 20-35, self-improvement — angle cụ thể, kể chuyện, visual đẹp (không tóm tắt khô khan)
+- Three interfaces:
+  - CLI pipeline (make + Claude Code skills) — power user
+  - n8n web UI (form-based, Docker) — visual workflow
+  - Google Sheets control panel (Sheet Orchestrator) — non-technical user / showcase
 
 ## Constraints
 
