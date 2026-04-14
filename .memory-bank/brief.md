@@ -1,23 +1,17 @@
-# Project Brief
+# Bookie
 
-Book!e Inspires Everyone — cộng đồng đọc sách, truyền cảm hứng đọc sách và học hỏi.
+## One-Liner
+Bookie Inspires Everyone — reading community (bookiecommunity.com). This repo = resource hub for assets/scripts/configs, not application code.
 
-- Website: bookiecommunity.com | Fanpage: facebook.com/bookie.community
-- Repo này là resource hub (assets, scripts, configs) — không phải application code
+## Key Facts
+| Field | Value |
+|-------|-------|
+| Active sub-project | ai-book-video — AI automation video pipeline (viXTTS voice, Remotion render, NotebookLM research) |
+| Target output | 1 long + 2-3 shorts/week, <10h effort |
+| Audience | VN 20-35, self-improvement |
+| Interfaces | CLI (make + skills), n8n web UI, Google Sheets orchestrator |
+| Hardware | RTX 4070 Super Ti (16GB VRAM) |
+| Status | active |
 
-## Active Sub-project
-
-**ai-book-video**: Video sách với AI automation (viXTTS voice, Remotion render, NotebookLM research)
-
-- Target: 1 video dài + 2-3 shorts/tuần, <10h effort
-- Audience: Người Việt 20-35, self-improvement — angle cụ thể, kể chuyện, visual đẹp (không tóm tắt khô khan)
-- Three interfaces:
-  - CLI pipeline (make + Claude Code skills) — power user
-  - n8n web UI (form-based, Docker) — visual workflow
-  - Google Sheets control panel (Sheet Orchestrator) — non-technical user / showcase
-
-## Constraints
-
-- 1-person operation (Hải) — automate tối đa
-- GPU: RTX 4070 Super Ti (16GB VRAM)
-- Budget: minimize — free/open-source tools, Remotion (code-based)
+## Current Focus
+<!-- 1-2 lines, update each sprint -->
