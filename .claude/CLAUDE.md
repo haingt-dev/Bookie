@@ -20,10 +20,9 @@ Bookie/
 │       ├── assets/     <- media resources
 │       ├── scripts/    <- scripts, prompts
 │       └── output/     <- final output
-├── shared/             <- shared resources
-│   ├── branding/       <- logo, brand assets
-│   └── templates/      <- reusable templates
-└── .memory-bank/       <- project knowledge
+└── shared/             <- shared resources
+    ├── branding/       <- logo, brand assets
+    └── templates/      <- reusable templates
 ```
 
 ### Sub-project Conventions
@@ -32,7 +31,7 @@ Bookie/
 - New sub-projects follow the structure above
 - Large media files tracked with Git LFS (video, PSD, audio, etc.)
 - Final output goes in `output/`, don't commit output to git unless necessary
-- When pipeline logic changes, update WORKFLOW.md and `.memory-bank/` (architecture, context, task) to stay in sync
+- When pipeline logic changes, update WORKFLOW.md to stay in sync
 
 ## Project Values
 - **Minimal impact** — Make the smallest changes necessary. Don't over-engineer
@@ -47,17 +46,6 @@ Bookie/
 - This project is a resource hub, not application code
 - No backend/frontend infrastructure setup
 - Detailed project notes live in Obsidian Idea_Vault, don't duplicate here
-
-## Memory Bank
-Auto-loaded at session start. Full files in `.memory-bank/`:
-
-- `brief.md` — Project goals, scope, and constraints
-- `context.md` — Current focus and next actions
-- `architecture.md` — Pipeline diagrams and key principles
-- `tech.md` — Tech stack and runtime gotchas
-- `task.md` — Pipeline status per book
-
-After major tasks or architectural changes, update relevant Memory Bank files.
 
 ## Security
 **CRITICAL**: NEVER commit, push, or expose secrets, API keys, tokens, or credentials to version control.
