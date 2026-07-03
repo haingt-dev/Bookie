@@ -1,5 +1,6 @@
 ---
 name: generate-prompts
+model: sonnet
 description: "Generate per-scene Gemini image prompts with brand styling"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

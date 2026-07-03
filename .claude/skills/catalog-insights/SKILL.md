@@ -1,5 +1,6 @@
 ---
 name: catalog-insights
+model: haiku
 description: "Catalog book video knowledge into knowledge vault"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

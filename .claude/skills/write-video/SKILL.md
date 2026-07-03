@@ -1,5 +1,6 @@
 ---
 name: write-video
+model: sonnet
 description: "Write book video script as paired TTS-ready chunks"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

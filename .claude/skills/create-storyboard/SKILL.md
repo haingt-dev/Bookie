@@ -1,5 +1,6 @@
 ---
 name: create-storyboard
+model: sonnet
 description: "Plan story direction, scenes, narrative arc, pacing"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

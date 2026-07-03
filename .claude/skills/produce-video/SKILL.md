@@ -1,5 +1,6 @@
 ---
 name: produce-video
+model: sonnet
 description: "Full pipeline: deep research to rendered video"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

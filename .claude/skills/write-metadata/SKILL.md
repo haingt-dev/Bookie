@@ -1,5 +1,6 @@
 ---
 name: write-metadata
+model: haiku
 description: "Generate YouTube and Facebook metadata for book video"
 disable-model-invocation: false
 argument-hint: "<book-slug>"

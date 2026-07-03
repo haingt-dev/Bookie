@@ -1,5 +1,6 @@
 ---
 name: new-subproject
+model: haiku
 description: "Create new Bookie sub-project with standard structure"
 disable-model-invocation: false
 argument-hint: "<project-name>"

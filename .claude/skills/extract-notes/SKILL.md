@@ -1,5 +1,6 @@
 ---
 name: extract-notes
+model: sonnet
 description: "Deep-research a book and propose video angles"
 disable-model-invocation: false
 argument-hint: "<book-slug>"
