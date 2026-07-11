@@ -1,0 +1,766 @@
+# Cây thư mục Google Drive — Bookie
+
+> Ảnh chụp (snapshot) cấu trúc Drive của Bookie tại thời điểm crawl 2026-07-11, gồm 3 thư mục gốc trong Shared Drive.
+> File media (ảnh/video/audio) không liệt kê từng file — chỉ ghi số lượng ở thư mục chứa (xem thêm `chi-muc-media-bo-qua.md`).
+> Cột thời gian = năm tạo. Link gốc của từng file nằm trong `inventory.json`.
+
+
+## Ad - Admin
+
+- 📁 **Bookie Admin** (2023)
+  - 📁 **HR - Team** (2023)
+    - 📁 **BOOKIER** (2023)
+      - 📁 **BOOKIER register** (2023)
+        - BOOKIER Register — *Google Form, 2016*
+        - BOOKIER Register - Web upload for branding — *Google Form, 2024*
+        - 🖼️ *2 file media (bỏ qua)*
+      - Bookier - Bài viết — *Google Doc, 2023*
+      - Bookier - WHY? — *Google Doc, 2023*
+      - FEEDBACK BOOKIER 2024 — *Google Form, 2024*
+      - FEEDBACK BOOKIER 2024 (Responses) — *Google Sheet, 2024*
+    - (new) Checkin Boo!e Event — *Google Form, 2024*
+    - Bookie HR 2023 — *Google Sheet, 2023*
+    - Bookier Commitment — *Google Doc, 2023*
+    - FEEDBACK FRIENDS 2024 — *Google Form, 2024*
+    - FEEDBACK FRIENDS 2024 (Responses) — *Google Sheet, 2024*
+    - Find a Time — *Google Form, 2023*
+    - Find a Time (Responses) — *Google Sheet, 2023*
+    - User Database — *Google Sheet, 2023*
+    - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **Organization** (2023)
+    - 📁 **Meeting note** (2023)
+      - Meeting admin — *Google Doc, 2023*
+    - Bookie System — *Google Sheet, 2023*
+  - 📁 **Web-design** (2023)
+    - Bookie Web Layout — *Google Sheet, 2023*
+  - [OUTDATED] V.2022 HANDBOOKIE — *Google Doc, 2023*
+  - Bookie Organization Units — *khác, 2023*
+  - Bookie Roster — *Google Sheet, 2023*
+  - HANDBOOKIE — *Google Doc, 2020*
+  - Kinh nghiệm Bookie — *Google Doc, 2023*
+- 📁 **Presenting** (2023)
+  - 231112 Tập huấn CTV — *Google Slides, 2023*
+  - Bookie Orientation — *Google Slides, 2023*
+  - Bookier Meetup — *Google Slides, 2023*
+  - Copy of Climate Fintech App Pitch Deck by Slidesgo — *Google Slides, 2023*
+  - Untitled presentation — *Google Slides, 2023*
+- BOM - MoM — *Google Sheet, 2023*
+- Bookie 2023 Plan — *Google Sheet, 2023*
+- BOOKIE 2024 Plan — *Google Sheet, 2023*
+- Bookie Reform — *Google Doc, 2020*
+
+## Bookie
+
+- 📁 **Bookie General Info** (2023)
+  - 📁 **Best CTV BOOKIE** (2023)
+    - 🖼️ *4 file media (bỏ qua)*
+  - Bookie Documents — *Google Sheet, 2023*
+  - Bookie Issue Log — *Google Sheet, 2023*
+  - 🖼️ *1 file media (bỏ qua)*
+- 📁 **Bookie Media Resources** (2023)
+  - 📁 **_Logo Bookie** (2023)
+    - 📁 **Color Palette** (2023)
+      - 🖼️ *4 file media (bỏ qua)*
+    - 📁 **OUTDATED Logo** (2023)
+      - 📁 **tet** (2023)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 🖼️ *5 file media (bỏ qua)*
+    - Bookie Branding Guideline — *Google Doc, 2023*
+    - Bookie-Brand-Guidelines-Presentation — *Google Slides, 2023*
+    - 🖼️ *5 file media (bỏ qua)*
+  - 📁 **2015 Training** (2023)
+    - 🖼️ *94 file media (bỏ qua)*
+  - 📁 **2019** (2023)
+    - 🖼️ *10 file media (bỏ qua)*
+  - 📁 **2020** (2023)
+    - 🖼️ *38 file media (bỏ qua)*
+  - 📁 **20230523-Meetup** (2023)
+    - 🖼️ *82 file media (bỏ qua)*
+  - 📁 **20230702-BT11-Chua lanh** (2023)
+    - 🖼️ *112 file media (bỏ qua)*
+  - 📁 **20230729-WS-How to read in Digital World** (2023)
+    - 🖼️ *4 file media (bỏ qua)*
+  - 📁 **20230805-BT12-Cuon sach doi doi** (2023)
+    - 🖼️ *11 file media (bỏ qua)*
+  - 📁 **20230808-Anh Bookie tại VOH** (2023)
+  - 📁 **20230816-BD-7 Thoi Quen Hieu Qua** (2023)
+    - 🖼️ *46 file media (bỏ qua)*
+  - 📁 **20230910-BT13-Co Mot Noi Nhu Vay** (2023)
+    - 🖼️ *18 file media (bỏ qua)*
+  - 📁 **20231005-BD-Tam_ly_hoc_ve_tien** (2023)
+    - 📁 **VID.20231005-BD-Tam_ly_hoc_ve_tien** (2023)
+      - 🖼️ *2 file media (bỏ qua)*
+    - 🖼️ *48 file media (bỏ qua)*
+  - 📁 **20231008-BT14-Dau_Tu_Tu_Dau** (2023)
+    - 🖼️ *7 file media (bỏ qua)*
+  - 📁 **20231025-BD-Hieu_Con_De_Yeu_Con_Dung_Cach** (2023)
+    - 🖼️ *26 file media (bỏ qua)*
+  - 📁 **20231119-Bookier Meetup** (2023)
+    - 🖼️ *5 file media (bỏ qua)*
+  - 📁 **20231201-BD_Why_We_Sleep** (2023)
+    - 🖼️ *88 file media (bỏ qua)*
+  - 📁 **20231217-BT-Nhung Bước Chuyển Cuộc Đời** (2023)
+    - 🖼️ *65 file media (bỏ qua)*
+  - 📁 **20240112-BD_Huong_dan_thien_phat_giao** (2024)
+    - 🖼️ *22 file media (bỏ qua)*
+  - 📁 **20240114-BT17-Tri_Tue_Cam_Xuc** (2024)
+    - 🖼️ *21 file media (bỏ qua)*
+  - 📁 **20240121-Bookie-gala-2023** (2024)
+    - 🖼️ *65 file media (bỏ qua)*
+  - 📁 **20240222-BD_the_one_world_schoolhouse** (2024)
+    - 📁 **Máy cá nhân [ẩn tên]** (2024)
+      - 🖼️ *41 file media (bỏ qua)*
+    - 🖼️ *52 file media (bỏ qua)*
+  - 📁 **20240223-Bookie_meetup_2024** (2024)
+    - 🖼️ *71 file media (bỏ qua)*
+  - 📁 **20240225-BD-Tu_Duy_Nhanh_Va_Cham** (2024)
+    - 🖼️ *2 file media (bỏ qua)*
+  - 📁 **20240317-BD-Dung-Viec** (2024)
+    - 🖼️ *5 file media (bỏ qua)*
+  - 📁 **20240324-BT19-Public-speaking** (2024)
+    - 🖼️ *19 file media (bỏ qua)*
+  - 📁 **20240407-BT2--FOMO** (2024)
+    - 🖼️ *3 file media (bỏ qua)*
+  - 📁 **20240512-BT21-Dau_la_cong_viec_danh_cho_toi** (2024)
+    - 🖼️ *7 file media (bỏ qua)*
+  - 📁 **20240523-BD-Life_time** (2024)
+    - 🖼️ *2 file media (bỏ qua)*
+  - 📁 **20240602-BT22-Lieu_toi_co_phai_la_kim_cuong** (2024)
+    - 🖼️ *42 file media (bỏ qua)*
+  - 📁 **20240623-BD-Learning-how-to-learn** (2024)
+    - 🖼️ *75 file media (bỏ qua)*
+  - 📁 **20240704-BD-Hai_So_Phan** (2024)
+    - 🖼️ *26 file media (bỏ qua)*
+  - 📁 **20240707-BT23-Tai_chinh_ca_nhan** (2024)
+    - 🖼️ *24 file media (bỏ qua)*
+  - 📁 **20240717-BD-Bon_Thoa_Uoc** (2024)
+    - 🖼️ *4 file media (bỏ qua)*
+  - 📁 **20240804-BT24-Doi_Dau_Voi_Nghich_Canh** (2024)
+    - 🖼️ *3 file media (bỏ qua)*
+  - 📁 **20240806-BD-The_Artist's_Way** (2024)
+    - 🖼️ *104 file media (bỏ qua)*
+  - 📁 **20240908-BT25-Hoc_Cach_Hoc** (2024)
+    - 🖼️ *8 file media (bỏ qua)*
+  - 📁 **20240915-BD - Dạy con trong hoang mang** (2024)
+    - 🖼️ *24 file media (bỏ qua)*
+  - 📁 **20241006-BT26 - Một mình liệu có ổn** (2024)
+    - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **20241024 BD 21 bai hoc cho the ky 21** (2024)
+    - 🖼️ *55 file media (bỏ qua)*
+  - 📁 **20241103-BT27-Toi_La_Ai** (2024)
+    - 🖼️ *23 file media (bỏ qua)*
+  - 📁 **20241124-BD-A_Way_Of_Being** (2024)
+    - 🖼️ *31 file media (bỏ qua)*
+  - 📁 **20241124-BD-A_Way_Of_Being - Videos** (2024)
+    - 🖼️ *8 file media (bỏ qua)*
+  - 📁 **20241201-BT28-Vuot_qua_vung_an_toan** (2024)
+    - 🖼️ *30 file media (bỏ qua)*
+  - 📁 **20250111 Bookie Gala** (2025)
+    - 🖼️ *71 file media (bỏ qua)*
+  - 📁 **Location Guidance** (2024)
+    - 🖼️ *4 file media (bỏ qua)*
+- 📁 **Bookie Projects** (2023)
+  - 📁 **Bookie Events** (2023)
+    - 📁 **Bookie Meet-up 2023** (2023)
+      - Book!e Meet-up 2023 — *Google Slides, 2023*
+      - Bookie Meet-up  — *Google Form, 2023*
+      - Bookie Meet-up 2023 - Intro — *Google Doc, 2023*
+      - Bookie Meet-up Agenda — *Google Doc, 2023*
+      - Meet-up 2023 - Roster — *Google Sheet, 2023*
+      - 🖼️ *1 file media (bỏ qua)*
+    - 📁 **Legacy resources** (2023)
+      - 📁 **Agenda** (2020)
+        - 200322_BD_5_Loi song toi gian cua nguoi Nhat_Agenda.pdf — *PDF, 2020*
+        - BD 3 Agenda.docx — *Word, 2020*
+        - BT 4 Agenda.docx — *Word, 2020*
+      - 📁 **cover event** (2020)
+        - 📁 **BD3 Departure** (2020)
+          - 🖼️ *5 file media (bỏ qua)*
+        - 📁 **BD6 Noi co don cua cac so nguyen to** (2023)
+          - 🖼️ *4 file media (bỏ qua)*
+        - 📁 **BD8 Doi Gio Hu** (2023)
+          - 🖼️ *4 file media (bỏ qua)*
+        - 📁 **BT8** (2023)
+          - 🖼️ *4 file media (bỏ qua)*
+        - 📁 **BT9 Phong Thuc Nghiem** (2023)
+          - 🖼️ *4 file media (bỏ qua)*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **T&D Admin** (2020)
+        - (Old) Bookie T&D process — *Google Sheet, 2023*
+        - (Outdated) Bookie T&D HR — *Google Sheet, 2019*
+        - Bản sao của Book!e: Human Resource Management — *Google Form, 2023*
+        - BOOKIE CHALLENGES — *Google Sheet, 2020*
+        - Bookie Finance — *Google Sheet, 2020*
+        - Copy of (Old) Book!e: Human Resource Management — *Google Form, 2023*
+        - Copy of (Old) Book!e: Human Resource Management — *Google Form, 2023*
+        - Copy of Copy of (Old) Book!e: Human Resource Management — *Google Form, 2023*
+        - Copy of Copy of (Old) Book!e: Human Resource Management — *Google Form, 2023*
+        - Danh sách việc cần làm — *Google Sheet, 2020*
+      - (Old) Book!e: Human Resource Management — *Google Form, 2019*
+      - Bookie Agenda — *Google Sheet, 2023*
+      - Bookie Chat — *Google Doc, 2020*
+      - Bookie village — *Google Doc, 2020*
+      - Đăng ký Book Talk — *Google Form, 2019*
+      - Đăng ký Book!e Discussion — *Google Form, 2019*
+      - Phản hồi về Bookie — *Google Form, 2019*
+      - Rights and obligations of Bookie member — *Google Doc, 2020*
+    - 📁 **WS How to reading in digital world** (2023)
+      - Copy of Tuyen CTV Book!e 2023 — *Google Slides, 2023*
+      - Quests WS How to Read in Digital World 29.07.23 — *Google Sheet, 2023*
+      - WS HOW TO READ IN DIGITAL WORLD — *Google Form, 2023*
+      - WS HOW TO READ IN DIGITAL WORLD (Responses) — *Google Sheet, 2023*
+      - WS How to Read in the Digital World 29.07.23 — *Google Slides, 2023*
+      - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **Bookie Meetup 2024** (2024)
+    - Bookie Meet-Up 2024 — *Google Slides, 2024*
+    - Meet-Up 2024 Agenda — *Google Sheet, 2024*
+    - Thống kê 2023 — *Google Sheet, 2024*
+  - 📁 **CTV 2024** (2023)
+    - Recruitment TNV Bookie Plan 2024 — *Google Sheet, 2023*
+    - TNV - Register 2024 — *Google Form, 2023*
+  - 📁 **CTV Recruitment 2023** (2023)
+    - 📁 **JD - CTV Bookie 2023** (2023)
+      - JD - Team L&D — *Google Doc, 2023*
+      - JD - Team MarCom — *Google Doc, 2023*
+      - JD - Team Operation — *Google Doc, 2023*
+      - JD - Team PD — *Google Doc, 2023*
+    - Associates Recruitment Plan — *Google Doc, 2023*
+    - Book!e Tuyển CTV — *Google Form, 2023*
+    - Bookier register — *Google Form, 2023*
+    - CTV - Danh sách — *Google Sheet, 2023*
+    - CTV - Form đơn giản — *Google Form, 2023*
+    - CTV - Tập huấn — *Google Sheet, 2023*
+    - Mail gửi CTV — *Google Doc, 2023*
+    - Recruitment CTV Bookie Plan 2023 — *Google Sheet, 2023*
+    - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **Gala 2023** (2023)
+    - 📁 **Book!e Certificate Collaborators** (2023)
+      - 🖼️ *9 file media (bỏ qua)*
+    - 📁 **FB HÌNH ẢNH** (2023)
+      - Bookie Gala 2023 — *shortcut, 2023*
+    - 📁 **FB POST** (2023)
+      - BOOKIE GALA 2023 — *shortcut, 2023*
+    - 📁 **Mã QR nhận thanh toán** (2023)
+      - 🖼️ *1 file media (bỏ qua)*
+    - (DEMO) MẪU ĐĂNG KÝ ĐI BOOK!E GALA 2023 — *Google Doc, 2023*
+    - (PUBLIC VERSION) THÔNG TIN CHI TIẾT BOOK!E GALA 2023 — *Google Doc, 2023*
+    - CTV - ĐĂNG KÝ THAM GIA BOOK!E GALA 2023  — *Google Form, 2023*
+    - Kế hoạch Gala 2023 — *Google Sheet, 2023*
+    - OFFICIAL - ĐĂNG KÝ THAM GIA BOOK!E GALA 2023  — *Google Form, 2023*
+  - 📁 **Gala 2024** (2024)
+    - BT #29 Ước mơ của bạn là gì? — *Google Doc, 2025*
+    - Copy of OFFICIAL - ĐĂNG KÝ THAM GIA BOOK!E GALA 2024  — *Google Form, 2024*
+    - OFFICIAL - ĐĂNG KÝ THAM GIA BOOK!E GALA 2024  — *Google Form, 2024*
+    - Plan Gala 2024 — *Google Sheet, 2024*
+    - SPEC GUEST - ĐĂNG KÝ THAM GIA BOOK!E GALA 2024  — *Google Form, 2025*
+    - 🖼️ *3 file media (bỏ qua)*
+  - (Outdated) Bookie T&D Schedule — *Google Sheet, 2023*
+  - Book!e Talk — *Google Form, 2023*
+  - Form feedback — *Google Form, 2023*
+  - Form Feedback event — *Google Form, 2023*
+  - The-Compound-Effect-Worksheets_DarrenHardy.pdf — *PDF, 2024*
+- 📁 **BOOKIER** (2023)
+  - 2024 - BOOKIER's Book List — *Google Sheet, 2024*
+- 📁 **BOOKs in Everyone** (2024)
+  - BOOKIE LIBRARY — *Google Sheet, 2024*
+- 📁 **LD - Learning & Development** (2023)
+  - 📁 **Bookie L&D - CTV** (2023)
+    - 📁 **[CTV-01]** (2023)
+      - Nhận xét các bạn — *Google Doc, 2023*
+      - PHƯƠNG PHÁP PHẢN HỒI TÍNH CỰC.docx — *Word, 2023*
+    - 📁 **[CTV-02]** (2023)
+      - [CTV-02] - Nhận xét team L&D Book!e.docx — *Word, 2023*
+      - Phuong phap doc sach hieu qua - [CTV-02].docx — *Word, 2023*
+      - Phuong phap phan hoi tich cuc (constructive feedback) - [CTV-02].docx — *Word, 2023*
+      - [CTV-02] - sub-competences ptrien nang luc Bookier.docx — *Word, 2023*
+    - 📁 **[CTV-03]** (2023)
+      - Nhận xét tích cực.docx — *Word, 2023*
+      - 🖼️ *1 file media (bỏ qua)*
+    - Cảm nhận CTV - Notes — *Google Doc, 2023*
+    - Phương pháp đưa ra phản hồi tích cực  — *Google Doc, 2023*
+  - 📁 **Bookie L&D - Lộ trình phát triển năng lực cho Bookier** (2023)
+    - BOOKIE COMPETENCES — *Google Sheet, 2024*
+    - L&D - Lộ trình phát triển năng lực cho Bookier — *Google Doc, 2023*
+    - L&D - Lộ trình phát triển năng lực cho Bookier (brainstorm) — *Google Sheet, 2023*
+    - [Thành viên L&D]_Sub competencies of presentation skills.docx — *Word, 2023*
+    - [CTV-02] - sub-competences ptrien nang luc Bookier.docx — *Word, 2023*
+    - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **Bookie L&D - Miscellaneous** (2023)
+    - [Template] Proposal for BD — *Google Doc, 2024*
+    - [Template] Proposal for BT — *Google Doc, 2024*
+    - Bookie - Reading Survey — *Google Form, 2023*
+    - Bookie - Reading Survey (revised Feb 2024) — *Google Form, 2024*
+    - BT & BD Introduction.docx — *Word, 2023*
+    - BT Topics — *Google Sheet, 2023*
+    - FEEDBACK CTV BOOK!E 2023 — *Google Form, 2023*
+    - FEEDBACK CTV BOOK!E 2023 (Responses) — *Google Sheet, 2024*
+    - Popular books — *Google Slides, 2024*
+  - 📁 **Bookie L&D - Proposals for BT & BD** (2024)
+    - [Template] Proposal - BT[Number] - [Title] — *Google Doc, 2024*
+    - Proposal - BD Học cách học — *Google Doc, 2024*
+    - Proposal - BT20 - FOMO — *Google Doc, 2024*
+    - Proposal - BT21 - Đâu là công việc dành cho tôi? — *Google Doc, 2024*
+    - Proposal - BT22 - Liệu tôi có cần phải là kim cương? — *Google Doc, 2024*
+    - Proposal - BT24 - Đối đầu với nghịch cảnh — *Google Doc, 2024*
+    - Proposal - BT25 - Học cách học — *Google Doc, 2024*
+    - Proposal - BT27 - Tôi là ai — *Google Doc, 2024*
+    - Proposal - BT28 - Vượt ra khỏi vùng an toàn — *Google Doc, 2024*
+    - Proposal - BT29 - Ước mơ của bạn là gì — *Google Doc, 2024*
+    - Proposal - BT30 - Sức khỏe tôi hiện tại — *Google Doc, 2025*
+  - Bookie L&D - Weekly task tracking — *Google Sheet, 2023*
+  - Bookier Growth — *Google Sheet, 2023*
+- 📁 **MC - MarCom** (2023)
+  - 📁 **Contents** (2023)
+    - 📁 **Bài viết** (2023)
+      - 📁 **Bookie Discussion** (2024)
+        - 📁 **Book!e Dicussion: Tư duy nhanh và chậm** (2024)
+          - Công bố BD: TƯ DUY NHANH VÀ CHẬM — *Google Doc, 2024*
+        - 📁 **Book!e Discussion: Đúng việc** (2024)
+          - Công bố BD: Đúng Việc — *Google Doc, 2024*
+        - 📁 **Book!e Discussion: Hai Số Phận** (2024)
+        - 📁 **Book!e Discussion: Hiểu con để yêu con đúng cách** (2023)
+          - (Thư) KICK OFF BD: HIỂU ĐỂ YÊU CON ĐÚNG CÁCH — *Google Doc, 2023*
+          - cảm nghĩ — *Google Doc, 2023*
+        - 📁 **Book!e Discussion: Hướng dẫn thiền Phật Giáo** (2023)
+          - CÔNG BỐ BD: Hướng dẫn thiền Phật Giáo — *Google Doc, 2023*
+        - 📁 **Book!e Discussion: Làm Chủ Nhịp Sinh Học** (2024)
+          - Công bố BD: Làm chủ nhịp sinh học — *Google Doc, 2024*
+          - RECAP: BD Làm chủ Nhịp Sinh Học — *Google Doc, 2024*
+        - 📁 **Book!e Discussion: The One World Schoolhouse** (2024)
+          - Công bố BD: "The One World Schoolhouse" — *Google Doc, 2024*
+        - 📁 **Book!e Discussion: Why We Sleep** (2023)
+          - BD Why We Sleep_Recap — *Google Doc, 2023*
+          - NHẮC NHỞ THAM GIA BD WHY WE SLEEP — *Google Doc, 2023*
+        - 📁 **Bookie Discussion: TÂM LÝ HỌC VỀ TIỀN** (2023)
+          - [BD: TLHVT] CÔNG BỐ BOOK!E DISCUSSION: TÂM LÝ HỌC VỀ TIỀN — *Google Doc, 2023*
+          - recap BD: Tâm lí học về tiền  — *Google Doc, 2023*
+      - 📁 **BOOKIE GALA 2023** (2023)
+        - [DOING] GIỚI THIỆU TEAM BUILDING — *Google Doc, 2024*
+        - Công Bố BOOKIE GALA 2023 — *Google Doc, 2023*
+        - GIỚI THIỆU LỬA TRẠI TÂM SỰ ĐÊM KHUYA — *Google Doc, 2024*
+        - NHẮC NHỞ CÒN 1 NGÀY NỮA DIỄN RA — *Google Doc, 2023*
+        - NHẮC NHỞ ĐIỀN FORM ĐĂNG KÝ — *Google Doc, 2023*
+        - Thông báo dời BOOKIE GALA 2023 — *Google Doc, 2024*
+      - 📁 **Bookie Talk** (2024)
+        - 📁 **Book!e Talk #15: Gen Z Dé or Né (Yes and No)** (2023)
+          - [BT15] CÔNG BỐ BT15: Gen Z Dé or Né (Yes or No) — *Google Doc, 2023*
+          - Recap BT #15: Gen Z - Dé hay Né — *Google Doc, 2023*
+        - 📁 **Book!e Talk #16 - Những bước chuyển cuộc đời** (2023)
+          - CÔNG BỐ BT16 - Những bước chuyển cuộc đời — *Google Doc, 2023*
+        - 📁 **Book!e Talk #17: Trí Tuệ Cảm Xúc** (2024)
+          - MarCom - Công Bố Event - BT #17: Trí Tuệ Cảm Xúc — *Google Doc, 2024*
+        - 📁 **Book!e Talk #18: Làm chủ bản thân** (2024)
+          - Công bố BT19: Làm chủ bản thân — *Google Doc, 2024*
+        - 📁 **Book!e Talk #21: Đâu là công việc của tôi?** (2024)
+          - Công bố BT #21 — *Google Doc, 2024*
+          - Recap BT #21: Đâu là công việc dành cho tôi? — *Google Doc, 2024*
+        - 📁 **Bookie Talk #13: "Có một nơi như vậy"** (2023)
+          - [BT13] CÔNG BỐ BOOK!E TALK 13 — *Google Doc, 2023*
+          - [BT13] ĐIỂM SÁCH: XÁCH BA LÔ LÊN VÀ ĐI — *Google Doc, 2023*
+          - cảm nghĩ khi trở thành một speakers — *Google Doc, 2023*
+        - 📁 **Bookie Talk #14: Đầu tư từ đâu** (2023)
+          - Bài viết thông báo về bookie talk — *Google Doc, 2023*
+          - Recap BT #14: Đầu tư từ đâu — *Google Doc, 2023*
+        - 📁 **Bookie Talk Gala: New year New you** (2024)
+          - MarCom - CÔNG BỐ BT gala: New year new you — *Google Doc, 2024*
+        - 📁 **BT19 - Nói trước đám đông sao cho hiệu quả** (2024)
+          - Công bố: BT Nói trước đám đông sao cho hiệu quả — *Google Doc, 2024*
+      - BÀI ĐĂNG TUYỂN TNV ĐỢT 1 2024 — *Google Doc, 2024*
+      - Copy of [Cùng nhìn lại] BookTalk - Những cuốn sách thay đổi cuộc đời — *Google Doc, 2023*
+      - Copy of Lợi ích khi tham gia TNV — *Google Doc, 2023*
+      - Copy of WS: HOW TO READ IN DIGITAL WORLD — *Google Doc, 2023*
+    - 📁 **Hình ảnh** (2023)
+      - 📁 **Bài reminder sự kiện** (2023)
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BD: Hiểu con để yêu con đúng cách** (2023)
+        - Bài viết liên quan chủ đề nuôi dạy con — *Google Doc, 2023*
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **BD: Hướng dẫn thiền Phật Giáo** (2023)
+        - 🖼️ *3 file media (bỏ qua)*
+      - 📁 **BD: Learn How to Learn** (2024)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **BD: TÂM LÍ HỌC VỀ TIỀN** (2023)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **BD: The One World Schoolhouse** (2024)
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BD: WHY WE SLEEP - SAO CHÚNG TA LẠI NGỦ** (2023)
+        - 🖼️ *3 file media (bỏ qua)*
+      - 📁 **Bookie Gala 2023** (2023)
+        - 🖼️ *6 file media (bỏ qua)*
+      - 📁 **Bookie Talk #13: "Có một nơi như vậy"** (2023)
+        - 🖼️ *4 file media (bỏ qua)*
+      - 📁 **Bookie Talk #14: "Đầu tư từ đâu"** (2023)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **Bookie Talk #15: Gen Z - Dé hay Né (Yes or No)** (2023)
+        - 🖼️ *3 file media (bỏ qua)*
+      - 📁 **Bookie Talk #17: Trí Tuệ Cảm Xúc** (2024)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **Bookie Talk #18: Làm chủ bản thân** (2024)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **Bookie Talk GALA: New year New you** (2024)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **BT19: Nói trước đám đông sao cho hiệu quả** (2024)
+        - 🖼️ *2 file media (bỏ qua)*
+      - Tổng hợp Link CANVA Design poster — *Google Sheet, 2024*
+    - Báo Cáo buổi Book Discussion: 7 Thói quen Hiệu Quả — *shortcut, 2023*
+    - Bookie Contents — *Google Sheet, 2023*
+  - 📁 **Recap** (2024)
+    - Recap  — *Google Doc, 2024*
+  - Facebook Marketing chuỗi BD — *Google Sheet, 2024*
+  - Mẫu Plan Facebook Marketing — *Google Sheet, 2023*
+- 📁 **Op - Operation** (2023)
+  - 📁 **Assignment** (2023)
+    - [Bookie] Gg Calendar + Google Sheet - [Thành viên Op 03].pdf — *PDF, 2023*
+    - [Bookie] Trello - [Thành viên Op 03].pdf — *PDF, 2023*
+    - [Thành viên Op 01].docx — *Word, 2023*
+    - [Thành viên Op 02] — *Google Doc, 2023*
+  - 📁 **Event** (2019)
+    - 📁 **BD - Bookie Discussion** (2023)
+      - 📁 **20230915 BD: 7 thoi quen hieu qua** (2023)
+        -  Feedback Book!e Discussion: 7 thói quen hiệu quả — *Google Form, 2023*
+        - Agenda BD: 7 thoi quen hieu qua — *Google Doc, 2023*
+        - BD 7 thoi quen hieu qua — *Google Slides, 2023*
+        - 🖼️ *4 file media (bỏ qua)*
+      - 📁 **20231005 BD: Tam ly hoc ve tien** (2023)
+        - 231005 BD Note — *Google Doc, 2023*
+        - BD Tâm Lý Học Về Tiền — *Google Slides, 2023*
+        - BD: Tâm lý học về tiền — *Google Doc, 2023*
+        - Feedback Book!e Discussion: Tâm Lý Học Về Tiền — *Google Form, 2023*
+        - Proposal Book!e Discussion: Tâm lý học về tiền — *Google Doc, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **20231025 BD: Hiểu con để yêu con đúng cách** (2023)
+        - 1 day left email — *Google Doc, 2023*
+        - BD Hiểu Con Để Yêu Con ĐÚng Cách — *Google Slides, 2023*
+        - BD: Tâm lý học về tiền — *Google Doc, 2023*
+        - Feedback Book!e Discussion: Hiểu Con Để Yêu Con Đúng Cách — *Google Form, 2023*
+        - Proposal Book!e Discussion: Hiểu con để yêu con đúng cách — *Google Doc, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **20231201 BD: Why We Sleep** (2023)
+        - 1 day left email — *Google Doc, 2023*
+        - BD Why We Sleep Agenda — *Google Doc, 2023*
+        - Feedback — *Google Form, 2023*
+        - Noti email — *Google Doc, 2023*
+        - Proposal — *Google Doc, 2023*
+        - Slide — *Google Slides, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **20240112 BD: Hướng Dẫn Thiền Phật Giáo** (2023)
+        - 1 day left email — *Google Doc, 2024*
+        - Feedback — *Google Form, 2024*
+        - Proposal — *Google Doc, 2023*
+        - Recap — *Google Doc, 2024*
+        - Slide — *Google Slides, 2024*
+      - 📁 **20240222 BD: The One World Schoolhouse** (2024)
+        - Feedback — *Google Form, 2024*
+        - Feedback - [2 thành viên] — *Google Doc, 2024*
+        - Recap The One World Schoohouse — *Google Doc, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **20240225 BD: Tư Duy Nhanh Và Chậm** (2023)
+        - Proposal — *Google Doc, 2024*
+        - Slide — *Google Slides, 2024*
+      - 📁 **20240317 BD: Đúng Việc** (2024)
+        - Bản sao của Slide — *Google Slides, 2024*
+        - Đăng ký BOOK!E DISCUSSION ĐÚNG VIỆC — *Google Form, 2024*
+        - Feedback — *Google Form, 2024*
+        - Proposal Đúng Việc — *Google Doc, 2024*
+        - Slide — *Google Slides, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **20240512 BD: Làm Chủ Nhịp Sinh Học (Lifetime)** (2024)
+        - mail — *Google Doc, 2024*
+        - Proposal: Làm chủ nhịp sinh học — *Google Doc, 2024*
+      - 📁 **20240623 BD: Học cách học** (2024)
+        - 1 day left email — *Google Doc, 2024*
+        - Đăng ký BOOK!E DISCUSSION HỌC CÁCH HỌC — *Google Form, 2024*
+        - mail — *Google Doc, 2024*
+        - Proposal - BD Học cách học — *shortcut, 2024*
+      - 📁 **20240704 BD Hai Số Phận** (2024)
+        - 🎉 HAI SỐ PHẬN - BOOKIE DISCUSSION 🎉 — *Google Doc, 2024*
+        - Đăng ký BOOK!E DISCUSSION: HAI SỐ PHẬN — *Google Form, 2024*
+        - email 1 day left — *Google Doc, 2024*
+        - Mail: 2 số phận — *Google Doc, 2024*
+      - 📁 **20240717 BD Bon Thoa Uoc** (2024)
+        - Đăng ký BOOK!E DISCUSSION: 4 THỎA ƯỚC — *Google Form, 2024*
+        - Mail: 4 thỏa ước — *Google Doc, 2024*
+        - Proposal Bốn Thỏa Ước — *Google Doc, 2024*
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **20240806 BD The Artist's Way** (2024)
+        - 1 day email — *Google Doc, 2024*
+        - Đăng ký BOOK!E DISCUSSION: ĐÁNH THỨC BẢN NGÃ NGHỆ SĨ — *Google Form, 2024*
+        - mail BD — *Google Doc, 2024*
+        - Proposal The Artist's Way — *Google Doc, 2024*
+        - Recap BD - The Artist's Way — *Google Doc, 2024*
+      - 📁 **20240915 BD: Dạy Con Trong Hoang Mang** (2024)
+        - Proposal BD Dạy Con Trong Hoang Mang — *Google Doc, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **202410__ BD: Bạn có thể đàm phán bất kỳ điều gì** (2024)
+        - Proposal BD: Bạn có thể đàm phán bất kỳ điều gì — *Google Doc, 2024*
+      - 📁 **20241024 BD: 21 Lessons for the 21st Century** (2024)
+        - Proposal 21 Lesson for the 21st Century — *Google Doc, 2024*
+      - 📁 **20241124 BD: A Way Of Being - Carl R.Rogers** (2024)
+        - A Way of Being ( PDFDrive ).pdf — *PDF, 2024*
+        - BD A Way Of Being - Carl R.Rogers - Host [ẩn tên] — *Google Doc, 2024*
+        - BD A Way of Being.pptx — *PowerPoint, 2024*
+      - 📁 **20241206 BD: 6 nguoi di khap the gian** (2024)
+        - Proposal - BD: 6 nguoi di khap the gian — *Google Doc, 2024*
+      - 📁 **Serie BD: Tài chính Cá nhân** (2024)
+        - DS Sách Tài chính cá nhân — *Google Sheet, 2024*
+        - Proposal — *Google Doc, 2024*
+        - Proposal - Hai số phận — *Google Doc, 2024*
+      - BD Agenda — *Google Sheet, 2024*
+      - BD Mail Format — *Google Doc, 2024*
+      - Book!e Discussion Host Register — *Google Form, 2023*
+      - Bookie Discussion process — *Google Sheet, 2023*
+      - Proposal template — *Google Doc, 2024*
+    - 📁 **BDO** (2023)
+      - BD ONLINE ideas — *Google Doc, 2023*
+    - 📁 **BT - Bookie Talk** (2023)
+      - 📁 **BT GALA: New year - New you** (2023)
+        - Agenda — *Google Doc, 2024*
+        - Feedback Book!e Talk Gala: New year - New you — *Google Form, 2024*
+        - Noti Email — *Google Doc, 2023*
+        - PROPOSAL | BT GALA: New year - New you — *Google Doc, 2023*
+        - slide BT Gala — *Google Slides, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT11** (2023)
+        -  Feedback Book!e talk#11: Chữa Lành — *Google Form, 2023*
+        - Book Talk 11 - MC Script — *Google Doc, 2023*
+        - BT 11 Agenda — *Google Doc, 2023*
+        - BT 11 Agenda.docx — *Word, 2023*
+        - Checkin Book!e Talk#11: Chữa lành — *Google Form, 2023*
+      - 📁 **BT12** (2023)
+        -  Feedback Book!e Talk#12: Cuốn sách thay đổi cuộc đời — *Google Form, 2023*
+        - BT 12 Agenda — *Google Doc, 2023*
+        - BT12 — *Google Slides, 2023*
+        - 🖼️ *3 file media (bỏ qua)*
+      - 📁 **BT13** (2023)
+        - BT 13 Agenda — *Google Doc, 2023*
+        - BT13 — *Google Slides, 2023*
+        - Feedback Book!e Talk#13: Có Một Nơi Như Vậy — *Google Form, 2023*
+        - Proposal BT #13: Có một nơi như vậy — *Google Doc, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT14 - Đầu tư từ đâu?** (2023)
+        - BT 14 Agenda — *Google Doc, 2023*
+        - BT14 — *Google Slides, 2023*
+        - BT14 - Đầu tư từ đâu? — *Google Doc, 2023*
+        - BT14 note — *Google Doc, 2023*
+        - Feedback Book!e Talk#14: Đầu Tư Từ Đâu — *Google Form, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT15 - Gen Z?** (2023)
+        - 1 day left email — *Google Doc, 2023*
+        - BT 15 Agenda — *Google Doc, 2023*
+        - BT15 — *Google Slides, 2023*
+        - Feedback Book!e Talk#15: Gen Z — *Google Form, 2023*
+        - Noti email — *Google Doc, 2023*
+        - Proposal BT15 - Gen Z Dé or Né (Yes and No) — *Google Doc, 2023*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT16 - Những Bước Chuyển Cuộc Đời** (2023)
+        - BT 16 Agenda — *Google Doc, 2023*
+        - Feedback Book!e Talk#16: Những Bước CHuyển Cuộc Đời — *Google Form, 2023*
+        - MC BT16 — *Google Doc, 2023*
+        - Noti Email — *Google Doc, 2023*
+        - Proposal BT16: Những bước chuyển cuộc đời — *Google Doc, 2023*
+      - 📁 **BT17 - Trí tuệ cảm xúc** (2023)
+        - Agenda — *Google Doc, 2024*
+        - BT17 - Trí tuệ cảm xúc — *Google Doc, 2024*
+        - BT22 — *Google Slides, 2024*
+        - Feedback Book!e Talk#17: Trí Tuệ Cảm Xúc — *Google Form, 2024*
+        - slide — *Google Slides, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT18 - Làm chủ bản thân** (2024)
+        - BOOK!E TALK 18 - PROPOSAL — *Google Doc, 2024*
+        - Đăng ký BOOK!E TALK #18 — *Google Form, 2024*
+        - Recap #18 — *Google Doc, 2024*
+      - 📁 **BT19 - Nói trước đám đông sao cho hiệu quả** (2024)
+        - BOOK!E TALK 19 - PROPOSAL.docx — *Word, 2024*
+        - Feedback — *Google Form, 2024*
+        - Recap BT #19 Nói trước đám đông — *Google Doc, 2024*
+        - slide — *Google Slides, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT20 - FOMO** (2024)
+      - 📁 **BT22 - Liệu tôi có cần phải là kim cương?** (2024)
+        - BookieMail - BT22 — *Google Doc, 2024*
+        - BookieRemindMail - BT22 — *Google Doc, 2024*
+        - Form đky BT #22 (chuyển vào mục BT22) — *Google Form, 2024*
+        - ShortcutProposal - BT22 — *Google Doc, 2024*
+      - 📁 **BT23 - Quản lý tài chính cá nhân** (2024)
+        - ShortcutProposal - BT23 — *Google Doc, 2024*
+      - 📁 **BT24 - Đối đầu với nghịch cảnh** (2024)
+        - BookieMail - BT24 — *Google Doc, 2024*
+        - BookieRemindMail - BT24 — *Google Doc, 2024*
+        - Form đky BT #24 — *shortcut, 2024*
+        - Form đky BT #25 — *Google Form, 2024*
+        - Form đky BT #25 — *shortcut, 2024*
+        - Proposal - BT24 - Đối đầu với nghịch cảnh — *shortcut, 2024*
+        - Recap - BT #24 — *Google Doc, 2024*
+      - 📁 **BT25 - Học cách học** (2024)
+        - BookieMail-BT25 — *Google Doc, 2024*
+        - BT25 — *Google Slides, 2024*
+        - Proposal - BT25 - Học cách học — *shortcut, 2024*
+        - 🖼️ *1 file media (bỏ qua)*
+      - 📁 **BT26 - Một mình liệu có ổn?** (2024)
+        - Proposal - BT26 - Một mình liệu có ổn — *Google Doc, 2024*
+      - Bookie Talk process — *Google Sheet, 2023*
+      - BT Agenda — *Google Sheet, 2024*
+      - Format Form đky BT (mới) — *Google Form, 2024*
+    - 2025.03.02_BT30 — *Google Slides, 2025*
+    - BD Feedback — *Google Form, 2024*
+    - BOOKIE & T&A — *shortcut, 2024*
+    - BOOKIE Annual Calendar — *Google Sheet, 2024*
+    - Feedback Bookie T&D — *Google Sheet, 2023*
+    - Format chung Feedback — *Google Form, 2024*
+    - Slide — *Google Slides, 2024*
+    - Take role - Bookier — *Google Sheet, 2023*
+    - 🖼️ *1 file media (bỏ qua)*
+- 📁 **PD - Partnership Development** (2023)
+  - 📁 **PD - Consultant** (2023)
+    - Nội dung Proposal  — *Google Doc, 2023*
+    - Nội dung thư ngỏ gửi cố vấn [ẩn tên] — *Google Doc, 2023*
+    - Tham khao Proposal Cong dong Athena.pdf — *PDF, 2023*
+  - 📁 **PD - CTV** (2023)
+    - 📁 **[CTV-04]** (2023)
+      - Báo cáo tìm hiểu về Portfolio và E-Portfolio  — *Google Doc, 2023*
+      - ƯU NHƯỢC ĐIỂM WEBSITE BOOK!E.pdf — *PDF, 2023*
+    - 📁 **[CTV-05]** (2023)
+      - Book!e Web.pdf — *PDF, 2023*
+      - BOOKIE WEBSITE FORMAT — *Google Doc, 2023*
+      - PROPOSAL — *Google Doc, 2023*
+      - PROPOSAL.pdf — *PDF, 2023*
+    - 📁 **[CTV-06]** (2023)
+      - partnership development.pdf — *PDF, 2023*
+      - Ưu điểm+ khuyết điểm.docx — *Word, 2023*
+  - 📁 **PD - Partners** (2023)
+    - Bookie & A&M — *Google Doc, 2023*
+    - Bookie & Beli Coffee — *Google Doc, 2023*
+  - 📁 **Portfolio** (2023)
+    - 📁 **Images and Icon Web** (2023)
+      - 📁 **Discuss** (2023)
+        - 🖼️ *11 file media (bỏ qua)*
+      - 📁 **Logo** (2023)
+        - 🖼️ *6 file media (bỏ qua)*
+      - 📁 **Talk** (2023)
+        - 🖼️ *8 file media (bỏ qua)*
+      - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **Testimonials** (2023)
+    - 📁 **Ảnh Cá nhân** (2023)
+      - 📁 **[Cá nhân 01]** (2023)
+        - 🖼️ *2 file media (bỏ qua)*
+      - 📁 **[Cá nhân 02]** (2023)
+        - 🖼️ *4 file media (bỏ qua)*
+      - 🖼️ *1 file media (bỏ qua)*
+    - Testimonials — *Google Slides, 2023*
+    - Testimonials — *Google Doc, 2023*
+    - 🖼️ *3 file media (bỏ qua)*
+  - (Outdated) Địa điểm Tổ chức Sự kiện dành cho NPO — *Google Sheet, 2020*
+  - Bookie - Stakeholder Register — *Google Sheet, 2023*
+- 📁 **Reference Documents** (2023)
+  - 📁 **Contest Docs** (2023)
+    - [R4K2023 GRAND FINALE] FORMAT & SCORING RUBRICS (FINAL LẦN 1) .pdf — *PDF, 2023*
+    - BELL-CLUB-SOW-BAN-GIÁM-KHẢO-GRAND-FINALE.pdf — *PDF, 2023*
+    - BELL-UEHRACE-FOR-KNOWLEDGE-2023-THÔNG-TIN-CHƯƠNG-TRÌNH.pdf — *PDF, 2023*
+- Event — *shortcut, 2024*
+
+## Old
+
+- 📁 **2016-2017** (2017)
+  - 📁 **Biên bản họp** (2016)
+    - 30.10.2016 Sinh hoạt lần 1 — *Google Doc, 2016*
+    - Biên bản họp ban ngày 07.12.2016.docx — *Google Doc, 2016*
+    - Biên bản họp ban ngày 07.12.2016.docx — *Google Doc, 2016*
+    - Biên bản họp ban ngày 07.12.2016.docx — *Google Doc, 2016*
+    - Biên bản họp ban ngày 07.12.2016.docx — *Word, 2016*
+    - Biên bản họp ban ngày 07.12.2016.docx — *Google Doc, 2016*
+    - Biên bản họp ban QM ngày 07.12.2016.docx — *Google Doc, 2016*
+    - NHẬT KÝ HỌP MẶT BCN BOOKIE ngày 26-11-16.docx — *Word, 2016*
+    - Nội dung 12.01.docx — *Word, 2017*
+  - 📁 **Ke hoach ứng tuyển BCN của các bạn** (2016)
+    - [Ứng viên BCN 12] - KH.docx.docx — *Word, 2016*
+    - [Ứng viên BCN 07] - MO HINH FRIENDBRARY.docx — *Word, 2016*
+    - [Ứng viên BCN 08] - SBS.docx — *Word, 2016*
+    - Hai - Bookie Fanpage.xlsx — *Excel, 2016*
+    - [Ứng viên BCN 10] - Kế hoạch chi tiết.docx — *Word, 2016*
+    - [Ứng viên BCN 01] - Ke hoach.docx — *Google Doc, 2016*
+    - [Ứng viên BCN 01] - Ke hoach.docx — *Word, 2016*
+    - [Ứng viên BCN 02] - KẾ HOẠCH RÈN LUYỆN CHO THÀNH VIÊN BOOKIE.docx — *Google Doc, 2016*
+    - [Ứng viên BCN 02] - KẾ HOẠCH RÈN LUYỆN CHO THÀNH VIÊN BOOKIE.docx — *Word, 2016*
+    - [Ứng viên BCN 04] - Kế hoạch Bookie.docx — *Word, 2016*
+    - [Ứng viên BCN 06] - KE HOẠCH BOOKIE.docx — *Word, 2016*
+    - [Ứng viên BCN 05] - Kế hoạch hợp thức hoá câu lạc bộ.docx — *Word, 2016*
+    - [Ứng viên BCN 05] - Kế hoạch khảo sát.docx — *Word, 2016*
+    - [Ứng viên BCN 11] - Kế hoạch.docx — *Word, 2016*
+    - [Ứng viên BCN 09] - ke hoach nhi đồng 1.docx — *Word, 2016*
+    - [Ứng viên BCN 03] - KẾ HOẠCH.docx — *Word, 2016*
+    - 🖼️ *1 file media (bỏ qua)*
+  - 📁 **thông tin thành viên** (2016)
+    - Danh sach Bookier chinh thuc.xlsx — *Excel, 2016*
+    - Danh sach Bookier chinh thuc.xlsx — *Google Sheet, 2018*
+    - Danh sách tham gia sinh hoạt lần 2 Bookie  — *Google Sheet, 2016*
+    - Lý do vắng mặt tập huấn (Câu trả lời) — *Google Sheet, 2016*
+    - Sẵn sàng trở thành một Bookier (Câu trả lời) — *Google Sheet, 2016*
+    - Thông tin liên lạc BOOKIER — *Google Sheet, 2016*
+  - Khảo sát chất lượng hoạt động Bookie Club — *Google Form, 2017*
+  - Khảo sát chất lượng hoạt động Bookie Club (Câu trả lời) — *Google Sheet, 2017*
+- 📁 **2017-2018** (2019)
+  - 📁 **Book Exchange** (2017)
+    - (Outdated) Bookie's Book List — *Google Sheet, 2017*
+    - Book!e Exchange Library - Linh Trung — *Google Sheet, 2017*
+    - Book!e Exchange Library - NVC — *Google Sheet, 2017*
+    - Đăng ký hỗ trợ Lead Book Discussion — *Google Form, 2017*
+    - Đăng ký tham gia chương trình Book Exchange — *Google Form, 2017*
+    - Đăng ký tham gia chương trình Book Exchange (Câu trả lời) — *Google Sheet, 2017*
+    - Thư viện Bookie — *Google Sheet, 2017*
+  - 📁 **Hình ảnh hoạt động** (2018)
+    - 📁 **2018.01.20 TỦ SÁCH MÙA XUÂN** (2018)
+      - 🖼️ *74 file media (bỏ qua)*
+    - 📁 **Bao sách gây quỹ** (2018)
+      - 📁 **Tủ sách mùa xuân** (2018)
+        - 🖼️ *10 file media (bỏ qua)*
+      - 🖼️ *19 file media (bỏ qua)*
+  - 📁 **Kế hoạch** (2017)
+    - Book!e - Tủ sách mùa xuân — *Google Form, 2017*
+    - Book!e - Tủ sách mùa xuân (Câu trả lời) — *Google Sheet, 2017*
+    - Chương trình chi tiết tặng sách tình nguyện.docx — *Word, 2017*
+    - kế hoạch tặng sách tình nguyện.docx — *Word, 2017*
+  - 📁 **Kỹ thuật** (2017)
+    - 📁 **2018** (2018)
+      - 🖼️ *2 file media (bỏ qua)*
+    - 🖼️ *6 file media (bỏ qua)*
+  - 📁 **Lưu trữ quan trọng** (2016)
+    - (Old) Sẵn sàng trở thành một Bookier — *Google Form, 2016*
+    - 2017 - Sẵn sàng trở thành một Bookier — *Google Form, 2017*
+    - 2017 - Sẵn sàng trở thành một Bookier (Câu trả lời) — *Google Sheet, 2017*
+    - Bảng tính chưa có tiêu đề — *Google Sheet, 2017*
+    - Đăng ký thành viên CLB Book!e trường ĐH KHTN — *Google Form, 2017*
+    - Nội dung họp BCN BOOKIE 12.01.docx — *Word, 2017*
+    - Tổng hợp link quan trọng — *Google Doc, 2016*
+  - 📁 **MarCom** (2017)
+    - 📁 **Bài đăng FB** (2017)
+      - 📁 **Quan điểm** (2017)
+      - 📁 **Review** (2017)
+      - Quản lý bài đăng MarCom — *Google Sheet, 2017*
+  - 📁 **mẫu đơn** (2016)
+    - Bookie cần bạn! — *Google Form, 2016*
+    - Bookie cần bạn! (Câu trả lời) — *Google Sheet, 2016*
+    - Đăng ký dẫn dắt Book Discussion  — *Google Form, 2017*
+    - Đăng ký thành viên BOOKIE Club — *Google Form, 2016*
+    - Đánh giá tập huấn kỹ năng — *Google Form, 2016*
+    - Khảo sát mô hình BD — *Google Form, 2018*
+    - Khảo sát mô hình BD (Câu trả lời) — *Google Sheet, 2018*
+    - Khảo sát về mức độ đọc sách — *Google Form, 2017*
+    - Lịch Interview BCN Bookie — *Google Form, 2016*
+    - Lịch Interview BCN Bookie (Câu trả lời) — *Google Sheet, 2016*
+    - Lý do vắng mặt tập huấn — *Google Form, 2016*
+    - The Last Chance from BOOKIE — *Google Form, 2016*
+    - The Last Chance to Become a Bookier — *Google Form, 2016*
+- bảng đánh giá 360 độ Bookie — *Google Form, 2017*
+- Đăng ký Dự án đọc sách Theo Chủ Đề — *Google Form, 2017*
+- Đăng ký tham gia Book!e Exchange — *Google Form, 2017*
+- Đăng ký tham gia Book!e Exchange (Câu trả lời) — *Google Sheet, 2017*
+- Danh sách áo Book!e — *Google Sheet, 2017*
+- DANH SÁCH CÁC BẠN CHƯA ĐÓNG TIỀN ÁO CLB BOOK!E — *Google Sheet, 2017*
+- DANH SÁCH ĐÓNG TIỀN ÁO CLB BOOK!E — *Google Sheet, 2017*
+- ĐẶT ÁO CÂU LẠC BỘ SÁCH BOOK!E — *Google Form, 2017*
+- Dữ liệu khảo sát — *Google Doc, 2017*
+- Mô hình Book Discussion.docx — *Google Doc, 2017*
+- Mô hình Book Discussion.docx — *Word, 2017*
+- Mô-hình-Bookie-Discussion - revised.docx — *Word, 2017*
+- Project tip + funfact từ sách hoặc tìm trên mạng — *Google Sheet, 2017*
+- Workflow of Book!e Activity — *Google Sheet, 2017*

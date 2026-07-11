@@ -15,6 +15,10 @@ Resource hub for multiple sub-projects. Not a codebase — primarily holds asset
 
 ```
 Bookie/
+├── knowledge/          <- org knowledge base (from Drive; Vietnamese; PII-scrubbed — repo is PUBLIC)
+│   ├── 00-inventory/   <- Drive tree snapshot + inventory.json (links back to sources)
+│   ├── 01..08-*/       <- history, org structure, playbooks, plans, minutes, brand, partners
+│   └── _meta/          <- PII policy, sources map, scan report (English)
 ├── projects/           <- sub-projects (each gets a folder)
 │   └── <name>/
 │       ├── assets/     <- media resources
@@ -24,6 +28,8 @@ Bookie/
     ├── branding/       <- logo, brand assets
     └── templates/      <- reusable templates
 ```
+
+**Knowledge base rule**: anything committed under `knowledge/` must stay PII-clean (no member names/contacts/individual payments — see `knowledge/_meta/PII-POLICY.md`). It is a dated snapshot (crawled 2026-07-11); refresh = re-crawl Drive and diff against `00-inventory/inventory.json`.
 
 ### Sub-project Conventions
 

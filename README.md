@@ -1,6 +1,14 @@
-# Bookie — AI Book Video Pipeline
+# Bookie — Community Resource Hub
 
-Automated pipeline that turns books into narrated video content for Book!e ("Book!e Inspires Everyone"), a Vietnamese reading community running for 9+ years.
+Resource hub for **Book!e Inspires Everyone**, a Vietnamese reading community running for 9+ years: the organization's knowledge base plus production sub-projects.
+
+## Knowledge Base
+
+[`knowledge/`](knowledge/README.md) — the organization's institutional memory, extracted from Bookie's Google Drive (2016→2025): history timeline, org structure evolution, playbooks for every program (Book!e Discussion, Book!e Talk, Gala, Meetup, CTV, MarCom…), yearly plans, meeting-minute knowledge, and a full Drive inventory with links back to source docs. All content in Vietnamese, PII-scrubbed for public hosting (see `knowledge/_meta/PII-POLICY.md`).
+
+# AI Book Video Pipeline
+
+Automated pipeline that turns books into narrated video content for the community.
 
 ## Pipeline
 
@@ -40,6 +48,7 @@ Each book goes through a 7-phase production flow:
 
 ```
 Bookie/
+├── knowledge/                 # Org knowledge base (extracted from Drive, Vietnamese)
 ├── projects/ai-book-video/
 │   ├── Makefile              # CLI pipeline entry point
 │   ├── WORKFLOW.md           # Full pipeline documentation
