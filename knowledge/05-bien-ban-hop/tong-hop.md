@@ -254,6 +254,22 @@ Tổng hợp 9 nhóm khó khăn Bookie từng gặp trong vận hành sinh hoạ
 8. **Ưu tiên sách lạ:** chọn tựa lạ để BD → bỏ lỡ cơ hội đào sâu sách "quốc dân" quen thuộc, đồng thời sách lạ cũng kém thu hút guest.
 9. **Khó kết nạp thành viên mới:** do chủ đề thay đổi liên tục, thời gian tham gia cố định, và áp lực chia sẻ cảm nghĩ cuối buổi khiến guest hoang mang.
 
+### Tư vấn ngoài — quản trị tình nguyện viên (founder Sách truyền tay, 16/03/2023)
+
+Ghi chép từ buổi trao đổi với founder cộng đồng **Sách truyền tay** về quản trị nhân sự tình nguyện — góc nhìn từ tổ chức ngang hàng đã vận hành lâu năm:
+
+- **Value quan trọng hơn benefit:** nhân sự hạnh phúc → đóng góp cho cộng đồng nhiều hơn → nâng cao năng lực → đáp ứng nhu cầu thị trường → phát triển bản thân (kỹ năng công việc + kỹ năng hệ thống: tool, document, tài nguyên, network).
+- **Không có ứng viên tồi, chỉ có ứng viên không phù hợp:** quy trình tuyển dụng "ngược" — thiết kế để đào thải ứng viên không phù hợp thay vì cố tuyển đủ.
+- **Nhân sự là công việc không dễ:** cần phẩm chất phù hợp (làm việc với con người, thấu cảm, nhìn nhận) — không phải ai cũng làm được vai này.
+- **Tổ chức phình lên theo thời gian (mô hình kim tự tháp):** vai trò sinh ra dần theo nhu cầu, linh động — không vẽ sơ đồ cứng từ đầu.
+- **Tập trung vào con người thay vì quy trình/công cụ/KPI:**
+  - Chu trình tình nguyện viên **6 tháng** (2 tháng probation), có lộ trình thăng tiến.
+  - On-job training → feedback (hiểu việc qua làm thật).
+  - Fieldtrip gắn kết (coffee, talk, trip).
+  - Đánh giá theo 3 trục: thái độ, kỹ năng, năng lực quản lý.
+  - Vòng lặp: thử nghiệm → đánh giá → improve (test & learn, tinh thần Agile).
+- **Tech "tưởng dễ lại khó không tưởng":** hệ thống tech cho cộng đồng của họ mất 4–5 năm phát triển, kinh phí ~5.000 USD — đừng đánh giá thấp chi phí tự xây tool.
+
 ---
 
 ## 6. Templates & công cụ quản trị
@@ -287,6 +303,7 @@ Sheet Board of Management – Minutes of Meeting (2023-2024) — **rỗng hoàn 
 
 ## Nguồn
 
+- Tư vấn ngoài §5: ghi chép cá nhân của founder (buổi trao đổi với founder Sách truyền tay, 16/03/2023) — không có bản gốc trên Drive
 - [30.10.2016 Sinh hoạt lần 1](https://docs.google.com/document/d/1QP3pZcy-_A1zUGDH0pzu9rLUs5k2Z38sIWK2br9eglo/edit) — Old/2016-2017/Biên bản họp/30.10.2016 Sinh hoạt lần 1
 - [NHẬT KÝ HỌP MẶT BCN BOOKIE ngày 26-11-16.docx](https://drive.google.com/file/d/0B9KUALL9ZP4RSzlSYmxRTWpSUHc/view) — Old/2016-2017/Biên bản họp/NHẬT KÝ HỌP MẶT BCN BOOKIE ngày 26-11-16.docx
 - [Biên bản họp ban ngày 07.12.2016.docx (docx gốc)](https://drive.google.com/file/d/0B9KUALL9ZP4RSENPVHA0LXBpdDJwcWxsVFlwYUdLRHVYSHVR/view) — Old/2016-2017/Biên bản họp/Biên bản họp ban ngày 07.12.2016.docx

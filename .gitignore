@@ -25,3 +25,6 @@ Thumbs.db
 *.bak
 *~
 ffmpeg2pass*
+
+# Obsidian (repo opened as vault — workspace config is per-user)
+.obsidian/

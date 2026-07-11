@@ -11,7 +11,7 @@
 
 ## Project Structure
 
-Resource hub for multiple sub-projects. Not a codebase — primarily holds assets, scripts, and configs.
+The organization's knowledge home + workspace for sub-projects. Not a codebase — holds knowledge, assets, scripts, and configs.
 
 ```
 Bookie/
@@ -19,11 +19,9 @@ Bookie/
 │   ├── 00-inventory/   <- Drive tree snapshot + inventory.json (links back to sources)
 │   ├── 01..08-*/       <- history, org structure, playbooks, plans, minutes, brand, partners
 │   └── _meta/          <- PII policy, sources map, scan report (English)
-├── projects/           <- sub-projects (each gets a folder)
-│   └── <name>/
-│       ├── assets/     <- media resources
-│       ├── scripts/    <- scripts, prompts
-│       └── output/     <- final output
+├── projects/           <- sub-projects (each gets a folder; 2 structure variants, see below)
+│   ├── ai-book-video/  <- AI book-video pipeline (Paused)
+│   └── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
     └── templates/      <- reusable templates
@@ -33,14 +31,24 @@ Bookie/
 
 ### Sub-project Conventions
 
-- Each sub-project lives in `projects/<name>/`
-- New sub-projects follow the structure above
+Two structure variants, chosen by project type:
+
+- **Standard** (default, `/new-subproject <name>`) — production/pipeline projects:
+  `assets/` · `scripts/` · `output/`
+- **Event-type** (`/new-subproject <name> --event`) — community event/program projects (BD, BT, Gala, Meetup…):
+  - `plan/` <- Operation: timeline checklist, roles, proposal, feedback spec
+  - `content/` <- Host/MC: agenda/rundown, discussion questions, evaluation
+  - `comms/` <- MarCom: email + social post templates
+  - `assets/` · `output/` <- same meaning as standard
+
+Event-kit content is distilled from the matching `knowledge/03-playbook/<program>.md`; `projects/bd-2026/` is the reference implementation. Promote a generic template into `shared/templates/` only once a second event-type project needs one — not before.
+
+- Each sub-project has its own README.md with a Status field: `Incubating | Active | Paused | Archived`
 - Large media files tracked with Git LFS (video, PSD, audio, etc.)
 - Final output goes in `output/`, don't commit output to git unless necessary
-- When pipeline logic changes, update WORKFLOW.md to stay in sync
+- When pipeline logic changes, update WORKFLOW.md (or equivalent) to stay in sync
 
 ## Project Values
-- **Minimal impact** — Make the smallest changes necessary. Don't over-engineer
 - **No dirty state** — Don't leave the environment broken. Verify changes work before completing a task
 - **Reversibility** — Ensure significant changes can be undone if needed
 
@@ -51,7 +59,7 @@ Bookie/
 ### Boundaries
 - This project is a resource hub, not application code
 - No backend/frontend infrastructure setup
-- Detailed project notes live in Obsidian Idea_Vault, don't duplicate here
+- Org notes live in this repo (opened as an Obsidian vault; `.obsidian/` is gitignored). Repo is PUBLIC → notes must be born PII-clean. Notes about PEOPLE (interviews, personal assessments) belong in the private Idea_Vault second brain, never here
 
 ## Security
 **CRITICAL**: NEVER commit, push, or expose secrets, API keys, tokens, or credentials to version control.
