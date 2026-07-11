@@ -115,7 +115,7 @@ Bookie theo dõi các vấn đề/sự cố vận hành phát sinh qua một she
 ## Kênh liên hệ chính thức
 
 - Email: bookie.community@gmail.com
-- Điện thoại: +84 77 5644 876
+- Điện thoại: [hotline — đã ẩn]
 - Fanpage: facebook.com/bookie.community
 - Website: bookiecommunity.com
 

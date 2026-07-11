@@ -78,12 +78,18 @@ Motif "chuyến bay hàng không" xuyên suốt bài công bố — kỹ thuật
 - Tiêu đề: "THÔNG BÁO: CHUYẾN BAY MANG SỐ HIỆU BOOKIE-WORKSHOP"
 - Các mục theo phong cách vé máy bay: *Ngày khởi hành* · *Giờ khởi hành* · *Địa điểm check-in* (Google Meet) · *Điểm đến* (chủ đề workshop)
 - "Trưởng đoàn": diễn giả khách mời — Mr. Xuân Hiển (Nhà sáng lập Bookie, giảng viên toàn cầu Google for Education)
-- Nội dung khám phá (4 điểm chính của buổi WS): sách điện tử/sách nói/nội dung số và thói quen đọc; phương pháp đọc thông minh giữa biển thông tin; mạng xã hội tác động thói quen đọc; sách & công nghệ — viễn cảnh văn hóa đọc tương lai
-- Đối tượng phù hợp: người yêu sách, muốn kết nối cộng đồng, muốn nâng kỹ năng lắng nghe/chia sẻ
-- CTA: link đăng ký form
-- Footer chuẩn: mô tả Bookie + email + website + hashtag (#Bookie #BookieTalk #BookieDiscussion #BookieCommunity)
-
-⚠ nguồn không đầy đủ — file "Copy of WS: HOW TO READ IN DIGITAL WORLD" (bài công bố) có `truncated: true`, có thể còn nội dung/footer chưa trích xuất hết.
+- Nội dung khám phá (4 điểm chính của buổi WS, nguyên văn):
+  1. Trò chuyện về sách điện tử, sách nói và nội dung kỹ thuật số, và thói quen đọc sách được chuyển hóa ra sao.
+  2. Phương pháp đọc sách thông minh xung quanh thế giới thông tin khổng lồ và nhiều tin rác.
+  3. Mạng xã hội và thói quen đọc sách tác động qua lại đối với chúng ta như thế nào.
+  4. Sách và công nghệ — viễn cảnh văn hóa đọc trong tương lai công nghệ bùng nổ.
+- "Chuyến bay này dành cho những quý khách": yêu thích sách/tìm hiểu sự phát triển của sách thời công nghệ · gặp gỡ và chia sẻ cùng cộng đồng người yêu-sách · nâng cao kỹ năng lắng nghe, chia sẻ với cộng đồng.
+- CTA: link đăng ký Google Form — https://forms.gle/iZbRZUEg1myEpH5DA
+- Footer chuẩn (template Bookie, tái dùng được cho các bài công bố khác):
+  > Book!e - Nơi chia sẻ tri thức và trau dồi kỹ năng.
+  > 📧 bookie.community@gmail.com
+  > 🌐 bookiecommunity.com
+  > #Bookie #BookieTalk #BookieDiscussion #BookieCommunity
 
 ### Feedback đăng ký (aggregate, đã loại bỏ danh tính)
 
@@ -104,6 +110,6 @@ Không tìm thấy tài liệu riêng về "dự án đọc sách theo chủ đ�
 
 - [WS HOW TO READ IN DIGITAL WORLD (Responses)](https://docs.google.com/spreadsheets/d/1d96iP4E7zZPNTP4-yzZAx91ft7-sVk1P2jE4hZzaoH4/edit) — Bookie/Bookie Projects/Bookie Events/WS How to reading in digital world/WS HOW TO READ IN DIGITAL WORLD (Responses)
 - [WS How to Read in the Digital World 29.07.23](https://docs.google.com/presentation/d/1fVOvIzUlWvsaVaBJibC-WIZHeS5OTE_0hFR4QZT9xzk/edit) — Bookie/Bookie Projects/Bookie Events/WS How to reading in digital world/WS How to Read in the Digital World 29.07.23
-- [Copy of WS: HOW TO READ IN DIGITAL WORLD](https://docs.google.com/document/d/1JPrTxQrGaI11pqz7jc_omL_v1basKbCrAEUlxVOMVB8/edit) — Bookie/MC - MarCom/Contents/Bài viết/Copy of WS: HOW TO READ IN DIGITAL WORLD ⚠ nguồn không đầy đủ (truncated: true)
+- [Copy of WS: HOW TO READ IN DIGITAL WORLD](https://docs.google.com/document/d/1JPrTxQrGaI11pqz7jc_omL_v1basKbCrAEUlxVOMVB8/edit) — Bookie/MC - MarCom/Contents/Bài viết/Copy of WS: HOW TO READ IN DIGITAL WORLD
 - [Quests WS How to Read in Digital World 29.07.23](https://docs.google.com/spreadsheets/d/1q0fxylp12LJ_U-v5LIfc4VXM1p6XaI0BISN6eukivF8/edit) — Bookie/Bookie Projects/Bookie Events/WS How to reading in digital world/Quests WS How to Read in Digital World 29.07.23
 - [Copy of WS 29/7 Script](https://docs.google.com/document/d/1u9HQzMj-m8hWtOO5D2BjyVSYCUZwm_NM7yjQ3husTNk/edit) — Bookie/Bookie Projects/Bookie Events/WS How to reading in digital world/Copy of WS 29/7 Script

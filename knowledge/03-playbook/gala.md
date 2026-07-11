@@ -278,7 +278,7 @@ Checklist vật dụng mang theo (khung tái dùng cho mọi sự kiện offline
 - Quần áo/giày thoải mái
 - **Sách** ("linh vật đặc trưng")
 
-⚠ Nguồn "Nhắc nhở còn 1 ngày" bị cắt cuối (truncated) — checklist đầy đủ có thể còn mục khác.
+> Tài liệu gốc dở dang: bài viết dừng giữa câu ở dòng cuối cùng ("Đừng quên chuẩn bị ..."), sau checklist trên — không phải lỗi trích xuất. Checklist vật dụng trên đã đầy đủ theo bản gốc.
 
 ### 10.4. Email mời (Noti Email)
 Format: bảng header To/Cc/Bcc/Subject (Subject: "BT GALA: NEW YEAR NEW YOU") → mở đầu bằng vấn đề + dẫn nguồn nghiên cứu → câu hỏi gợi mở → mời tham dự → giải thích bối cảnh Gala → CTA điền Google Form → chương trình đính kèm → **"LƯU Ý KHI THAM GIA"** (mang sách phù hợp chủ đề; tinh thần học hỏi/đóng góp; tôn trọng khác biệt quan điểm; báo trước BTC nếu muốn chia sẻ) → footer kênh chính thức.
@@ -314,7 +314,7 @@ Tài liệu sự kiện (agenda, slide) gắn sẵn **CTA tuyển thành viên**
 
 - [PROPOSAL | BT GALA: New year - New you](https://docs.google.com/document/d/17jgQX9ZHuip5OpYp_4ErNnQrYxw5OuavNhjflj_uZ2M/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT GALA: New year - New you/PROPOSAL
 - [Noti Email](https://docs.google.com/document/d/19-M1WzeLCHAnHmiQvf-tBubrB50PVp44QpvGSoxT2Yc/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT GALA: New year - New you/Noti Email
-- [NHẮC NHỞ CÒN 1 NGÀY NỮA DIỄN RA](https://docs.google.com/document/d/1BCSEuJjRmaihtujKV1JjhdlGPROWIHwdYh8bWg-jhdI/edit) — Bookie/MC - MarCom/Contents/Bài viết/BOOKIE GALA 2023/NHẮC NHỞ CÒN 1 NGÀY NỮA DIỄN RA *(⚠ truncated)*
+- [NHẮC NHỞ CÒN 1 NGÀY NỮA DIỄN RA](https://docs.google.com/document/d/1BCSEuJjRmaihtujKV1JjhdlGPROWIHwdYh8bWg-jhdI/edit) — Bookie/MC - MarCom/Contents/Bài viết/BOOKIE GALA 2023/NHẮC NHỞ CÒN 1 NGÀY NỮA DIỄN RA *(tài liệu gốc dở dang)*
 - [(PUBLIC VERSION) THÔNG TIN CHI TIẾT BOOK!E GALA 2023](https://docs.google.com/document/d/1chqlinYZ9G3Mifpw0lMl3YZ05GPo3oxWIoSru1qP7UU/edit) — Bookie/Bookie Projects/Gala 2023/(PUBLIC VERSION) THÔNG TIN CHI TIẾT BOOK!E GALA 2023
 - [Công Bố BOOKIE GALA 2023](https://docs.google.com/document/d/1d0A7VhZBvlLMUGX8IktmlKKQlyD4AxiPvpQrOuDnpOQ/edit) — Bookie/MC - MarCom/Contents/Bài viết/BOOKIE GALA 2023/Công Bố BOOKIE GALA 2023
 - [GIỚI THIỆU LỬA TRẠI TÂM SỰ ĐÊM KHUYA](https://docs.google.com/document/d/1H9ghFwYwXcvJortSW7Z0jfkpVEsQrKq3rEorzDKjn6g/edit) — Bookie/MC - MarCom/Contents/Bài viết/BOOKIE GALA 2023/GIỚI THIỆU LỬA TRẠI TÂM SỰ ĐÊM KHUYA

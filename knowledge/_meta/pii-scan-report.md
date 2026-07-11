@@ -33,8 +33,22 @@ Point-in-time verification that the knowledge base is PII-clean before its first
 - Partner organization names + org-level contacts
 - Book authors and public figures as subjects of events
 
+## Recovery pass — 2026-07-11 (second commit)
+
+All 17 truncated sources were re-processed:
+
+| Outcome | Count | Detail |
+|---|---|---|
+| Recovered in full (re-read) | 9 | incl. the data-dense Bookie HR 2023 (19 full rows) and the 2017 Bookier responses (58 rows — original flag was a false positive) |
+| Recovered in full (text export) | 2 | Proposal "Làm chủ nhịp sinh học", Công bố BT16 |
+| Source itself unfinished (not truncation) | 4 | annotated "tài liệu gốc dở dang" in the knowledge files |
+| Export complete but zero data rows | 1 | FEEDBACK FRIENDS 2024: CSV export returns only the 33-column header — either no responses were collected or data sits on a non-default tab (verify in Drive) |
+| Still partially capped | 1 | Recap BT #19: two independent reads cut at the same point; content substantially improved, remainder documented |
+
+Method note: binary xlsx export through the MCP layer proved unusable (base64 must transit the model → zip CRC corruption); text/plain and text/csv exports degrade gracefully and were verified against the overlap region of prior partial reads. Newly recovered content went through the same 3-layer scrub; an adversarial rescan of the 7 updated files produced 1 finding (quasi-identifier stack next to a masked host name — profession + hometown + birth year), fixed before commit. The name-sanitization map was consolidated to a single source of truth (59 entries) after one masked nickname briefly reappeared during merge.
+
 ## Known limitations
 
-- Extraction summaries are lossy by design; 17 sources were truncated by the reader API — refresh may recover more.
+- Extraction summaries are lossy by design; 1 source (Recap BT #19) remains partially capped by the reader API — see recovery table above.
 - The original Drive remains unsanitized (it's private); links in SOURCES.md lead back to raw docs containing PII — access controlled by Drive permissions, not this repo.
 - ⚠ Security note (Drive-side, not in this repo): one operational sheet stores shared-account credentials in plaintext; flagged to the owner for rotation.

@@ -177,15 +177,16 @@ Giai đoạn 2023 trở đi, Bookie số hóa việc quản lý nhân sự bằn
 
 ### 5.1 Tuyển CTV/Đại sứ — form "Bookie HR 2023"
 
-Form đăng ký "trở thành Bookier/Đại sứ" (2023-2024) thu thập thông tin đầu vào để phân loại ứng viên:
+Form đăng ký "trở thành Bookier/Đại sứ" (2023-2024) thu thập thông tin đầu vào để phân loại ứng viên. Sheet có **19 dòng phản hồi đầy đủ** (25/10/2023 – 29/10/2024) — bảng kết thúc tự nhiên ở dòng cuối, không bị cắt.
 
-- **Cấu trúc form:** thông tin cá nhân, nghề nghiệp/lĩnh vực, thể loại sách yêu thích, cuốn sách tâm đắc nhất + cảm xúc, số sách đọc/năm, mong muốn khi tham gia, rào cản cá nhân, thói quen muốn hình thành, đóng góp có thể mang lại, mức độ sẵn sàng cam kết, băn khoăn khi đăng ký.
-- **Hệ thống phân loại ứng viên** (nhãn gán sau review): **"Hạt giống" · "Tiềm năng" · "Cỏ Bốn lá" (hoặc "Cỏ Ba lá")** — các cấp độ đánh giá mức độ phù hợp/sẵn sàng để phân bổ vai trò.
-- **Nhóm động lực tham gia phổ biến:** tăng động lực đọc, tiếp cận đa dạng thể loại, trao đổi/mượn sách, thảo luận cùng cộng đồng, phát triển kỹ năng nói trước đám đông, kết nối người yêu sách, tổ chức hoạt động tình nguyện.
-- **Nhóm rào cản phổ biến:** thiếu môi trường phát triển, thiếu tự tin giao tiếp, thiếu tính tự chủ, ngại rời vùng an toàn, thiếu thời gian, chưa xác định mục đích sống.
-- Form còn có cột đo **viral loop** ("Bạn sẽ share link này cho bạn bè chứ?").
+- **Cấu trúc form (28 cột, tiến hóa theo thời gian):** thông tin cá nhân (một số cột trùng lặp/dư thừa do cấu trúc Google Form), nghề nghiệp/lĩnh vực, khu vực sinh sống (quận tại TP.HCM hoặc tỉnh/quốc gia khác), thể loại sách yêu thích, cuốn sách tâm đắc nhất + cảm xúc, số sách đọc/năm, mong muốn khi tham gia, rào cản cá nhân, thói quen muốn hình thành, đóng góp có thể mang lại, mức độ sẵn sàng cam kết (mission statement), băn khoăn khi đăng ký. **Từ cuối 2023 trở đi form được bổ sung thêm trường:** giới tính, phần tự giới thiệu/ấn tượng bản thân, 3 giá trị sống quan trọng nhất, sở thích ngoài đọc sách.
+- **Hệ thống phân loại ứng viên** (nhãn gán vào cột "Bạn mong muốn trở thành đại sứ" sau review, không phải câu trả lời tự do): **"Hạt giống" · "Tiềm năng" · "Cỏ Bốn lá"** (một dòng ghi biến thể "Cỏ Ba lá", nhiều khả năng lỗi gõ của cùng nhãn) — các cấp độ đánh giá mức độ phù hợp/sẵn sàng để phân bổ vai trò. Phân bố: Cỏ Bốn lá/Cỏ Ba lá ≈ 7 người, Tiềm năng ≈ 7 người, Hạt giống ≈ 5 người.
+- **Nhóm động lực tham gia phổ biến:** tăng động lực đọc, tiếp cận đa dạng thể loại, trao đổi/mượn sách, thảo luận cùng cộng đồng, phát triển kỹ năng nói trước đám đông, kết nối người yêu sách, tổ chức hoạt động tình nguyện, giải trí sau giờ đọc căng thẳng.
+- **Nhóm rào cản phổ biến:** thiếu môi trường phát triển, thiếu tự tin giao tiếp, thiếu tính tự chủ/năng lực tự học, ngại rời vùng an toàn, thiếu thời gian, hiệu suất chưa tốt/hay mắc sai sót, chưa xác định mục đích sống ("Tôi là ai?"), thiếu tập trung, thiếu một lý do lớn để bắt đầu.
+- Form còn có cột đo **viral loop** ("Bạn sẽ share link này cho bạn bè chứ?") + mức cam kết "Sẵn sàng!" — gần như 100% người trả lời chọn "Có" và mức sẵn sàng cao nhất.
+- **Tín hiệu vận hành:** một phản hồi (07/2024) ghi chú từng điền form Book!e trước đó nhưng "không nhận được phản hồi" — gợi ý có khoảng trễ/rớt trong quy trình theo dõi ứng viên sau khi nộp form.
 
-> ⚠ **Nguồn không đầy đủ** (truncated): chỉ đọc được ~17 dòng dữ liệu (25/10/2023 – 29/10/2024), sheet có thể còn nhiều dòng hơn. Số sách đọc/năm trải từ "1-3 cuốn" đến ">12 cuốn/năm"; thể loại nhắc nhiều nhất: self-help/truyền cảm hứng, tiểu sử-hồi ký, giả tưởng/khoa học viễn tưởng, lịch sử.
+**Số liệu đầu vào (aggregate):** Số sách đọc/năm trải từ "1-3 cuốn" đến ">12 cuốn/năm", phần lớn rơi vào nhóm 1-6 hoặc 7-12 cuốn. Thể loại nhắc nhiều nhất: self-help/truyền cảm hứng, tiểu sử-hồi ký, giả tưởng/khoa học viễn tưởng, lịch sử, truyện ngắn. Khu vực sinh sống: chủ yếu TP.HCM (nhiều quận), một số ở tỉnh/thành khác (Huế, Hà Nội, Phan Thiết). Nghề nghiệp/lĩnh vực đa dạng: CNTT, marketing, tư vấn visa, luật, giáo dục/đào tạo, tâm lý giáo dục, xuất bản, du lịch, hỗ trợ sinh sản (y tế), báo chí, startup EdTech, sinh viên.
 
 ### 5.2 User Database — mapping tài khoản
 
@@ -210,7 +211,7 @@ Sheet quản trị hạ tầng, liệt kê **3 tài khoản hệ thống dùng c
 
 ## 6. Đo lường sức khỏe tổ chức: khảo sát "FEEDBACK FRIENDS 2024"
 
-Khảo sát nội bộ định kỳ đo mức độ hài lòng của CTV/thành viên (team "Friends") — playbook đánh giá đa chiều, **6 nhóm chỉ số** có thể tái dùng cho các đợt sau:
+Khảo sát nội bộ định kỳ đo mức độ hài lòng của CTV/thành viên (team "Friends") — playbook đánh giá đa chiều, cấu trúc **33 cột / 6 nhóm chỉ số** có thể tái dùng cho các đợt sau:
 
 | Nhóm | Nội dung đánh giá |
 |------|-------------------|
@@ -223,7 +224,7 @@ Khảo sát nội bộ định kỳ đo mức độ hài lòng của CTV/thành 
 
 Câu hỏi mở cuối form: Bookie cần cải thiện gì; muốn đóng góp gì thêm; ý tưởng training cho CTV; có muốn tiếp tục tham gia không.
 
-> ⚠ **Nguồn không đầy đủ** (truncated): chỉ đọc được phần header cấu trúc khảo sát, không có dữ liệu phản hồi thực tế → không có số liệu kết quả. Khảo sát tạo 20/12/2024.
+> ⚠ **Khoảng trống dữ liệu trong nguồn:** file đã export CSV đầy đủ, hợp lệ (không bị cắt) nhưng **chỉ có đúng 1 hàng header, 0 hàng phản hồi** — không phải lỗi công cụ đọc mà bản thân sheet (hoặc phạm vi export mặc định) không lưu dữ liệu nào. Không có số liệu kết quả để tổng hợp. Khả năng: (a) khảo sát chưa/ít người điền (cửa sổ ngắn ~5 ngày: tạo 20/12/2024, sửa cuối 25/12/2024), hoặc (b) dữ liệu phản hồi nằm ở một tab khác trong cùng file mà export mặc định (không chỉ định gid) không lấy tới.
 
 ---
 

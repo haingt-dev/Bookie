@@ -53,5 +53,5 @@ Toàn bộ tri thức của **Book!e Inspires Everyone** (cộng đồng đọc 
 ## Quy ước cập nhật
 
 - Đây là **snapshot** — Drive tiếp tục thay đổi; muốn refresh, crawl lại và diff theo `inventory.json` (trường `modified`).
-- File nào tổng hợp từ nguồn bị cắt (sheet quá lớn) có đánh dấu `⚠ nguồn không đầy đủ` tại mục liên quan.
+- 17 nguồn từng bị cắt khi đọc đã được **khôi phục ngày 2026-07-11** (chi tiết: `_meta/pii-scan-report.md`). Còn lại: 1 nguồn bị cap một phần (Recap BT #19) và 1 nguồn có khoảng trống dữ liệu gốc (FEEDBACK FRIENDS 2024 — tab mặc định không có dòng phản hồi nào). Ghi chú "tài liệu gốc dở dang" = tác giả chưa viết xong, không phải lỗi trích xuất.
 - Google Forms (82 form) không đọc được nội dung qua API — chỉ có tên trong inventory.

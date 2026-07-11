@@ -209,7 +209,8 @@ Bố cục (mẫu BT15 "1 day left"): Subject "Tham gia ngay Book!e Talk #N: [ch
 
 ### 6e. Recap / Wrap-up (sau sự kiện)
 Nhiều biến thể văn phong:
-- **Recap đúc kết insight** (BT21): mở bằng 2 từ khóa đúc kết → bối cảnh → framework/insight chính → câu hỏi mở kết bài → cross-promote sự kiện kế tiếp → footer.
+- **Recap đúc kết insight** (BT21, BT15): mở bằng 2 từ khóa đúc kết → bối cảnh → framework/insight chính → câu hỏi mở kết bài → cross-promote sự kiện kế tiếp → footer. Mẫu BT15 "Gen Z - Dé hay Né" (đăng 13/11/2023): tiêu đề `[RECAP] - BOOK!E Talk #15` → trích dẫn mở đầu ký bút danh ("[ẩn tên]") → cảm nhận cá nhân người viết (tự nhận là Gen Z) → **đúc kết 3 từ khóa dạng hashtag** (#Tự do, #Chấp nhận, #Thấu cảm) → lời cảm ơn → cross-promote thẳng sự kiện kế tiếp (Book!e Discussion "Why We Sleep", 1/12/2023) → footer + hashtag. Đặc trưng: ngắn gọn, KHÔNG tường thuật chi tiết buổi, tập trung cảm xúc người viết + 2–3 từ khóa dễ nhớ.
+- **Recap tường thuật + đúc kết kinh nghiệm** (BT19 "Nói trước đám đông", đăng 24/03/2024): tiêu đề in hoa + hashtag (`#BT19`) → mở bài (host khơi gợi kỷ niệm nói trước đám đông) → **liệt kê nguyên nhân cốt lõi** (BT19: 4 lý do sợ nói trước đám đông — đám đông là người lạ; người nghe giỏi hơn → sợ bị phán xét; sự kiện quy mô lớn/trang trọng; nói bằng ngoại ngữ) → **1 câu insight chốt** ("chính chúng ta tự tạo áp lực, tự phán xét mình nhiều hơn người khác phán xét") → chuyển đoạn in hoa → **từng chia sẻ kinh nghiệm gắn 1 icon emoji riêng** để phân biệt người nói, văn phong gần gũi. Một khung đáng chú ý xuất hiện trong buổi: phân tích bài nói theo 3 giai đoạn **Trước – Trong – Sau** (Trước: mô phỏng cả ngôn ngữ, giọng lẫn cảm xúc; Trong: tìm động lực lớn hơn bản thân để nói; Sau: sống lại cảm giác trên sân khấu, rút ra bài học).
 - **Recap cảm nghĩ speaker** (BT14): góc nhìn cá nhân thay đổi qua sự kiện → tên diễn giả + sách chia sẻ → cảm nghĩ khi làm speaker → cảm xúc đọng lại về văn hóa cộng đồng.
 - **Recap review sách + bài học** (BT13 "Đời thừa"): trải nghiệm đọc + trích dẫn → tóm tắt truyện → cảm nghĩ → "Ba bài học rút ra" → giá trị cộng đồng Bookie → cảm ơn + ký bút danh.
 - **Recap 2 phần công khai + nội bộ** (BT24, BT26): phần 1 đăng fanpage (mở bài gợi vấn đề → tóm tắt nội dung → mục "ĐỌNG LẠI NHẤT" trích quote ẩn danh → "NHỮNG CUỐN SÁCH ĐÃ ĐƯỢC CHIA SẺ" → CTA sự kiện kế tiếp + hashtag); phần 2 ghi chú thảo luận chi tiết nội bộ (tư liệu tái dùng).
@@ -244,6 +245,8 @@ Bộ slide trình chiếu là **template rỗng tái dùng** cho mọi kỳ (xá
 11. Slide cảm ơn (THANKS!) + thông tin liên hệ fanpage/email
 
 Bản BT25 có thêm slide phụ trợ live: **đếm ngược thời gian** và **hướng dẫn địa điểm** (thang máy, quẹt thẻ lên lầu).
+
+Khôi phục trọn vẹn 2 deck BT17 và BT19 xác nhận đây đúng là **MC deck khung sườn**: phần lớn slide chỉ có tiêu đề, nội dung thật do host trình bày live (Speech thường là 2–3 slide liên tiếp không tiêu đề, chừa chỗ diễn giả tự chèn). BT19 gồm trọn 13 slide, kết bằng slide THANKS: *"Nếu bạn có thêm câu hỏi nào? Hãy liên hệ Anh Bookie @"* + kênh liên hệ chung của cộng đồng (email / hotline / fanpage). "Anh Bookie" là nhân vật đại diện thương hiệu, không phải cá nhân cụ thể.
 
 ---
 
@@ -294,7 +297,7 @@ Bản BT25 có thêm slide phụ trợ live: **đếm ngược thời gian** và
 ## 10. Bài học & insight vận hành
 
 - **Template hóa để scale:** toàn bộ slide/agenda/email là khung tái dùng — mỗi kỳ mới chỉ điền chủ đề/diễn giả/câu hỏi, không dựng lại từ đầu. Đây là lợi thế chính giúp duy trì sự kiện định kỳ hàng tháng với nguồn lực tình nguyện.
-- **Rủi ro của template hóa:** copy quên cập nhật → sai ngày/sai chủ đề trong nhiều file (ngày "10/09" và ghi nhầm "quan tâm chủ đề đầu tư" trong bài BT19). Cần checklist cập nhật metadata mỗi khi clone template.
+- **Rủi ro của template hóa:** copy quên cập nhật → sai ngày/sai chủ đề trong nhiều file (ngày "10/09" và ghi nhầm "quan tâm chủ đề đầu tư" trong bài BT19). Bằng chứng rõ nhất: bài công bố **BT16** "Những bước chuyển cuộc đời" vẫn còn sót phần Đối tượng ghi "mong muốn thấu hiểu thêm về **Gen Z**" — residue chép nguyên từ template BT15 (Gen Z), lạc hẳn chủ đề. Cần checklist cập nhật metadata mỗi khi clone template.
 - **Phễu nội dung rõ ràng:** Proposal → Agenda → Công bố/Email → Reminder → Recap. Mỗi bước có mục đích và độ dài riêng (proposal sâu → email rút gọn 40% → recap ngắn đúc kết từ khóa).
 - **Thẻ màu G/Y/R** là công cụ điều phối thời gian hữu hiệu cho sự kiện thảo luận nhóm — nên giữ.
 - **Tiến hóa hybrid:** từ BT21 (5/2024) chạy song song offline + Google Meet, mở rộng tiếp cận.
@@ -310,18 +313,18 @@ Bản BT25 có thêm slide phụ trợ live: **đếm ngược thời gian** và
 - [BT 11 Agenda.docx](https://drive.google.com/file/d/120v_UgRWSdXUgqIIxuMRST5b-OoeQdGn/view) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT11/BT 11 Agenda.docx
 - [Proposal BT15 - Gen Z Dé or Né (Yes and No)](https://docs.google.com/document/d/12D3-0MI3jxwARh3_DwN4nCyjTHenwzo4WC7H7_d5Rus/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT15 - Gen Z?/Proposal BT15
 - [BT15 (slides)](https://docs.google.com/presentation/d/12ncKaUtInodF41qqTy8EXb1ep5nJwiAg6ZqkeP6FdwI/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT15 - Gen Z?/BT15
-- [MarCom - Công Bố Event - BT #17: Trí Tuệ Cảm Xúc](https://docs.google.com/document/d/16o1TiDkvf_JyRRVvO3knO1ihdIySXbmF0ems6jnJh8k/edit) — Bookie/MC - MarCom/.../Book!e Talk #17: Trí Tuệ Cảm Xúc (⚠ nguồn không đầy đủ)
+- [MarCom - Công Bố Event - BT #17: Trí Tuệ Cảm Xúc](https://docs.google.com/document/d/16o1TiDkvf_JyRRVvO3knO1ihdIySXbmF0ems6jnJh8k/edit) — Bookie/MC - MarCom/.../Book!e Talk #17: Trí Tuệ Cảm Xúc (⚠ tài liệu gốc dở dang — dừng ở dòng hashtag cuối "#Bo...", phần nội dung chính đã đầy đủ)
 - [BookieMail-BT25](https://docs.google.com/document/d/18B8KTVMJawupUsOY9A5vkUkssQ83MnVcWkdwzEAROJo/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT25 - Học cách học/BookieMail-BT25
 - [BookieMail - BT24](https://docs.google.com/document/d/18_kQD7eH-2u1SGzC2AHCHpc01j9wfU44NjZYGcdsPyo/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT24 - Đối đầu với nghịch cảnh/BookieMail - BT24
 - [Công bố BT19: Làm chủ bản thân](https://docs.google.com/document/d/1A5jj9wTtb32oXKbP-d8YjBrS6oL7i6Rr5Ijfj4p8BW8/edit) — Bookie/MC - MarCom/.../Book!e Talk #18: Làm chủ bản thân
 - [[BT13] ĐIỂM SÁCH: XÁCH BA LÔ LÊN VÀ ĐI](https://docs.google.com/document/d/1aBkf0rVuWOREOOvV1S3BVxRX5tcrdPIXqGxpPkYd9IE/edit) — Bookie/MC - MarCom/.../Bookie Talk #13
-- [slide (BT19)](https://docs.google.com/presentation/d/1BVHQ5iIeoN2MAw8I1-SdNbiowIBDmU_XYShuC3i_pMk/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT19 - Nói trước đám đông/slide (⚠ nguồn không đầy đủ)
+- [slide (BT19)](https://docs.google.com/presentation/d/1BVHQ5iIeoN2MAw8I1-SdNbiowIBDmU_XYShuC3i_pMk/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT19 - Nói trước đám đông/slide
 - [Proposal BT16: Những bước chuyển cuộc đời](https://docs.google.com/document/d/1clhDwpqdzX1MeNigiSlKo8Ftai8l7pGW9aBdb1DnT2w/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT16
 - [Recap BT #21: Đâu là công việc dành cho tôi?](https://docs.google.com/document/d/1Cnzw5WjqRc3hgZZnOSyTdOuCEeXaLywbOoOsG1EJToc/edit) — Bookie/MC - MarCom/.../Book!e Talk #21
 - [Noti email (BT15)](https://docs.google.com/document/d/1CPD4o68xYuCZmzjG2FUvhSSHX3QFIuk8I_5AxFSR5D0/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT15 - Gen Z?/Noti email
 - [ShortcutProposal - BT23](https://docs.google.com/document/d/1Cq-htKqRz3gf3cz-x0iQOJt9QJRqp36WOa8zeMeueXw/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT23 - Quản lý tài chính cá nhân
 - [BT 13 Agenda](https://docs.google.com/document/d/1_CzMP1SqGUgtfmkvLy2-SJbrhbZ9jSyB7Di-vR2DMeo/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT13/BT 13 Agenda
-- [Recap BT #19 Nói trước đám đông](https://docs.google.com/document/d/1dLmiTU_PzdYQjzTtoG12YNY1nHlz_y-km0C6NpWdUf0/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT19 (⚠ nguồn không đầy đủ)
+- [Recap BT #19 Nói trước đám đông](https://docs.google.com/document/d/1dLmiTU_PzdYQjzTtoG12YNY1nHlz_y-km0C6NpWdUf0/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT19 (⚠ nguồn bị cap một phần — đã khôi phục phần lớn văn bản; bài recap còn cắt giữa chia sẻ thứ 3)
 - [BT14 note](https://docs.google.com/document/d/1eVwrF47i3qDHIrRXIeNVkTX1eKauCRO6jsNa2X94d8U/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT14 - Đầu tư từ đâu?/BT14 note
 - [BT14 (slides)](https://docs.google.com/presentation/d/1fAsW4SRkEWZ75g1eJ9H5AVRBQzVjjjaBTDlw84NN-ZU/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT14 - Đầu tư từ đâu?/BT14
 - [Recap BT #14: Đầu tư từ đâu](https://docs.google.com/document/d/1FEtxuyIwVvX8nrnRtM98n4HC39Bscw2-K8IrV2mRVY8/edit) — Bookie/MC - MarCom/.../Bookie Talk #14
@@ -346,18 +349,18 @@ Bản BT25 có thêm slide phụ trợ live: **đếm ngược thời gian** và
 - [BOOK!E TALK 19 - PROPOSAL.docx](https://drive.google.com/file/d/1Pfq6rxwIDyHJl3i8Hc7aALJlM-YI1VPt/view) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT19
 - [BT 12 Agenda](https://docs.google.com/document/d/1TJA4SXv585VY7DfuSfG7f_rJqQrRFI1THIw-Sg5tOLQ/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT12
 - [Bookie Talk process (checklist sheet)](https://docs.google.com/spreadsheets/d/1ttewmPECqy3mqvNePYputTBOXZNb47L5d25OunRVobk/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/Bookie Talk process
-- [[BT15] CÔNG BỐ BT15: Gen Z Dé or Né (Yes or No)](https://docs.google.com/document/d/1uDR5tvIpUPG3ruGieWHW_sa5WXh_O_2A1Mcc9GBQs2g/edit) — Bookie/MC - MarCom/.../Book!e Talk #15 (⚠ nguồn không đầy đủ)
+- [[BT15] CÔNG BỐ BT15: Gen Z Dé or Né (Yes or No)](https://docs.google.com/document/d/1uDR5tvIpUPG3ruGieWHW_sa5WXh_O_2A1Mcc9GBQs2g/edit) — Bookie/MC - MarCom/.../Book!e Talk #15
 - [BT17 - Trí tuệ cảm xúc (công bố)](https://docs.google.com/document/d/1Ugn1B3CEtxtiwZFZeaGN7d7HItArQSCra7x_HDIQLk4/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT17 - Trí tuệ cảm xúc
 - [BT14 - Đầu tư từ đâu? (công bố)](https://docs.google.com/document/d/1uHCef1XF0KKacfhJ-69CM4VAXMPizTRR62ezP817z1M/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT14 - Đầu tư từ đâu?
 - [BOOK!E TALK 18 - PROPOSAL](https://docs.google.com/document/d/1UQInAURYTinQcEHFY3RHDc8NqZXBel14rbus5U0cNq4/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT18 - Làm chủ bản thân
 - [Book Talk 11 - MC Script](https://docs.google.com/document/d/1wPHBCxLQvSRtvkHJab8n_lTiy088KUllyrbgWu0UlqM/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT11
-- [Recap BT #15: Gen Z - Dé hay Né](https://docs.google.com/document/d/1w_tUMt0lsfHQ8WBJkct_lPuPnhQsMzkKZjx-e7QInUE/edit) — Bookie/MC - MarCom/.../Book!e Talk #15 (⚠ nguồn không đầy đủ)
+- [Recap BT #15: Gen Z - Dé hay Né](https://docs.google.com/document/d/1w_tUMt0lsfHQ8WBJkct_lPuPnhQsMzkKZjx-e7QInUE/edit) — Bookie/MC - MarCom/.../Book!e Talk #15
 - [BT Agenda (template sheet)](https://docs.google.com/spreadsheets/d/1_WXo8qXR857AorTAX47QkjbcA9iSdI8Sfg-t_eB2iGI/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT Agenda
 - [BookieMail - BT22](https://docs.google.com/document/d/1x0oyWDsqPH4WjRIBUO7lPFo5646WTFWypoTlUNYI2I0/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT22 - Liệu tôi có cần phải là kim cương?
 - [Noti Email (BT16)](https://docs.google.com/document/d/1x8ZV1U_Me_ZfiiN4Y_-ZESFRFPegVs9r0dyYG8Z2p9c/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT16
-- [slide (BT17)](https://docs.google.com/presentation/d/1XkDVc053J3iM_BRVp0xuOp0DPdbYLO-S1q6rRaxxERQ/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT17 - Trí tuệ cảm xúc/slide (⚠ nguồn không đầy đủ)
+- [slide (BT17)](https://docs.google.com/presentation/d/1XkDVc053J3iM_BRVp0xuOp0DPdbYLO-S1q6rRaxxERQ/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT17 - Trí tuệ cảm xúc/slide
 - [Copy of [Cùng nhìn lại] BookTalk - Những cuốn sách thay đổi cuộc đời](https://docs.google.com/document/d/1xnNW0aMB4Xh3Yg0ImQOmDiG5NLwOSFVQ3nps8EnF69o/edit) — Bookie/MC - MarCom/Contents/Bài viết
 - [Bài viết thông báo về bookie talk (BT14)](https://docs.google.com/document/d/1z5Wu-R2eEOKwP0TF04dCneVIj_lN5GNkd-s4CI0C5KY/edit) — Bookie/MC - MarCom/.../Bookie Talk #14
-- [CÔNG BỐ BT16 - Những bước chuyển cuộc đời](https://docs.google.com/document/d/1ZRByIuri7iZGVnIMNIQwd49NZyxnI_CR-BWq_4zyBaY/edit) — Bookie/MC - MarCom/.../Book!e Talk #16 (⚠ nguồn không đầy đủ)
+- [CÔNG BỐ BT16 - Những bước chuyển cuộc đời](https://docs.google.com/document/d/1ZRByIuri7iZGVnIMNIQwd49NZyxnI_CR-BWq_4zyBaY/edit) — Bookie/MC - MarCom/.../Book!e Talk #16
 - [1 day left email (BT15)](https://docs.google.com/document/d/1ZVKBiIeyIPPWmV4HUFXrAdtzRs4X0T9EB6p46FYi1wI/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT15 - Gen Z?
 - [Proposal - BT26 - Một mình liệu có ổn](https://docs.google.com/document/d/1ZwltCed1-PTSPRWHOfHFuk-Y70T5_a_n5Da5nsry-4Q/edit) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT26 - Một mình liệu có ổn?

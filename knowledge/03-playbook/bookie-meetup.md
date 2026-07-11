@@ -223,7 +223,7 @@ Mẫu văn phong lời mời công khai, ấm áp, gần gũi. Cấu trúc tái 
 ## 10. Thông tin liên hệ chung (trên slide)
 
 - Email: bookie.community@gmail.com
-- Hotline: +84 77 5644 876
+- Hotline: [hotline — đã ẩn]
 - Facebook: facebook.com/bookie.community
 - Website: bookiecommunity.com
 

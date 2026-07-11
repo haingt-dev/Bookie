@@ -141,8 +141,8 @@ Chuẩn hóa thư mời/bài công bố gửi cộng đồng:
 - **Footer chuẩn:** Website `bookiecommunity.com` · Fanpage `facebook.com/bookie.community` · Email `bookie.community@gmail.com`
 
 **Chuỗi email 1 sự kiện gồm ít nhất 2 email:**
-1. **Mail mời ban đầu** (gửi sớm) — có thể dùng góc storytelling cá nhân của host (quote trực tiếp, xưng "tôi") để tạo đồng cảm; hoặc dùng các câu hỏi trăn trở của host làm nội dung chính (giúp người đọc thấy sách "trả lời câu hỏi thật").
-2. **Mail nhắc "còn 1 ngày"** — mở đầu tạo cảm giác cấp bách ("Chỉ còn 1 ngày nữa..."), có thể bổ sung chi tiết mail đầu chưa có (tiểu sử host, số bài học dự kiến), lặp lại khối thông tin sự kiện + CTA đăng ký. Kỹ thuật hay: mở bằng câu hỏi cá nhân-hóa chạm nỗi đau của chủ đề (vd "Bạn còn nhớ lần cuối ngủ đủ 8 tiếng là khi nào không?") trước khi vào logistics.
+1. **Mail mời ban đầu** (gửi sớm) — có thể dùng góc storytelling cá nhân của host (quote trực tiếp, xưng "tôi/em") để tạo đồng cảm; hoặc dùng các câu hỏi trăn trở của host làm nội dung chính (giúp người đọc thấy sách "trả lời câu hỏi thật"). **Bố cục đầy đủ** (xác nhận toàn văn từ mail "Làm chủ nhịp sinh học"): lời chào ấm áp ("Hy vọng email này tìm đến bạn trong một ngày tươi đẹp...") → giới thiệu chương trình + sách + tác giả → **4 lợi ích sách** (bullet kèm emoji) → giới thiệu host (tên/biệt danh, tổ chức đang điều hành, vị trí ban điều hành) → **"Lời nhắn gửi từ host"** (đoạn cá nhân dạng hỏi-đáp: lý do chọn sách — đối chiếu cuốn đọc trước đó + **2 câu hỏi trăn trở** + **1 insight tự thử nghiệm**) → khối thông tin sự kiện + link add calendar → lời kết mời tham gia + chữ ký "[vai trò] Operator Lead" + footer + **dòng hashtag sự kiện** cuối mail (`#Bookie #BookieCommunity #<TênSách> #<TênTácGiả> #BOOKIEDiscussion`). Vd "Làm chủ nhịp sinh học": 2 câu hỏi trăn trở = (a) nhịp sinh học do môi trường hay chỉ do gene, và ảnh hưởng ra sao; (b) vì sao có nghiên cứu nói không cần ngủ đủ 8h nhưng nghiên cứu khác lại chỉ ra ngủ dưới 8h thì tỉnh táo/sức khỏe/tâm lý đều tệ đi — kèm insight phản biện câu "Think outside of the box" (nếu "chiếc hộp" vốn chứa sự sáng tạo thì tại sao phải thoát ra ngoài).
+2. **Mail nhắc "còn 1 ngày"** — mở đầu tạo cảm giác cấp bách ("Chỉ còn 1 ngày nữa..."), có thể bổ sung chi tiết mail đầu chưa có (tiểu sử host, số bài học dự kiến), lặp lại khối thông tin sự kiện + CTA đăng ký. Kỹ thuật hay: mở bằng câu hỏi cá nhân-hóa chạm nỗi đau của chủ đề (vd "Bạn còn nhớ lần cuối ngủ đủ 8 tiếng là khi nào không?") trước khi vào logistics. **Bố cục đầy đủ** (xác nhận toàn văn từ mail "Hai Số Phận"): mở đầu cấp bách → giới thiệu sách → mục tiêu buổi (dự kiến đúc kết 3-4 bài học, điều phối bởi host) → tiểu sử host → khối thông tin sự kiện (kèm link Maps) + link đăng ký (Google Form) + link add calendar → lời kêu gọi tham gia → chữ ký "Book!e operation team" + footer chuẩn. ⚠ Ví dụ lỗi copy-template điển hình: mail nhắc "Hai Số Phận" (sách tài chính) lại kết bằng câu kêu gọi "làm chủ nhịp sinh học tự nhiên của bản thân" — closing dính lại từ template mail "Làm chủ nhịp sinh học"; luôn rà câu closing khi tái dùng.
 
 > Gửi hàng loạt qua **Bcc: @Guest** (không lộ danh sách người nhận). Ký "Book!e Operation" / "Operation Team".
 
@@ -248,7 +248,7 @@ Ngoài format "host thuyết trình", một số buổi dùng **thảo luận nh
 ## 7. Chuỗi đặc biệt
 
 ### 7.1 Serie BD Tài chính Cá nhân — "Ngẫm thời cuộc, luận thế cờ"
-Chuỗi do host **[Host serie Tài chính Cá nhân]** (huấn luyện viên quản lý tài chính cá nhân, gốc Huế, sinh 1989) phụ trách chọn sách & điều phối — tiếp cận sách dưới lăng kính tài chính cá nhân, xã hội học, nhân khẩu học, tầm nhìn vĩ mô. **Lộ trình 15 sách, 3 level leo thang** (cá nhân → vĩ mô quốc gia → đầu tư liên thị trường):
+Chuỗi do host **[Host serie Tài chính Cá nhân]** (chuyên gia tài chính cá nhân) phụ trách chọn sách & điều phối — tiếp cận sách dưới lăng kính tài chính cá nhân, xã hội học, nhân khẩu học, tầm nhìn vĩ mô. **Lộ trình 15 sách, 3 level leo thang** (cá nhân → vĩ mô quốc gia → đầu tư liên thị trường):
 
 **Level 1 — Tài chính cá nhân (5 sách):** Dạy con về tài chính (Joline Godfrey) · Nghệ thuật quản lý tài chính cá nhân (Brian Tracy & Dan Strutzel) · Hai số phận (Jeffrey Archer) · Cú huých / Nudge (Thaler & Sunstein) · Đồng tiền hạnh phúc / Happy Money (Ken Honda)
 
@@ -294,7 +294,7 @@ Từ sheet quy trình (tần suất ~3-6 tuần/lần) và các agenda còn lưu
 | 22/02/2024 | The One World Schoolhouse (Salman Khan) | Đại sứ Cộng đồng Khan Academy VN (+ phụ huynh co-host) | Bookie tự nhận "đơn vị đầu tiên tại VN thảo luận sách này"; diễn giả trẻ (học sinh) |
 | 25/02/2024 | Tư Duy Nhanh Và Chậm (Daniel Kahneman) | — | Sân thượng A&M; tác giả Nobel Kinh tế 2012 |
 | 17/03/2024 | Đúng Việc (Giản Tư Trung) | KM: [2 thành viên — ẩn tên] (đại sứ "cỏ 4 lá") | Tầng 2 A&M, 23 Cao Thắng; 14:45-17:30 CN |
-| 23/05/2024 | Làm Chủ Nhịp Sinh Học / Lifetime (Russell Foster) | [ẩn tên] | Host tự đánh giá tổ chức "fail dữ" → recap bài học |
+| 23/05/2024 | Làm Chủ Nhịp Sinh Học / Lifetime (Russell Foster) | [ẩn tên] | Host tự đánh giá tổ chức "fail dữ" → recap bài học; proposal có teaser Music Video ra mắt trước sự kiện |
 | 23/06/2024 | Học Cách Học / Learn How to Learn (Barbara Oakley) | — (phóng viên, đam mê tối ưu học tập) | 8:45-11:30 CN |
 | 04/07/2024 | Hai Số Phận (Jeffrey Archer) | [Host serie Tài chính Cá nhân] | Serie Tài chính Cá nhân; rút 3-4 bài học tài chính. Người viết công bố FB: [ẩn tên] |
 | 17/07/2024 | Bốn Thỏa Ước (Don Miguel Ruiz) | Founder + Co-founder Bookie | Format 4 nhóm thảo luận (mỗi nhóm 1 thỏa ước) |
@@ -327,7 +327,7 @@ Từ sheet quy trình (tần suất ~3-6 tuần/lần) và các agenda còn lưu
 
 ## Nguồn
 
-- [Proposal: Làm chủ nhịp sinh học](https://docs.google.com/document/d/10XlUPtMoGfCKiqbCMlsM685rzWxH_BhXhMtSFiTxKSs/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240512 BD: Làm Chủ Nhịp Sinh Học (Lifetime)/Proposal *(⚠ nguồn không đầy đủ)*
+- [Proposal: Làm chủ nhịp sinh học](https://docs.google.com/document/d/10XlUPtMoGfCKiqbCMlsM685rzWxH_BhXhMtSFiTxKSs/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240512 BD: Làm Chủ Nhịp Sinh Học (Lifetime)/Proposal
 - [Recap (Hướng Dẫn Thiền Phật Giáo)](https://docs.google.com/document/d/13Kori2mogGSshbDNVnKNyLtEmvcEDRpGncWfrCnGyKM/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240112 BD: Hướng Dẫn Thiền Phật Giáo/Recap
 - [BD Agenda](https://docs.google.com/spreadsheets/d/161yBj64dEtOSA7sUBUV04jl6Z8LXBHwaPq9zfG0vDRI/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/BD Agenda
 - [Mô-hình-Bookie-Discussion - revised.docx](https://drive.google.com/file/d/16N7zKvqnGhq5S0MICs0DjyX-ZZXe-uTl/view) — Old/Mô-hình-Bookie-Discussion - revised.docx
@@ -364,10 +364,10 @@ Từ sheet quy trình (tần suất ~3-6 tuần/lần) và các agenda còn lưu
 - [Proposal 21 Lesson for the 21st Century](https://docs.google.com/document/d/1kcPCeqMRqDd2rBILBI_TyshiCacbuKv-TS8Q7xIvvKY/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20241024 BD: 21 Lessons for the 21st Century/
 - [BD: Tâm lý học về tiền (rundown Hiểu con)](https://docs.google.com/document/d/1KgJQdwHHt8mvVosNJ0NSg1zrOlEEkkhit7Tezp1S8pM/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20231025 BD: Hiểu con để yêu con đúng cách/BD: Tâm lý học về tiền
 - [Proposal (Tư Duy Nhanh Và Chậm — notes)](https://docs.google.com/document/d/1Lp2Cd7vsBmEemvjnNBh24mDuL3bYDQnNZM7pugnQt8I/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240225 BD: Tư Duy Nhanh Và Chậm/Proposal
-- [mail (Làm chủ nhịp sinh học)](https://docs.google.com/document/d/1lWPb_GXo2FAikYLH0zF46scmXIq_KMGGOPdolCBA5wU/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240512 BD: Làm Chủ Nhịp Sinh Học (Lifetime)/mail *(⚠ nguồn không đầy đủ)*
+- [mail (Làm chủ nhịp sinh học)](https://docs.google.com/document/d/1lWPb_GXo2FAikYLH0zF46scmXIq_KMGGOPdolCBA5wU/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240512 BD: Làm Chủ Nhịp Sinh Học (Lifetime)/mail
 - [cảm nghĩ (Hiểu con)](https://docs.google.com/document/d/1lXgYKGd0z3CCH5gsC5nE2EeADzZHWZuvVo3mVXDW5M8/edit) — Bookie/MC - MarCom/Contents/Bài viết/Bookie Discussion/Book!e Discussion: Hiểu con để yêu con đúng cách/cảm nghĩ
 - [Proposal - BD: 6 nguoi di khap the gian](https://docs.google.com/document/d/1mCE4SQiFisb_xVXDNsOJh7ilG8bAJxzmoaSpiWeYB7k/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20241206 BD: 6 nguoi di khap the gian/
-- [email 1 day left (Hai Số Phận)](https://docs.google.com/document/d/1mE4k2XVssB2oqU7vWt3AhQFpoS9xpvLLnTc1-aF_5nE/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240704 BD Hai Số Phận/email 1 day left *(⚠ nguồn không đầy đủ)*
+- [email 1 day left (Hai Số Phận)](https://docs.google.com/document/d/1mE4k2XVssB2oqU7vWt3AhQFpoS9xpvLLnTc1-aF_5nE/edit) — Bookie/Op - Operation/Event/BD - Bookie Discussion/20240704 BD Hai Số Phận/email 1 day left
 - [Công bố BD: TƯ DUY NHANH VÀ CHẬM](https://docs.google.com/document/d/1mH9bGqe3TN9zetQT54tXPIP_BbHy0jKLRZwIC1a__CE/edit) — Bookie/MC - MarCom/Contents/Bài viết/Bookie Discussion/Book!e Dicussion: Tư duy nhanh và chậm/
 - [200322_BD_5_Lối sống tối giản của người Nhật_Agenda.pdf](https://drive.google.com/file/d/1m__Na8MnK9E7RSlTKpfwIP7QYGENrkK6/view) — Bookie/Bookie Projects/Bookie Events/Legacy resources/Agenda/
 - [Bài viết liên quan chủ đề nuôi dạy con (file rỗng)](https://docs.google.com/document/d/1MOTcLEUNWym2uFxtJU_sUq-Sf5lj--IYBW95_iMkWZY/edit) — Bookie/MC - MarCom/Contents/Hình ảnh/BD: Hiểu con để yêu con đúng cách/

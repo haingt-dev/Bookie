@@ -1510,9 +1510,9 @@
   "modified": "2024-12-25T13:09:38.942Z",
   "viewUrl": "https://docs.google.com/spreadsheets/d/1-ZiS_a-K-3AVmmPA3Bstzz2J38Yc9zysU7oWdSPhvC8/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "02-co-cau-to-chuc/phong-ban-qua-cac-nam",
-  "size": 5772
+  "size": 5772,
+  "recovery": "export-complete-but-no-rows"
  },
  {
   "id": "1iP3pEgTSONUmr95dDhH_jvgikbBBRTEAEodGBH9wT5I",
@@ -1534,9 +1534,9 @@
   "modified": "2024-11-29T14:39:04.822Z",
   "viewUrl": "https://docs.google.com/spreadsheets/d/1D8Pv3KY-mP_dONBMIe5E2yXI4ukxPAxObxUGHmoY3AY/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "02-co-cau-to-chuc/phong-ban-qua-cac-nam",
-  "size": 30499
+  "size": 30499,
+  "recovery": "full"
  },
  {
   "id": "1alxXZUsfV_B2v38WROWCvuO4nBy7SX4CiLE1-33m0fI",
@@ -2387,9 +2387,9 @@
  },
  {
   "id": "1Vsh-EOxdougLodDtg3AnzCMu_ILTOC5P",
-  "name": "Lê Phương Thảo.png",
+  "name": "[Host BD — ẩn tên].png",
   "kind": "media",
-  "path": "Bookie/Bookie General Info/Best CTV BOOKIE/Lê Phương Thảo.png",
+  "path": "Bookie/Bookie General Info/Best CTV BOOKIE/[Host BD — ẩn tên].png",
   "created": "2023-11-22T05:31:16.128Z",
   "modified": "2023-11-21T16:07:15Z",
   "viewUrl": "https://drive.google.com/file/d/1Vsh-EOxdougLodDtg3AnzCMu_ILTOC5P/view?usp=drivesdk",
@@ -19255,8 +19255,8 @@
   "modified": "2017-11-21T08:56:33.057Z",
   "viewUrl": "https://docs.google.com/spreadsheets/d/1sQnWfTERhGWcfzc71m-zWo2kVugymE4x__LPYbch_T4/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
-  "routedTo": "03-playbook/bookier"
+  "routedTo": "03-playbook/bookier",
+  "recovery": "full"
  },
  {
   "id": "1MgzXXZhE8EJ15vXvp191WxAy3SJyPqY-Yu1dWw7xykA",
@@ -21265,9 +21265,9 @@
   "modified": "2023-08-18T07:39:20.100Z",
   "viewUrl": "https://docs.google.com/document/d/1JPrTxQrGaI11pqz7jc_omL_v1basKbCrAEUlxVOMVB8/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/workshop-su-kien-khac",
-  "size": 3099
+  "size": 3099,
+  "recovery": "full"
  },
  {
   "id": "1xsjO8Bh2rHTULXZbiEQSVFyQWBTgNWJk",
@@ -21683,8 +21683,8 @@
   "modified": "2023-05-24T15:59:42.861Z",
   "viewUrl": "https://docs.google.com/document/d/19uxJ7yJq2tipSXWqMev34WjJul3AIafpc5FfQ5cTbAA/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
-  "routedTo": "03-playbook/sinh-hoat-t-and-d"
+  "routedTo": "03-playbook/sinh-hoat-t-and-d",
+  "recovery": "source-was-incomplete"
  },
  {
   "id": "1tOZmVjZyLYoVPucEQ98SjXubnEtxfTMIR2wdfgpZYII",
@@ -21695,8 +21695,8 @@
   "modified": "2023-05-24T15:59:42.861Z",
   "viewUrl": "https://docs.google.com/document/d/1tOZmVjZyLYoVPucEQ98SjXubnEtxfTMIR2wdfgpZYII/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
-  "routedTo": "03-playbook/sinh-hoat-t-and-d"
+  "routedTo": "03-playbook/sinh-hoat-t-and-d",
+  "recovery": "source-was-incomplete"
  },
  {
   "id": "13D12VYQiN4tgsuG7GtK4W65kPKbmQ7Ql4rgnmt1GVlc",
@@ -23607,9 +23607,9 @@
   "modified": "2024-03-23T16:45:19.662Z",
   "viewUrl": "https://docs.google.com/presentation/d/1BVHQ5iIeoN2MAw8I1-SdNbiowIBDmU_XYShuC3i_pMk/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 1539305
+  "size": 1539305,
+  "recovery": "full"
  },
  {
   "id": "19Nuj-hHq083HUxXGj5oUs0rc3nzHR5mv",
@@ -23644,7 +23644,8 @@
   "status": "extracted",
   "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 3320
+  "size": 3320,
+  "recovery": "improved-partial"
  },
  {
   "id": "1Pfq6rxwIDyHJl3i8Hc7aALJlM-YI1VPt",
@@ -23667,9 +23668,9 @@
   "modified": "2024-01-14T02:06:28.122Z",
   "viewUrl": "https://docs.google.com/presentation/d/1XkDVc053J3iM_BRVp0xuOp0DPdbYLO-S1q6rRaxxERQ/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 72528
+  "size": 72528,
+  "recovery": "full"
  },
  {
   "id": "1rFoJP64EBerrRHvTbfXAV3yA7FmvDbWS",
@@ -24379,9 +24380,9 @@
   "modified": "2024-06-26T15:52:48.681Z",
   "viewUrl": "https://docs.google.com/document/d/1mE4k2XVssB2oqU7vWt3AhQFpoS9xpvLLnTc1-aF_5nE/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/book-discussion",
-  "size": 11838
+  "size": 11838,
+  "recovery": "full"
  },
  {
   "id": "17z30XuQ63d9nDl2yzOh04FeYbDdNApDtq0qZ4gz1PKA",
@@ -24449,9 +24450,9 @@
   "modified": "2024-05-21T06:09:44.568Z",
   "viewUrl": "https://docs.google.com/document/d/1lWPb_GXo2FAikYLH0zF46scmXIq_KMGGOPdolCBA5wU/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/book-discussion",
-  "size": 8552
+  "size": 8552,
+  "recovery": "full"
  },
  {
   "id": "10XlUPtMoGfCKiqbCMlsM685rzWxH_BhXhMtSFiTxKSs",
@@ -24462,9 +24463,9 @@
   "modified": "2024-05-21T05:12:18.505Z",
   "viewUrl": "https://docs.google.com/document/d/10XlUPtMoGfCKiqbCMlsM685rzWxH_BhXhMtSFiTxKSs/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/book-discussion",
-  "size": 119900
+  "size": 119900,
+  "recovery": "full-via-export"
  },
  {
   "id": "1g28PVcani4_gVMYH3vpKBuSf8k3s5coMNd1w_HqYRs4",
@@ -25334,9 +25335,9 @@
   "modified": "2023-12-26T03:33:31.020Z",
   "viewUrl": "https://docs.google.com/document/d/1BCSEuJjRmaihtujKV1JjhdlGPROWIHwdYh8bWg-jhdI/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/gala",
-  "size": 3310
+  "size": 3310,
+  "recovery": "source-was-incomplete"
  },
  {
   "id": "1RxGJB01dsNEBHQxqcg0jWifDNEsyGhtklOyptH75yQ0",
@@ -26288,9 +26289,9 @@
   "modified": "2024-01-11T12:44:06.018Z",
   "viewUrl": "https://docs.google.com/document/d/16o1TiDkvf_JyRRVvO3knO1ihdIySXbmF0ems6jnJh8k/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 2255
+  "size": 2255,
+  "recovery": "source-was-incomplete"
  },
  {
   "id": "1ML1j2tswHT-tB2BXMMIr_OxzzKp5w_X0aSxRnCM8k_U",
@@ -26313,9 +26314,9 @@
   "modified": "2023-12-08T06:48:49.345Z",
   "viewUrl": "https://docs.google.com/document/d/1ZRByIuri7iZGVnIMNIQwd49NZyxnI_CR-BWq_4zyBaY/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 2661
+  "size": 2661,
+  "recovery": "full-via-export"
  },
  {
   "id": "1uDR5tvIpUPG3ruGieWHW_sa5WXh_O_2A1Mcc9GBQs2g",
@@ -26326,9 +26327,9 @@
   "modified": "2023-12-07T06:44:42.544Z",
   "viewUrl": "https://docs.google.com/document/d/1uDR5tvIpUPG3ruGieWHW_sa5WXh_O_2A1Mcc9GBQs2g/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 3440
+  "size": 3440,
+  "recovery": "full"
  },
  {
   "id": "1w_tUMt0lsfHQ8WBJkct_lPuPnhQsMzkKZjx-e7QInUE",
@@ -26339,9 +26340,9 @@
   "modified": "2023-11-13T02:49:57.278Z",
   "viewUrl": "https://docs.google.com/document/d/1w_tUMt0lsfHQ8WBJkct_lPuPnhQsMzkKZjx-e7QInUE/edit?usp=drivesdk",
   "status": "extracted",
-  "truncated": true,
   "routedTo": "03-playbook/bookie-talk",
-  "size": 2761
+  "size": 2761,
+  "recovery": "full"
  },
  {
   "id": "1z5Wu-R2eEOKwP0TF04dCneVIj_lN5GNkd-s4CI0C5KY",

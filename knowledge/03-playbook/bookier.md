@@ -153,7 +153,7 @@ Quy trình vận hành thủ công: có bản ghi trùng (đăng ký lại), có
 | Đợt | Mở form | Số phản hồi | Hồ sơ chính thức | Ghi chú |
 |---|---|---|---|---|
 | 2016-2017 | 09/10/2016 | ~78 | ~39 (STT 1-40, thiếu 11) | Form gốc → 2 bản danh sách (xlsx + gsheet) |
-| 2017-2018 | ~15/10/2017 (đóng 21/11/2017) | 58 | — | ⚠ nguồn không đầy đủ (truncated) |
+| 2017-2018 | ~15/10/2017 (đóng 21/11/2017) | 58 | — | Đã xác minh đủ 58 dòng phản hồi (không có dữ liệu bị cắt) |
 
 **Chân dung ứng viên (tổng hợp, ẩn danh):**
 - Chủ yếu sinh viên khối KHTN — nhiều nhất **Sinh học / Công nghệ Sinh học** (~16/đợt), **CNTT** (~7), Vật lý (~3), một số Toán-Tin, KHXH&NV. Phần lớn từ ĐH Khoa học Tự nhiên (ĐHQG-HCM), ở KTX khu A/B ĐHQG & Thủ Đức.
@@ -348,7 +348,7 @@ Công cụ đo sức khỏe đội nhóm (team-health / engagement survey) đị
 - [Danh sach Bookier chinh thuc (gsheet)](https://docs.google.com/spreadsheets/d/1DDzCu1kcW0bybwXafpgK5byqFBokMLuFT-i-NDILBRI/edit?usp=drivesdk) — Old/2016-2017/thông tin thành viên/Danh sach Bookier chinh thuc.xlsx
 - [Sẵn sàng trở thành một Bookier (Câu trả lời)](https://docs.google.com/spreadsheets/d/1gy136viwjNlmIUDrXz6FHlBS-OyFo_srS-bkrrU4WSs/edit?usp=drivesdk) — Old/2016-2017/thông tin thành viên/Sẵn sàng trở thành một Bookier (Câu trả lời)
 - [Thông tin liên lạc BOOKIER](https://docs.google.com/spreadsheets/d/1DRQZOjypvcyVcD8HlwnBMqVqFdnWfWgxMIBobDVufco/edit?usp=drivesdk) — Old/2016-2017/thông tin thành viên/Thông tin liên lạc BOOKIER
-- [2017 - Sẵn sàng trở thành một Bookier (Câu trả lời)](https://docs.google.com/spreadsheets/d/1sQnWfTERhGWcfzc71m-zWo2kVugymE4x__LPYbch_T4/edit?usp=drivesdk) — Old/2017-2018/Lưu trữ quan trọng/2017 - Sẵn sàng trở thành một Bookier (Câu trả lời) ⚠ nguồn không đầy đủ (truncated)
+- [2017 - Sẵn sàng trở thành một Bookier (Câu trả lời)](https://docs.google.com/spreadsheets/d/1sQnWfTERhGWcfzc71m-zWo2kVugymE4x__LPYbch_T4/edit?usp=drivesdk) — Old/2017-2018/Lưu trữ quan trọng/2017 - Sẵn sàng trở thành một Bookier (Câu trả lời)
 - [2024 - BOOKIER's Book List](https://docs.google.com/spreadsheets/d/1femg3B8x8lCNfFe4D1xmagHTLjqYA2uXyJyWDIq1nCE/edit?usp=drivesdk) — Bookie/BOOKIER/2024 - BOOKIER's Book List
 - [Take role - Bookier](https://docs.google.com/spreadsheets/d/1V5tYryfIqbWkV8nqz9m5ejGN8pILzD6oZqfRb3CvmCU/edit?usp=drivesdk) — Bookie/Op - Operation/Event/Take role - Bookier
 - [BookieRemindMail - BT22](https://docs.google.com/document/d/1HR7UatFp3uzOVbV7Na2hgjRw_QdteuRO3ezkOTR7mOQ/edit?usp=drivesdk) — Bookie/Op - Operation/Event/BT - Bookie Talk/BT22 - Liệu tôi có cần phải là kim cương?/BookieRemindMail - BT22

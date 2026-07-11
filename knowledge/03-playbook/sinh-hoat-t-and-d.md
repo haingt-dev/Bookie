@@ -165,7 +165,7 @@ Buổi trò chuyện mở, sâu và gần gũi hơn giữa các member (đề xu
 - **Vận hành:** cần người làm **"Key"** (dẫn dắt, giữ trọng tâm, tránh lạc hướng — có thể nhiều hơn 1 Key). Thành viên thoải mái nêu ý kiến riêng (không nhất thiết là quan điểm chính thức của CLB).
 - **Nguyên tắc:** "đừng chỉ nghe, tôn trọng và tốt bụng".
 - **Phạm vi:** chỉ giữa member Bookie với nhau (không mở cho khách ngoài).
-- ⚠ Nguồn không đầy đủ (truncated): thời gian/địa điểm chưa chốt trong bản gốc.
+- Tài liệu gốc dở dang: mục "Thời gian - địa điểm" ở cuối tài liệu chỉ có 2 mục số thứ tự để trống, tác giả chưa từng điền — không phải lỗi trích xuất.
 
 ### 7b. Bookie Village
 Sân chơi board game hàng tuần/tháng để gắn kết thành viên (concept 28/02/2020, agenda bổ sung 21/06/2020).
@@ -174,8 +174,8 @@ Sân chơi board game hàng tuần/tháng để gắn kết thành viên (concep
 - **Mục tiêu:** (1) gắn kết thành viên; (2) vui chơi; (3) fill các role còn trống trong event chính.
 - **Gợi ý trò chơi:** Who am I · Ma sói (Werewolf) · Uno · Mèo nổ (Exploding Kittens).
 - **Quy tắc:** vui là chính; board game + chi phí trò chơi do quỹ Bookie tài trợ; đồ ăn/thức uống hỗ trợ một phần hoặc toàn phần.
-- **Đề xuất khung giờ:** tối thứ 6, **18:00–22:00**; tần suất hàng tuần hoặc hàng tháng.
-- ⚠ Nguồn không đầy đủ (truncated): địa điểm và khung chương trình chi tiết chưa điền trong bản gốc.
+- **Đề xuất khung giờ:** tối thứ 6 ("dễ chill nhất"), **18:00–22:00** ("Quẩy từ 6h tới 10h"); tần suất hàng tuần hoặc hàng tháng, hoặc do thành viên tự quyết định.
+- Tài liệu gốc dở dang: mục "Địa điểm" và "Khung chương trình" là các heading có trong tài liệu nhưng nội dung để trống — tác giả chưa từng điền, không phải lỗi trích xuất/cắt bớt.
 
 ---
 
