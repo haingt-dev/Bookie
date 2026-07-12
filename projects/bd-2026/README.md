@@ -18,6 +18,7 @@ Bộ kit tổ chức một buổi **Book!e Discussion** (BD) — chưng cất t�
 | [de-xuat-de-tai.md](plan/de-xuat-de-tai.md) | Proposal 8 mục cho Host đề xuất đề tài buổi BD |
 | [checklist-chuan-bi.md](plan/checklist-chuan-bi.md) | Checklist 27 đầu việc T-45 → T+3, vocab trạng thái + luật delay-tracking |
 | [phan-cong-vai-tro.md](plan/phan-cong-vai-tro.md) | Bảng 8 vai trò trong buổi + trình tự phối hợp, deadline T-10/T-7 |
+| [bieu-mau-dang-ky.md](plan/bieu-mau-dang-ky.md) | Spec form gốc đăng ký — `/event-form` tự clone + điền per-event, không copy tay |
 | [bieu-mau-feedback.md](plan/bieu-mau-feedback.md) | Spec dựng Google Form feedback sau sự kiện |
 
 ### `content/` — Host / MC
@@ -39,8 +40,8 @@ Bộ kit tổ chức một buổi **Book!e Discussion** (BD) — chưng cất t�
 
 ### Thư mục khác
 
-- `assets/` — event.json + ảnh/file thiết kế của sự kiện (poster/cover sinh bằng `/event-graphics` từ [design system](../../shared/design-system/README.md))
-- `output/` — deliverables cuối (không commit)
+- `assets/` — event.json + QR + ảnh/file thiết kế của sự kiện (form + QR sinh bằng `/event-form` từ [event-automation](../../shared/event-automation/README.md); poster/cover sinh bằng `/event-graphics` từ [design system](../../shared/design-system/README.md))
+- `output/` — deliverables cuối, gồm comms đã điền từ template (không commit)
 
 ## Quy ước
 

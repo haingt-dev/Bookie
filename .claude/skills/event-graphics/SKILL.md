@@ -16,6 +16,8 @@ allowed-tools: Bash, Read, Write, Edit, Skill, AskUserQuestion, SendUserFile
   trong `$DS/README.md`, điền từ proposal/checklist của event (vd. `projects/bd-2026/plan/`).
 - Thiếu field bắt buộc (tên sách, ngày giờ, địa điểm, link đăng ký) → hỏi Hải một lần
   bằng AskUserQuestion, đừng đoán.
+- Thiếu `dang_ky` vì form chưa tạo → gợi ý chạy **`/event-form`** trước (tạo form + QR
+  tự động, ghi ngược `dang_ky` + `qr` vào event.json — poster tự gắn ô QR vào info-card).
 - PII: repo PUBLIC — `dien_gia` chỉ ghi role label hoặc tên đã công bố công khai.
 - Hashtag đúng casing: `#BookieDiscussion`.
 

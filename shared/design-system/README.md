@@ -22,6 +22,8 @@ node render.mjs --template cover-event --data <event.json> --debug-safe-area   #
 
 Cần `google-chrome-stable`/`chromium` trên máy (script tự dò, override bằng `CHROME_BIN`).
 Skill **`/event-graphics`** chạy trọn flow: điền data → sinh nền → render → tự review.
+Form đăng ký + QR cho event: skill **`/event-form`** (chạy TRƯỚC — ghi `dang_ky`/`qr` vào
+event.json, xem `../event-automation/README.md`).
 
 ## Schema `event.json` (chung cho mọi khổ)
 
@@ -34,9 +36,12 @@ Skill **`/event-graphics`** chạy trọn flow: điền data → sinh nền → 
 | `ngay_gio` | ✓ | Ví dụ: `09:00 · Chủ nhật · 27/07/2026` |
 | `dia_diem` | ✓ | |
 | `dien_gia` | | Chỉ role label / tên đã công bố công khai (PII policy) |
-| `dang_ky` | ✓ | Link NGẮN (bit.ly) — CTA không xuống dòng |
-| `hashtag` | ✓ | Chuẩn casing: `#BookieDiscussion` |
+| `dang_ky` | ✓ | Link NGẮN hiển thị trên CTA — `/event-form` tự ghi (forms.gle); quá dài thì template tự co chữ |
+| `hashtag` | | KHÔNG in lên poster (badge `loai_event` đã nói điều đó) — dùng cho caption bài đăng/comms. Chuẩn casing: `#BookieDiscussion` |
 | `bg` | | Đường dẫn ảnh nền (tương đối so với file data); rỗng = gradient brand |
+| `qr` | | Đường dẫn QR đăng ký (SVG, tương đối so với file data) — poster gắn ô "Quét để đăng ký" vào cột phải info-card **và ẩn pill link** (link full để trong caption bài đăng); rỗng = pill như cũ. `/event-form` tự sinh + ghi |
+| `ngay_gio_iso` | | `{"start":"YYYY-MM-DDTHH:MM","end":"…"}` — cho `/event-form` build link Google Calendar |
+| `form_edit_url` `form_published_url` `calendar_link` | | Do `/event-form` ghi ngược — đừng điền tay (xem `shared/event-automation/README.md`) |
 
 ## Khổ (templates/)
 

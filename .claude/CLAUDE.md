@@ -25,6 +25,7 @@ Bookie/
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
     ├── design-system/  <- event graphics: brand tokens + HTML/CSS templates + render.mjs (see its README)
+    ├── event-automation/ <- registration form + QR automation: Apps Script endpoint + create-form.mjs (see its README)
     └── templates/      <- reusable templates
 ```
 
@@ -45,6 +46,7 @@ Two structure variants, chosen by project type:
 Event-kit content is distilled from the matching `knowledge/03-playbook/<program>.md`; `projects/bd-2026/` is the reference implementation. Promote a generic template into `shared/templates/` only once a second event-type project needs one — not before.
 
 - Event graphics (poster/cover) come from `shared/design-system/` via `/event-graphics` — per-event data only, never hand-design per event
+- Registration form + QR come from `shared/event-automation/` via `/event-form` — clones the canonical template form on the bookie account (Apps Script), never hand-clone forms per event. Per-event form content is written only from event.json
 - Each sub-project has its own README.md with a Status field: `Incubating | Active | Paused | Archived`
 - Large media files tracked with Git LFS (video, PSD, audio, etc.)
 - Final output goes in `output/`, don't commit output to git unless necessary

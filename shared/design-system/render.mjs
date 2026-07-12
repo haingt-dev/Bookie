@@ -13,6 +13,8 @@
  *     section {{#key}}...{{/key}} giữ lại khi data[key] khác rỗng, ngược lại xoá.
  *   - Trường "bg" trong data = đường dẫn ảnh nền (tương đối so với file data);
  *     được resolve thành file:// URL, expose thêm {{bg_url}} + section {{#bg}}.
+ *   - Trường "qr" tương tự → {{qr_url}} + section {{#qr}} (QR đăng ký trên poster,
+ *     sinh bởi shared/event-automation/create-form.mjs).
  *   - Ghi _composed.html cạnh template.html (gitignored) rồi chụp bằng
  *     google-chrome-stable --headless=new --screenshot.
  */
@@ -73,15 +75,27 @@ if (data.bg && String(data.bg).trim() !== "") {
   view.bg = "";
 }
 
+// qr: cùng cơ chế với bg
+if (data.qr && String(data.qr).trim() !== "") {
+  const qrAbs = path.resolve(path.dirname(path.resolve(dataPath)), data.qr);
+  if (!fs.existsSync(qrAbs)) {
+    console.error(`Ảnh QR không tồn tại: ${qrAbs}`);
+    process.exit(1);
+  }
+  view.qr_url = pathToFileURL(qrAbs).href;
+} else {
+  view.qr = "";
+}
+
 // sections {{#key}}...{{/key}} — giữ khi truthy/khác rỗng
 html = html.replace(/\{\{#([\w]+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, key, body) =>
   view[key] && String(view[key]).trim() !== "" ? body : ""
 );
-// biến {{key}} — bg_url giữ nguyên (là URL), còn lại escape
+// biến {{key}} — bg_url/qr_url giữ nguyên (là URL), còn lại escape
 html = html.replace(/\{\{([\w]+)\}\}/g, (_, key) => {
   const v = view[key];
   if (v === undefined || v === null) return "";
-  return key === "bg_url" ? String(v) : escapeHtml(v);
+  return key === "bg_url" || key === "qr_url" ? String(v) : escapeHtml(v);
 });
 
 // overlay safe zone (tune template cover: vùng luôn hiển thị mọi thiết bị)

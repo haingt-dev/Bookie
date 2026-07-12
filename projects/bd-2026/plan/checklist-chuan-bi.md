@@ -18,7 +18,7 @@ Template làm việc cho team tổ chức một buổi BD cụ thể — điền
 | 6 | Tìm co-host (ít nhất 1) | Operation | T-40 | | |
 | 7 | Post event lên fanpage | MarCom | T-35 | | |
 | 8 | Gửi email cho Subscriber (Guests) | MarCom | T-31 | | |
-| 9 | Chuẩn bị Form: đăng ký (kèm calendar), Voting (Slido), Feedback | MarCom | T-30 | | |
+| 9 | Chuẩn bị Form: đăng ký (kèm calendar), Voting (Slido), Feedback | MarCom | T-30 | | Form đăng ký + QR + calendar link: chạy `/event-form` (tự động, xem [bieu-mau-dang-ky](bieu-mau-dang-ky.md)) |
 | 10 | Đăng ký Role Holder trong buổi (Host, Speaker...) | Operation | T-10 | | |
 | 11 | Đăng ký tên bài chia sẻ | Operation | T-7 | | |
 | 12 | Đăng teaser event 1 lên fanpage | MarCom | T-7 | | |
