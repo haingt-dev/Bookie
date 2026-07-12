@@ -1,0 +1,12 @@
+{
+  "width": 1920,
+  "height": 1005,
+  "safe": {
+    "top": 60,
+    "right": 460,
+    "bottom": 340,
+    "left": 460,
+    "label": "SAFE — luôn hiển thị mọi thiết bị"
+  },
+  "note": "Cover event FB 1.91:1 (spec verify 07/2026, đa nguồn: Snappa/postfa.st/Moda/EvergreenFeed). Mobile crop hai bên về ~vuông + UI đè dải đáy → mọi chữ/logo phải nằm trong safe rect (~1000×605, giữa-trên); nền tràn full-bleed thoải mái."
+}

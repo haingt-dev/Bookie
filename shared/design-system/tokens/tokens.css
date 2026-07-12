@@ -1,0 +1,55 @@
+/* ============================================================
+   Bookie Design Tokens — nguồn: shared/branding/Bookie Branding Guideline.md
+   Màu chính:  #368C06 (xanh lá đậm) · #4AC808 (xanh lá tươi) · #C86108 (cam nâu)
+   Font:       Be Vietnam Pro (self-host, full glyph tiếng Việt — KHÔNG dùng
+               Google Fonts API subset: thiếu glyph dấu, xem plan/research)
+   ============================================================ */
+
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("fonts/BeVietnamPro-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("fonts/BeVietnamPro-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Be Vietnam Pro";
+  src: url("fonts/BeVietnamPro-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+}
+
+:root {
+  /* Brand core */
+  --bookie-green-dark: #368C06;
+  --bookie-green: #4AC808;
+  --bookie-orange: #C86108;
+
+  /* Derived (nền/scrim/chữ — suy ra từ màu brand, giữ cùng hue) */
+  --bookie-ink: #16350a;            /* chữ đậm trên nền sáng — green-dark hạ sáng */
+  --bookie-scrim: #122b08;          /* đáy gradient scrim trên ảnh nền */
+  --bookie-paper: #FAFDF5;          /* nền sáng ngả lục nhẹ */
+  --bookie-white: #ffffff;
+  --bookie-green-tint: #e9f7dd;     /* tint nhạt cho hàng icon / chip */
+
+  /* Type */
+  --font-sans: "Be Vietnam Pro", "Noto Sans", sans-serif;
+
+  /* Shape */
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --shadow-card: 0 18px 50px rgba(18, 43, 8, 0.35);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}

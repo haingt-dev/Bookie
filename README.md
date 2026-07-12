@@ -17,7 +17,7 @@ Status vocabulary: Incubating / Active / Paused / Archived.
 
 ## Conventions
 
-See [`.claude/CLAUDE.md`](.claude/CLAUDE.md) for structure conventions. `shared/` holds branding assets and reusable templates. `ai-book-video` uses Git LFS for media — see its README before cloning with LFS.
+See [`.claude/CLAUDE.md`](.claude/CLAUDE.md) for structure conventions. `shared/` holds branding assets, reusable templates, and the [event-graphics design system](shared/design-system/README.md) (brand-locked templates rendered to PNG). `ai-book-video` uses Git LFS for media — see its README before cloning with LFS.
 
 ---
 

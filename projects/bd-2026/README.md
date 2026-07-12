@@ -39,7 +39,7 @@ Bộ kit tổ chức một buổi **Book!e Discussion** (BD) — chưng cất t�
 
 ### Thư mục khác
 
-- `assets/` — poster, ảnh, file thiết kế của sự kiện
+- `assets/` — event.json + ảnh/file thiết kế của sự kiện (poster/cover sinh bằng `/event-graphics` từ [design system](../../shared/design-system/README.md))
 - `output/` — deliverables cuối (không commit)
 
 ## Quy ước

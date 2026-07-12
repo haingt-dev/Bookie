@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../tokens/tokens.css">
+<style>
+  body {
+    width: 1920px;
+    height: 1005px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bookie-scrim);
+  }
+
+  /* ---------- lớp nền (full-bleed, được phép bị crop) ---------- */
+  .bg-layer {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(1400px 900px at 12% 10%, rgba(255,255,255,0.18), transparent 60%),
+      linear-gradient(135deg, var(--bookie-green-dark) 0%, #3fa307 55%, var(--bookie-green) 100%);
+  }
+  .has-bg .bg-layer {
+    background-image: url("{{bg_url}}");
+    background-size: cover;
+    background-position: center;
+  }
+  .bg-watermark {
+    position: absolute;
+    left: 60px;
+    bottom: -140px;
+    width: 560px;
+    opacity: 0.13;
+    transform: rotate(8deg);
+  }
+  .has-bg .bg-watermark { display: none; }
+
+  /* tối vùng giữa để chữ nổi — mọi thiết bị đều thấy vùng này */
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(1100px 720px at 50% 42%, rgba(18,43,8,0.62), rgba(18,43,8,0.18) 70%),
+      linear-gradient(180deg, rgba(18,43,8,0.25) 0%, rgba(18,43,8,0.45) 100%);
+  }
+  /* nền gen-art thường SÁNG → vùng chữ giữa cần đậm hơn */
+  .has-bg .scrim {
+    background:
+      radial-gradient(1150px 760px at 50% 42%, rgba(18,43,8,0.78), rgba(18,43,8,0.22) 72%),
+      linear-gradient(180deg, rgba(18,43,8,0.30) 0%, rgba(18,43,8,0.50) 100%);
+  }
+
+  /* ---------- nội dung: khoá trong safe rect (giữa ngang, 2/3 trên) ---------- */
+  .safe-content {
+    position: absolute;
+    top: 60px;
+    right: 460px;
+    bottom: 340px;
+    left: 460px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 26px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .logo-chip {
+    width: 92px;
+    height: 92px;
+    background: var(--bookie-white);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-card);
+  }
+  .logo-chip img { width: 70px; height: 70px; }
+  .badge {
+    background: var(--bookie-white);
+    color: var(--bookie-green-dark);
+    font-weight: 800;
+    font-size: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 34px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-card);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    background: var(--bookie-orange);
+    color: var(--bookie-white);
+    font-weight: 600;
+    font-size: 27px;
+    letter-spacing: 1px;
+    padding: 12px 28px;
+    border-radius: var(--radius-pill);
+  }
+
+  h1 {
+    color: var(--bookie-white);
+    font-weight: 800;
+    font-size: 84px;
+    line-height: 1.06;
+    letter-spacing: -1px;
+    text-shadow: 0 4px 24px rgba(18,43,8,0.5);
+    max-width: 1000px;
+  }
+  .author {
+    color: rgba(255,255,255,0.9);
+    font-weight: 600;
+    font-size: 34px;
+    margin-top: -8px;
+  }
+
+  .info-line {
+    color: var(--bookie-white);
+    font-weight: 600;
+    font-size: 33px;
+    line-height: 1.45;
+    max-width: 960px;
+    text-shadow: 0 2px 12px rgba(18,43,8,0.6);
+  }
+  .info-line .sep { color: var(--bookie-green); font-weight: 800; padding: 0 6px; }
+
+  .cta {
+    background: var(--bookie-orange);
+    color: var(--bookie-white);
+    font-weight: 800;
+    font-size: 31px;
+    padding: 18px 40px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-card);
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body class="{{#bg}}has-bg{{/bg}}">
+  <div class="bg-layer"></div>
+  <img class="bg-watermark" src="../../assets/logo/logomark.png" alt="">
+  <div class="scrim"></div>
+
+  <div class="safe-content">
+  <div class="stack">
+    <div class="brand-row">
+      <div class="logo-chip"><img src="../../assets/logo/logomark.png" alt="Book!e"></div>
+      <div class="badge">{{loai_event}}</div>
+    </div>
+
+    {{#chu_de}}<div class="eyebrow">{{chu_de}}</div>{{/chu_de}}
+    <h1 data-fit data-max-lines="2">{{ten_sach}}</h1>
+    {{#tac_gia}}<div class="author">{{tac_gia}}</div>{{/tac_gia}}
+
+    <div class="info-line">{{ngay_gio}}<span class="sep">•</span>{{dia_diem}}</div>
+
+    <div class="cta">Đăng ký: {{dang_ky}}</div>
+  </div>
+  </div>
+
+<script>
+  document.querySelectorAll("[data-fit]").forEach((el) => {
+    const maxLines = Number(el.dataset.maxLines || 2);
+    let size = parseFloat(getComputedStyle(el).fontSize);
+    const lineHeightRatio = 1.06;
+    while (size > 44 && el.scrollHeight > size * lineHeightRatio * maxLines + 8) {
+      size -= 2;
+      el.style.fontSize = size + "px";
+    }
+  });
+
+  // guard safe zone: stack cao hơn safe box → scale nhỏ lại cho lọt trọn
+  const safe = document.querySelector(".safe-content");
+  const stack = document.querySelector(".stack");
+  const safeH = safe.getBoundingClientRect().height;
+  const stackH = stack.getBoundingClientRect().height;
+  if (stackH > safeH) {
+    stack.style.transform = `scale(${Math.max(0.68, (safeH / stackH) * 0.96)})`;
+    stack.style.transformOrigin = "50% 50%";
+  }
+</script>
+</body>
+</html>

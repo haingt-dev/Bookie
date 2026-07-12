@@ -1,0 +1,14 @@
+schema = 1
+project_tag = "Bookie"
+default_backend = "cloud"
+
+[anchor]
+file = "anchor.txt"
+
+[cloud]
+provider = "gpt-image-2"
+env_file = "../../.env"                              # -> Bookie/.env (gitignored; OPENAI_API_KEY)
+size = "1024x1536"                                   # mặc định: nền dọc cho poster 4:5; cover dùng --size 1536x1024
+quality = "low"                                      # ladder: low để explore, high chỉ cho bản chốt
+dest_raw = "shared/design-system/backgrounds/raw"    # candidates (gitignored)
+dest_final = "shared/design-system/backgrounds/final" # bản chọn — commit, tái dùng giữa các event

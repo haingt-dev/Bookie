@@ -1,0 +1,6 @@
+# file HTML tạm do render.mjs compose ra
+templates/*/_composed.html
+# ảnh render thử — deliverable thật nằm ở projects/<event>/output/
+out/
+# nền gen-art thô (candidates) — chỉ commit bản final được chọn
+backgrounds/raw/

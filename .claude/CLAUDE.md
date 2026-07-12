@@ -24,6 +24,7 @@ Bookie/
 │   └── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
+    ├── design-system/  <- event graphics: brand tokens + HTML/CSS templates + render.mjs (see its README)
     └── templates/      <- reusable templates
 ```
 
@@ -43,6 +44,7 @@ Two structure variants, chosen by project type:
 
 Event-kit content is distilled from the matching `knowledge/03-playbook/<program>.md`; `projects/bd-2026/` is the reference implementation. Promote a generic template into `shared/templates/` only once a second event-type project needs one — not before.
 
+- Event graphics (poster/cover) come from `shared/design-system/` via `/event-graphics` — per-event data only, never hand-design per event
 - Each sub-project has its own README.md with a Status field: `Incubating | Active | Paused | Archived`
 - Large media files tracked with Git LFS (video, PSD, audio, etc.)
 - Final output goes in `output/`, don't commit output to git unless necessary

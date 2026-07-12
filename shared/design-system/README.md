@@ -1,0 +1,67 @@
+# Bookie Design System — đồ hoạ sự kiện bán tự động
+
+Hệ 2 tầng thay cho việc thiết kế tay mỗi event (Photoshop/Canva):
+
+| Tầng | Công cụ | Tính chất |
+|---|---|---|
+| Nền minh hoạ theo chủ đề | `/gen-art` (cloud, anchor Bookie, prompt **không chữ**) | Sáng tạo có kiểm soát |
+| Layout + logo + chữ Việt + khổ | Template HTML/CSS → headless Chrome → PNG | Khoá cứng, lặp lại được |
+
+**Template là sản phẩm, mỗi event chỉ là dữ liệu**: điền 1 file `event.json`, render ra đủ khổ.
+Chữ tiếng Việt là Unicode + font thật (Be Vietnam Pro self-host, đủ glyph — đã stress-test
+`Ậ ẫ ể Ệ Ộ Ỡ Ữ…`) nên không bao giờ sai dấu — khác với để AI "vẽ" chữ.
+
+## Dùng nhanh
+
+```bash
+cd shared/design-system
+node render.mjs --template poster-feed --data <event.json>
+node render.mjs --template cover-event --data <event.json> --out ../../projects/<event>/output/
+node render.mjs --template cover-event --data <event.json> --debug-safe-area   # xem vùng an toàn
+```
+
+Cần `google-chrome-stable`/`chromium` trên máy (script tự dò, override bằng `CHROME_BIN`).
+Skill **`/event-graphics`** chạy trọn flow: điền data → sinh nền → render → tự review.
+
+## Schema `event.json` (chung cho mọi khổ)
+
+| Field | Bắt buộc | Ghi chú |
+|---|---|---|
+| `loai_event` | ✓ | Badge: "Book!e Discussion", "Book!e Talk"… |
+| `ten_sach` | ✓ | Tiêu đề lớn — tự co chữ khi dài (`data-fit`) |
+| `tac_gia` | | Ẩn hàng nếu rỗng |
+| `chu_de` | | Eyebrow chip cam — câu hook/chủ đề |
+| `ngay_gio` | ✓ | Ví dụ: `09:00 · Chủ nhật · 27/07/2026` |
+| `dia_diem` | ✓ | |
+| `dien_gia` | | Chỉ role label / tên đã công bố công khai (PII policy) |
+| `dang_ky` | ✓ | Link NGẮN (bit.ly) — CTA không xuống dòng |
+| `hashtag` | ✓ | Chuẩn casing: `#BookieDiscussion` |
+| `bg` | | Đường dẫn ảnh nền (tương đối so với file data); rỗng = gradient brand |
+
+## Khổ (templates/)
+
+| Template | Khổ | Nguồn spec (verify 07/2026) |
+|---|---|---|
+| `poster-feed` | 1080×1350 (4:5) | Hiển thị nguyên khổ trên mobile feed — không cần safe zone |
+| `cover-event` | 1920×1005 (1.91:1) | Mobile crop hai bên + UI đè dải đáy → **mọi chữ/logo nằm trong safe rect** (~1000×605 giữa-trên, khai báo trong `config.json`); nền tràn full-bleed. Nguồn: Snappa 01/2026 · postfa.st 04/2026 · Moda 03/2026 |
+
+**Thêm khổ mới**: copy một thư mục template, sửa `config.json` (width/height/safe) +
+layout trong `template.html`. Token brand import từ `../../tokens/tokens.css` — không hardcode màu/font.
+
+## Nền gen-art
+
+- Profile: `.claude/imagegen/profile.toml` + art-direction trong `.claude/imagegen/anchor.txt`
+  (mọi nền sinh ra tự cùng vibe brand). Key: `OPENAI_API_KEY` trong `Bookie/.env` (gitignored,
+  xem `.env.example`).
+- gpt-image-2 chỉ có 3 khổ → quy ước: **dọc `1024x1536`** cho poster, **ngang `1536x1024`**
+  cho cover (template `background-size: cover` tự crop). Sinh mỗi hướng một ảnh, cùng prompt.
+- Ladder: `--quality low` để chọn vibe (2–3 candidates vào `backgrounds/raw/`, gitignored) →
+  bản chốt regen `high` → lưu `backgrounds/final/` (commit — thư viện nền tái dùng giữa các event).
+- Prompt luôn KHÔNG chữ (anchor đã ép) — chữ do template đè lên.
+
+## Quy ước
+
+- Repo PUBLIC → data + ảnh commit phải PII-clean (role label, không tên/contact thành viên).
+- PNG thành phẩm của event cụ thể → `projects/<event>/output/` (không commit); `out/` ở đây
+  chỉ là chỗ render thử (gitignored).
+- Màu/font/spacing sửa MỘT nơi: `tokens/tokens.css` (nguồn: Bookie Branding Guideline).
