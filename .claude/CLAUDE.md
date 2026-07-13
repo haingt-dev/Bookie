@@ -21,7 +21,8 @@ Bookie/
 │   └── _meta/          <- PII policy, sources map, scan report (English)
 ├── projects/           <- sub-projects (each gets a folder; 2 structure variants, see below)
 │   ├── ai-book-video/  <- AI book-video pipeline (Paused)
-│   └── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
+│   ├── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
+│   └── bt-2026/        <- event-type sub-project (BT revival w/ guest host group, Incubating)
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
     ├── design-system/  <- event graphics: brand tokens + HTML/CSS templates + render.mjs (see its README)
@@ -29,7 +30,7 @@ Bookie/
     └── templates/      <- reusable templates
 ```
 
-**Knowledge base rule**: anything committed under `knowledge/` must stay PII-clean (no member names/contacts/individual payments — see `knowledge/_meta/PII-POLICY.md`). It is a dated snapshot (crawled 2026-07-11); refresh = re-crawl Drive and diff against `00-inventory/inventory.json`.
+**Knowledge base rule**: anything committed under `knowledge/` must stay PII-clean (no member names/contacts/individual payments — see `knowledge/_meta/PII-POLICY.md`). It is a dated snapshot (crawled 2026-07-11); refresh = re-crawl Drive and diff against `00-inventory/inventory.json`. Docs recorded outside the Drive snapshot are allowed only with an explicit provenance note (e.g. `06-thuong-hieu-media/website.md`).
 
 ### Sub-project Conventions
 

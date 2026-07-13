@@ -43,6 +43,7 @@ Toàn bộ tri thức của **Book!e Inspires Everyone** (cộng đồng đọc 
 
 ### 06 — Thương hiệu & media
 - [Chỉ mục thương hiệu](06-thuong-hieu-media/chi-muc-thuong-hieu.md) — brand guidelines, web, kho media (xem thêm `shared/branding/`)
+- [Website bookiecommunity.com](06-thuong-hieu-media/website.md) — hiện trạng 07/2026, ràng buộc Google Sites, quyết định migrate (ghi trực tiếp, ngoài snapshot Drive)
 
 ### 07 — Đối tác
 - [Đối tác & bảo trợ](07-doi-tac/doi-tac-va-bao-tro.md) — stakeholder register, partnerships, testimonials

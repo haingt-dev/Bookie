@@ -12,6 +12,7 @@
 |---|---|---|
 | [ai-book-video](projects/ai-book-video/README.md) | Paused | AI-generated narrated book-summary videos — 3 shipped, automation stack not deployed |
 | [bd-2026](projects/bd-2026/) | Incubating | Event kit for an upcoming Book!e Discussion, distilled from the BD playbook |
+| [bt-2026](projects/bt-2026/README.md) | Incubating | Book!e Talk revival with a guest host group — host-facing proposal template + per-event automation, kit to follow |
 
 Status vocabulary: Incubating / Active / Paused / Archived.
 

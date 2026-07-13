@@ -41,7 +41,7 @@ event.json, xem `../event-automation/README.md`).
 | `bg` | | Đường dẫn ảnh nền (tương đối so với file data); rỗng = gradient brand |
 | `qr` | | Đường dẫn QR đăng ký (SVG, tương đối so với file data) — poster gắn ô "Quét để đăng ký" vào cột phải info-card **và ẩn pill link** (link full để trong caption bài đăng); rỗng = pill như cũ. `/event-form` tự sinh + ghi |
 | `ngay_gio_iso` | | `{"start":"YYYY-MM-DDTHH:MM","end":"…"}` — cho `/event-form` build link Google Calendar |
-| `form_edit_url` `form_published_url` `calendar_link` | | Do `/event-form` ghi ngược — đừng điền tay (xem `shared/event-automation/README.md`) |
+| `form_edit_url` `form_published_url` `calendar_link` `calendar_event_id` | | Do `/event-form` ghi ngược — đừng điền tay (xem `shared/event-automation/README.md`) |
 
 ## Khổ (templates/)
 

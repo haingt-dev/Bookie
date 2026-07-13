@@ -22,7 +22,7 @@ Quy ước tên form (automation tự đặt): `Đăng ký BOOK!E DISCUSSION: <T
 | 3 | Họ và tên | Text (câu trả lời ngắn) | Bắt buộc | |
 | 4 | Số điện thoại (có Zalo) | Text (câu trả lời ngắn) | Bắt buộc | Kênh nhắc lịch T-1 |
 | 5 | Bạn là ai với Book!e? | Multiple choice | Bắt buộc | `Bookier (thành viên)` / `Bookie's Friend — từng tham gia` / `Lần đầu tham gia` |
-| 6 | Bạn đã đọc cuốn sách của buổi này chưa? | Multiple choice | Không bắt buộc | `Đã đọc` / `Đang đọc` / `Chưa đọc` — giúp Host cân chỉnh độ sâu thảo luận |
+| 6 | Bạn đã đọc cuốn sách của buổi này chưa? | Multiple choice | Không bắt buộc | `Đã đọc` / `Đang đọc` / `Chưa đọc` — giúp Host cân chỉnh độ sâu thảo luận. Help text: "Với Book!e Talk (theo chủ đề): tính là cuốn sách bạn định mang theo." — một form gốc phục vụ cả BD lẫn BT |
 | 7 | Bạn biết sự kiện qua đâu? | Multiple choice | Không bắt buộc | `Fanpage` / `Email` / `Bạn bè giới thiệu` / `Khác` — đo kênh truyền thông cho MarCom |
 | 8 | Câu hỏi / điều bạn muốn thảo luận | Text (đoạn dài) | Không bắt buộc | Gửi trước cho Host/Speaker chuẩn bị |
 
@@ -30,17 +30,22 @@ Nguồn các trường: distill từ những form đọc được trong knowledg
 
 ## Settings của form gốc
 
-- [ ] Thu thập email: **Responder input** (không bắt đăng nhập, không giới hạn 1 phản hồi — bản ghi trùng xử lý khi tổng hợp, đúng thực tế vận hành cũ)
+`setupTemplateForm()` tự set 3/4 mục (✅); chỉ mục ảnh header còn làm tay:
+
+- ✅ Thu thập email: **Responder input** (không bắt đăng nhập, không giới hạn 1 phản hồi — bản ghi trùng xử lý khi tổng hợp, đúng thực tế vận hành cũ; account chưa hỗ trợ set bằng code → script log nhắc chỉnh tay)
 - [ ] Ảnh header: banner brand Bookie (lấy từ `shared/branding/`, một lần — mọi form clone tự kế thừa)
-- [ ] Confirmation message: để placeholder bất kỳ — automation ghi đè mỗi event (cảm ơn + ngày giờ + địa điểm + calendar link)
-- [ ] KHÔNG bật "Limit to 1 response" (đòi đăng nhập Google)
+- ✅ Confirmation message: placeholder — automation ghi đè mỗi event (cảm ơn + ngày giờ + địa điểm + calendar link)
+- ✅ KHÔNG bật "Limit to 1 response" (đòi đăng nhập Google)
 
 ## Checklist dựng form gốc (một lần, account bookie.community@gmail.com)
 
-- [ ] Tạo form mới trong `Bookie 2026/Templates/`, tên: `Format Form đăng ký BD (2026)` (nối tiếp pattern "Format Form đky BT (mới)" 2024)
-- [ ] Dựng 8 trường đúng thứ tự + settings ở trên
+Phần dựng trường đã tự động: hàm `setupTemplateForm()` trong [`form-dang-ky.gs`](../../../shared/event-automation/apps-script/form-dang-ky.gs) tự tạo form `Format Form đăng ký BD (2026)` (nối tiếp pattern "Format Form đky BT (mới)" 2024) với đủ 8 trường + settings đúng spec này, chuyển vào `Templates/`, log ra `TEMPLATE_ID` — chạy trong bước 4 của [deploy guide](../../../shared/event-automation/README.md). Còn lại làm tay:
+
+- [ ] Chỉnh theme + ảnh header brand (từ `shared/branding/`) — FormApp không set được theme
 - [ ] Submit thử 1 response → xoá response test
-- [ ] Lấy `TEMPLATE_ID` (chuỗi giữa `/d/` và `/edit` trong URL editor) → điền vào Script Properties của Apps Script (xem [deploy guide](../../../shared/event-automation/README.md))
+- [ ] Điền `TEMPLATE_ID` (từ Execution log) vào Script Properties của Apps Script
+
+> Đổi câu hỏi về sau = sửa form gốc + sửa spec này + sửa `setupTemplateForm()` cho khớp.
 
 ---
 

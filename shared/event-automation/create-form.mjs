@@ -7,6 +7,8 @@
  *   node create-form.mjs --data <event.json> --dry-run     # xem payload, không gọi
  *   node create-form.mjs --data <event.json> --qr-only     # chỉ sinh lại QR từ link đã có
  *   node create-form.mjs --data <event.json> --force       # tạo form MỚI dù đã có link cũ
+ *   node create-form.mjs --new-proposal "BT31"              # copy Doc proposal cho kỳ mới
+ *                                                            (host điền bản copy này)
  *
  * Cơ chế:
  *   - POST event data + secret tới Apps Script Web App (account bookie) —
@@ -38,13 +40,14 @@ const dataPath = argOf("--data");
 const dryRun = args.includes("--dry-run");
 const qrOnly = args.includes("--qr-only");
 const force = args.includes("--force");
+const newProposalKy = argOf("--new-proposal");
 
-if (!dataPath) {
-  console.error("Cần --data <event.json>. Xem header file này.");
+if (!dataPath && !newProposalKy) {
+  console.error("Cần --data <event.json> hoặc --new-proposal <tên kỳ>. Xem header file này.");
   process.exit(1);
 }
-const dataAbs = path.resolve(dataPath);
-const data = JSON.parse(fs.readFileSync(dataAbs, "utf8"));
+const dataAbs = dataPath ? path.resolve(dataPath) : null;
+const data = dataAbs ? JSON.parse(fs.readFileSync(dataAbs, "utf8")) : null;
 
 // ---------- env (.env ở repo root, gitignored) ----------
 function loadEnv() {
@@ -119,6 +122,41 @@ function makeQr(url, destDir) {
 }
 
 // ---------- main ----------
+if (newProposalKy) {
+  if (dryRun) {
+    console.log(`— dry-run: sẽ copy Doc proposal cho kỳ "${newProposalKy}" vào Bookie 2026/Proposals/ —`);
+    process.exit(0);
+  }
+  const webappUrl = env.BOOKIE_FORM_WEBAPP_URL;
+  const secret = env.BOOKIE_FORM_SECRET;
+  if (!webappUrl || !secret) {
+    console.error("Thiếu BOOKIE_FORM_WEBAPP_URL / BOOKIE_FORM_SECRET trong Bookie/.env — xem README.md (mục Deploy).");
+    process.exit(1);
+  }
+  const res = await fetch(webappUrl, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({ action: "new_proposal", ky: newProposalKy, secret }),
+    redirect: "follow",
+  });
+  const text = await res.text();
+  let result;
+  try {
+    result = JSON.parse(text);
+  } catch {
+    console.error(`Endpoint không trả JSON (HTTP ${res.status}). Đầu response:\n${text.slice(0, 300)}`);
+    process.exit(2);
+  }
+  if (!result.ok) {
+    console.error(`Endpoint báo lỗi: ${result.error}`);
+    process.exit(2);
+  }
+  console.log(result.existed ? `✔ Kỳ ${newProposalKy} đã có proposal từ trước:` : `✔ Proposal mới cho kỳ ${newProposalKy}:`);
+  console.log(`  ${result.proposal_url}`);
+  console.log("→ Gửi link cho đầu mối nhóm host điền trực tiếp trên Doc.");
+  process.exit(0);
+}
+
 const calendarLink = buildCalendarLink(data);
 if (!calendarLink) {
   console.warn('⚠ Thiếu/sai "ngay_gio_iso": {"start":"YYYY-MM-DDTHH:MM","end":"…"} — bỏ qua calendar link.');
@@ -156,6 +194,8 @@ const payload = {
   chu_de: data.chu_de,
   dien_gia: data.dien_gia,
   calendar_link: calendarLink,
+  // --force với event đã có lịch: gửi id cũ để endpoint xoá, tránh trùng calendar
+  replace_calendar_event_id: force ? data.calendar_event_id : undefined,
 };
 
 if (dryRun) {
@@ -195,10 +235,13 @@ data.dang_ky = result.short_url.replace(/^https?:\/\//, "");
 data.form_edit_url = result.edit_url;
 data.form_published_url = result.published_url;
 if (calendarLink) data.calendar_link = calendarLink;
+if (result.calendar_event_id) data.calendar_event_id = result.calendar_event_id;
 data.qr = makeQr(result.published_url, path.dirname(dataAbs));
 fs.writeFileSync(dataAbs, JSON.stringify(data, null, 2) + "\n");
 
 console.log(`✔ Form     → ${result.edit_url}`);
 console.log(`✔ Đăng ký  → ${result.short_url}`);
 console.log(`✔ Folder   → ${result.folder_url}`);
-console.log(`✔ event.json đã cập nhật: dang_ky, form_edit_url, form_published_url, calendar_link, qr`);
+if (result.calendar_event_id) console.log(`✔ Calendar → đã lên lịch trên "Bookie Events"`);
+if (result.calendar_error) console.warn(`⚠ Calendar lỗi (form vẫn OK): ${result.calendar_error}`);
+console.log(`✔ event.json đã cập nhật: dang_ky, form_edit_url, form_published_url, calendar_link${result.calendar_event_id ? ", calendar_event_id" : ""}, qr`);

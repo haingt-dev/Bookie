@@ -54,6 +54,8 @@ Template gốc dùng font mẫu Montserrat, Roboto (overview) và Century Gothic
 
 ## 3. Sitemap / cấu trúc website Bookie (Google Sites)
 
+> Hiện trạng website 07/2026 + quyết định migrate khỏi Google Sites: xem [website.md](website.md).
+
 Sheet quy hoạch (`Bookie Web Layout`, tạo 2023-06-24, cập nhật 2023-08-16) lập kế hoạch cấu trúc trang web theo mô hình sitemap. Tại thời điểm ghi nhận, phần lớn các mục còn ở trạng thái **chưa triển khai** (Content = FALSE, Design = FALSE), chỉ 2 mục đầu có Content = TRUE. Đây là **kế hoạch**, không phải bản ghi hiện trạng website đã hoàn thiện.
 
 ### Cấu trúc dự kiến

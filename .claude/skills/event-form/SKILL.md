@@ -22,6 +22,10 @@ allowed-tools: Bash, Read, Write, Edit, Skill, AskUserQuestion, SendUserFile
 
 - Cùng convention với `/event-graphics`: file ở `projects/<event>/assets/event.json`,
   schema trong `shared/design-system/README.md`.
+- Event có **proposal host đã điền** (flow bt-2026 — mapping + flow ở
+  `projects/bt-2026/plan/xu-ly-proposal.md`) → điền event.json từ proposal,
+  KHÔNG hỏi lại Hải những field proposal đã có. Mở kỳ mới cần bản proposal cho host:
+  `node create-form.mjs --new-proposal "<tên kỳ>"`.
 - Field bắt buộc cho form: `ten_sach`, `loai_event`, `ngay_gio`, `dia_diem` + **`ngay_gio_iso`**
   (`{"start":"YYYY-MM-DDTHH:MM","end":"…"}` — để build link Google Calendar). Thiếu → hỏi Hải
   một lần bằng AskUserQuestion, đừng đoán.
