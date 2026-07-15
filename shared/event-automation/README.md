@@ -17,6 +17,9 @@ Tự động hoá khâu thủ công nhiều lỗi nhất mỗi event: clone form
 Skill **`/event-form`** chạy trọn flow. Form gốc (bộ câu hỏi chuẩn) đặc tả tại
 [`projects/bd-2026/plan/bieu-mau-dang-ky.md`](../../projects/bd-2026/plan/bieu-mau-dang-ky.md).
 
+Lộ trình mở rộng (mail scheduler T-1/T+2, check-in, feedback form, recap) + quyết định
+kiến trúc (vì sao không n8n): **[ROADMAP.md](ROADMAP.md)** — build đợt SG ~08/2026.
+
 ## Dùng nhanh
 
 ```bash
