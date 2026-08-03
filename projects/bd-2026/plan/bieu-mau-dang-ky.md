@@ -25,6 +25,7 @@ Quy ước tên form (automation tự đặt): `Đăng ký BOOK!E DISCUSSION: <T
 | 6 | Bạn đã đọc cuốn sách của buổi này chưa? | Multiple choice | Không bắt buộc | `Đã đọc` / `Đang đọc` / `Chưa đọc` — giúp Host cân chỉnh độ sâu thảo luận. Help text: "Với Book!e Talk (theo chủ đề): tính là cuốn sách bạn định mang theo." — một form gốc phục vụ cả BD lẫn BT |
 | 7 | Bạn biết sự kiện qua đâu? | Multiple choice | Không bắt buộc | `Fanpage` / `Email` / `Bạn bè giới thiệu` / `Khác` — đo kênh truyền thông cho MarCom |
 | 8 | Câu hỏi / điều bạn muốn thảo luận | Text (đoạn dài) | Không bắt buộc | Gửi trước cho Host/Speaker chuẩn bị |
+| 9 | Nhận email về các sự kiện sắp tới của Book!e | Checkboxes (1 lựa chọn) | Không bắt buộc, KHÔNG tick mặc định | Label option pin nguyên văn: "Có, gửi cho mình email về các sự kiện sắp tới của Book!e". Nguồn nuôi tab `Subscribers` trong registry — chỉ ai tick mới vào danh sách nhận tin, `nguon=form-dangky`. Mapping defensive: `nhan_tin_moi` = (mảng response KHÔNG rỗng) — không so sánh chuỗi, label bị reword không lặng lẽ tắt consent |
 
 Nguồn các trường: distill từ những form đọc được trong knowledge base (Book!e Exchange 2017: họ tên/email/số buổi đã tham gia; check-in BD/BT: họ tên + email; Gala 2023–2024: name/email/phone/loại thành viên) + nhu cầu vận hành trong playbook. Không thêm câu hỏi dài dòng — form đăng ký phải điền xong dưới 1 phút.
 
@@ -39,13 +40,14 @@ Nguồn các trường: distill từ những form đọc được trong knowledg
 
 ## Checklist dựng form gốc (một lần, account bookie.community@gmail.com)
 
-Phần dựng trường đã tự động: hàm `setupTemplateForm()` trong [`form-dang-ky.gs`](../../../shared/event-automation/apps-script/form-dang-ky.gs) tự tạo form `Format Form đăng ký BD (2026)` (nối tiếp pattern "Format Form đky BT (mới)" 2024) với đủ 8 trường + settings đúng spec này, chuyển vào `Templates/`, log ra `TEMPLATE_ID` — chạy trong bước 4 của [deploy guide](../../../shared/event-automation/README.md). Còn lại làm tay:
+Phần dựng trường đã tự động: hàm `setupTemplateForm()` trong [`form-dang-ky.gs`](../../../shared/event-automation/apps-script/form-dang-ky.gs) tự tạo form `Format Form đăng ký BD (2026)` (nối tiếp pattern "Format Form đky BT (mới)" 2024) với 8 trường (#1–#8) + settings đúng spec này, chuyển vào `Templates/`, log ra `TEMPLATE_ID` — chạy trong bước 4 của [deploy guide](../../../shared/event-automation/README.md). Trường #9 (consent checkbox) CHƯA có trong code — build ở slice S4b, xem [`shared/event-automation/ROADMAP.md`](../../../shared/event-automation/ROADMAP.md); sửa `setupTemplateForm()` + form gốc + file này cùng một commit. Còn lại làm tay:
 
+- [ ] Kiểm Settings ▸ "Thu thập địa chỉ email" = **Responder input** (script thử set bằng code, không đảm bảo trên mọi account — xem nhắc trong Execution log)
 - [ ] Chỉnh theme + ảnh header brand (từ `shared/branding/`) — FormApp không set được theme
 - [ ] Submit thử 1 response → xoá response test
 - [ ] Điền `TEMPLATE_ID` (từ Execution log) vào Script Properties của Apps Script
 
-> Đổi câu hỏi về sau = sửa form gốc + sửa spec này + sửa `setupTemplateForm()` cho khớp.
+> Đổi câu hỏi về sau = sửa form gốc + sửa spec này + sửa `setupTemplateForm()` cùng một commit.
 
 ---
 

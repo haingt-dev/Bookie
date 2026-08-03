@@ -1,7 +1,7 @@
 ---
 title: "Website bookiecommunity.com"
 sources: 0
-updated: 2026-07-13
+updated: 2026-08-03
 ---
 # Website bookiecommunity.com
 
@@ -56,3 +56,13 @@ Không còn thao tác tay trên website: `/event-form` ghi `event.json` + tạo 
 event → site build tự render "Sự kiện sắp tới" / archive từ chính `event.json` +
 poster đã render. Chi tiết triển khai: xem repo (`shared/event-automation/README.md`
 và slice website khi thực hiện).
+
+## Cập nhật (2026-08-03)
+
+> ⚠ Provenance: quyết định trực tiếp 2026-08, KHÔNG thuộc snapshot Drive.
+
+Thiết kế slice website đã chốt chi tiết tại `site/SPEC.md` trong repo: code nằm ở
+`site/` (Astro, Cloudflare Pages), site **view-only** + đúng **1 điểm tương tác** là
+form subscribe nhận tin. Data render luôn lấy từ `event.json` commit trong repo —
+**không bao giờ** fetch từ Sheet (ranh giới PII cứng). Kiến trúc tổng thể (data flow,
+2 ranh giới PII/human-gate) xem `ARCHITECTURE.md` ở root repo.

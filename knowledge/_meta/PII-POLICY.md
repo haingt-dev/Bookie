@@ -29,3 +29,18 @@ This knowledge base lives in a **public** GitHub repo. All content synthesized f
 
 ## Raw data
 Raw extractions and crawl listings never entered the repo tree (kept in an ephemeral job scratchpad, auto-cleaned). The knowledge base is a **point-in-time snapshot**: crawled **2026-07-11**.
+
+## Operational data (outside this repo)
+
+The event-automation system (`shared/event-automation/`) runs a **member registry** — a Google Sheet (`Bookie Registry 2026`, 6 tabs: `Events`, `Subscribers`, `Bookiers`, `Attendance`, `Feedback`, `People`) holding member/subscriber/attendee PII (name, email, phone, registration + attendance status). An auxiliary `Quarantine` tab holds subscribe payloads that hit the rate cap. It lives entirely on Google Drive under the **bookie.community@gmail.com** account.
+
+`People` is a **derived golden record**: latest name/phone/attendance history per email, rebuilt from the other tabs — not a primary source. `Feedback` is **anonymous-by-design** per event; it carries only 2 optional PII fields a respondent may fill in themselves (`ten_tuy_chon`, `email_tuy_chon`).
+
+- **Never committed to this repo.** No individual row, name, email, or phone from the registry is ever written to any file under `knowledge/` or `projects/`.
+- **Never on the public website.** The Astro site renders only from `event.json` (event metadata + aggregate numbers, per the "Allowed" section above) committed in-repo — it never fetches from the Sheet. This is a hard architectural boundary, not just a convention: the site build has no code path that reads Sheet data.
+- **Who can read it**: the Bookie admin team, via direct Sheet share on the bookie.community@gmail.com Drive — same access model as the rest of `knowledge/`'s Drive source.
+- **Retention & deletion-on-request**:
+  - Unsubscribe does **not** delete a person's row — it flips `Subscribers` status to `unsubscribed`, which doubles as a suppression entry (must be kept so the system doesn't re-mail that address).
+  - A hard deletion request must run in this order: **(1) delete the original response in each Google Form involved first** — Forms are the system of record, and if a form response isn't deleted, the next sync tick recreates the corresponding Sheet row; **(2) then delete the matching rows** from `People`, `Subscribers`, `Bookiers`, `Attendance`, and `Feedback` (where `email_tuy_chon` matches), including the suppression entry — meaning a deleted person could re-enter via a future form response. Procedure documented in `shared/event-automation/REGISTRY.md`'s operator runbook.
+
+See `../../ARCHITECTURE.md` (PII line) and `shared/event-automation/REGISTRY.md` (registry schema + runbook) for the full design.

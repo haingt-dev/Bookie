@@ -15,6 +15,7 @@ The organization's knowledge home + workspace for sub-projects. Not a codebase �
 
 ```
 Bookie/
+├── ARCHITECTURE.md     <- spine of the event operating system: data/automation/content/view layers, decision log, risk register
 ├── knowledge/          <- org knowledge base (from Drive; Vietnamese; PII-scrubbed — repo is PUBLIC)
 │   ├── 00-inventory/   <- Drive tree snapshot + inventory.json (links back to sources)
 │   ├── 01..08-*/       <- history, org structure, playbooks, plans, minutes, brand, partners
@@ -23,6 +24,7 @@ Bookie/
 │   ├── ai-book-video/  <- AI book-video pipeline (Paused)
 │   ├── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
 │   └── bt-2026/        <- event-type sub-project (BT revival w/ guest host group, Incubating)
+├── site/               <- public website (Astro; spec in site/SPEC.md, code builds at slice S6)
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
     ├── design-system/  <- event graphics: brand tokens + HTML/CSS templates + render.mjs (see its README)
@@ -53,24 +55,12 @@ Event-kit content is distilled from the matching `knowledge/03-playbook/<program
 - Final output goes in `output/`, don't commit output to git unless necessary
 - When pipeline logic changes, update WORKFLOW.md (or equivalent) to stay in sync
 
-## Project Values
-- **No dirty state** — Don't leave the environment broken. Verify changes work before completing a task
-- **Reversibility** — Ensure significant changes can be undone if needed
-
-### Language
+## Language
 - **All project output in Vietnamese**: scripts, content, copy, descriptions, comments in output files
 - Config files stay English (instructions to Claude)
 
-### Boundaries
+## Boundaries
 - This project is a resource hub, not application code
 - No backend/frontend infrastructure setup
 - Org notes live in this repo (opened as an Obsidian vault; `.obsidian/` is gitignored). Repo is PUBLIC → notes must be born PII-clean. Notes about PEOPLE (interviews, personal assessments) belong in the private Idea_Vault second brain, never here
-
-## Security
-**CRITICAL**: NEVER commit, push, or expose secrets, API keys, tokens, or credentials to version control.
-
-- NEVER hardcode secrets in code — use environment variables and `.env` files
-- NEVER commit files containing secrets — verify with `git diff --cached` before committing
-- ALWAYS check `.gitignore` has `.env*`, `credentials.*`, `secrets.*`, `*.key`, `*.pem`
-- ASK before committing sensitive-looking files (`config.json`, `.env*`, `credentials.*`)
-- If secrets are accidentally committed: STOP, alert user to revoke, remove from history, add to `.gitignore`
+- `event.json` is public data by definition — never put personal data in it (no phone numbers, no private contacts); operational personal data (registry) lives only in Google Drive, never in this repo — see `ARCHITECTURE.md`

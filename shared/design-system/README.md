@@ -29,6 +29,7 @@ event.json, xem `../event-automation/README.md`).
 
 | Field | Bắt buộc | Ghi chú |
 |---|---|---|
+| `ma_su_kien` | ✓ | Mã event, prefix theo loại event `[A-Z]{2,4}\d+` (BD/BT/GL/MU/WS), vd `BT31`, `GL2026` — primary key xuyên hệ (registry Sheet, slug website, folder Drive per-event). Public data by definition |
 | `loai_event` | ✓ | Badge: "Book!e Discussion", "Book!e Talk"… |
 | `ten_sach` | ✓ | Tiêu đề lớn — tự co chữ khi dài (`data-fit`) |
 | `tac_gia` | | Ẩn hàng nếu rỗng |
@@ -40,7 +41,7 @@ event.json, xem `../event-automation/README.md`).
 | `hashtag` | | KHÔNG in lên poster (badge `loai_event` đã nói điều đó) — dùng cho caption bài đăng/comms. Chuẩn casing: `#BookieDiscussion` |
 | `bg` | | Đường dẫn ảnh nền (tương đối so với file data); rỗng = gradient brand |
 | `qr` | | Đường dẫn QR đăng ký (SVG, tương đối so với file data) — poster gắn ô "Quét để đăng ký" vào cột phải info-card **và ẩn pill link** (link full để trong caption bài đăng); rỗng = pill như cũ. `/event-form` tự sinh + ghi |
-| `ngay_gio_iso` | | `{"start":"YYYY-MM-DDTHH:MM","end":"…"}` — cho `/event-form` build link Google Calendar |
+| `ngay_gio_iso` | ✓ | `{"start":"YYYY-MM-DDTHH:MM","end":"…"}` — cho `/event-form` build link Google Calendar. Bắt buộc từ S2: mail scheduler tính T-offset từ field này. Giờ local VN **không offset** (đúng format `parseIsoVn()` chấp nhận — automation tự nối `+07:00` khi ghi registry) |
 | `form_edit_url` `form_published_url` `calendar_link` `calendar_event_id` | | Do `/event-form` ghi ngược — đừng điền tay (xem `shared/event-automation/README.md`) |
 
 ## Khổ (templates/)
@@ -52,6 +53,28 @@ event.json, xem `../event-automation/README.md`).
 
 **Thêm khổ mới**: copy một thư mục template, sửa `config.json` (width/height/safe) +
 layout trong `template.html`. Token brand import từ `../../tokens/tokens.css` — không hardcode màu/font.
+
+### `email/` — brand email template (spec, chưa build)
+
+Build ở slice **S3** (xem `shared/event-automation/ROADMAP.md`) — mục này chỉ ghi khung đã chốt để build không lệch thiết kế.
+
+Khung brand cố định, **duyệt 1 lần**, dùng chung cho cả 3 mail (mời T-31 / nhắc T-1 / cảm ơn T+2):
+
+- Logo header
+- Tiêu đề
+- Content slots — nhận đoạn văn từ Google Doc đã duyệt (đoạn → `<p>`, link tự nhận)
+- Ảnh poster
+- Nút CTA "Đăng ký"
+- Footer — do **code nối vào** (không nằm trong Doc → người sửa Doc không xoá nhầm được): unsubscribe (mail marketing) hoặc lý-do-nhận-thư (mail transactional)
+
+Ràng buộc email-HTML (mail client không phải trình duyệt):
+
+- **Table-based layout + inline CSS** — mail client không hỗ trợ flexbox/grid
+- **Tổng dung lượng mail < 102KB** (Gmail clip mail dài hơn)
+- **Font = system stack fallback** — Be Vietnam Pro không load được trong mail client, chỉ dùng cho web/poster
+- Ảnh **v1 = `inlineImages` CID**; chuyển sang ảnh host trên `bookiecommunity.com` sau khi site chạy (S6)
+
+Dùng chung tokens brand với poster/cover/web (`tokens/tokens.css`) — 1 nguồn brand → 4 kênh.
 
 ## Nền gen-art
 

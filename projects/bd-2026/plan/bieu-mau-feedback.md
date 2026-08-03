@@ -2,6 +2,8 @@
 
 Spec để dựng Google Form thu feedback sau buổi Book Discussion/Book Talk. Điểm mạnh của form: tách nhỏ đánh giá theo từng module chương trình thay vì chỉ hỏi "hài lòng chung chung" — nhờ đó biết chính xác bước nào cần cải thiện. Team dựng form copy đúng thứ tự trường bên dưới.
 
+> **Note (slice S5):** form này sẽ được **auto-create per event** qua Apps Script (clone từ template, cùng cơ chế với form đăng ký) — xem `shared/event-automation/ROADMAP.md`. Trường #2 (Sự kiện) khi đó do automation điền sẵn từ `event.json`, không cần điền tay.
+
 ## Các trường của form (theo thứ tự)
 
 | # | Tên trường | Loại câu hỏi | Bắt buộc | Ghi chú |
@@ -15,6 +17,7 @@ Spec để dựng Google Form thu feedback sau buổi Book Discussion/Book Talk.
 | 7 | Mong chờ ở hoạt động tiếp theo | Text (trả lời mở, đoạn dài) | Không bắt buộc | |
 | 8 | Chỗ tâm sự tự do | Text (trả lời mở, đoạn dài) | Không bắt buộc | |
 | 9 | Tên | Text (câu trả lời ngắn) | Không bắt buộc (optional) | |
+| 10 | Email (nếu muốn Book!e phản hồi riêng) | Text (câu trả lời ngắn) | Không bắt buộc (optional) | Form feedback **cố ý không bật thu email tự động** — ẩn danh là load-bearing cho độ thẳng thắn của feedback; feedback join theo EVENT không theo người |
 
 ### Trường #6 — danh sách module cần đánh giá riêng
 
@@ -33,7 +36,7 @@ Mỗi module là một dòng trong grid, đáp án chọn 1 trong 3: **"Cũng �
 
 ## Checklist dựng form (Google Form)
 
-- [ ] Copy đúng thứ tự 9 trường ở trên
+- [ ] Copy đúng thứ tự 10 trường ở trên
 - [ ] Trường #2 (Sự kiện) — cập nhật tên buổi hiện tại: [Tên buổi], [Ngày]
 - [ ] Trường #3 — set thang Linear scale 1-5
 - [ ] Trường #6 — dựng dạng "Multiple choice grid": 10 dòng module × 3 cột đáp án
