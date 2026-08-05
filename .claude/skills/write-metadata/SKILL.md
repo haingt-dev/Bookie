@@ -34,8 +34,7 @@ Generate YouTube and Facebook metadata for a Bookie book video.
    **Title** (3 options):
    - Vietnamese, max 60 characters
    - All Vietnamese text MUST use proper diacritics (có dấu). Exception: hashtags/tags (no diacritics OK)
-   - Curiosity-driven, clear benefit
-   - No cheap clickbait
+   - Curiosity-driven, clear benefit — not clickbait
    - Book title must appear in the title
 
    **Description**:

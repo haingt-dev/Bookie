@@ -60,7 +60,6 @@ Event-kit content is distilled from the matching `knowledge/03-playbook/<program
 - Config files stay English (instructions to Claude)
 
 ## Boundaries
-- This project is a resource hub, not application code
-- No backend/frontend infrastructure setup
-- Org notes live in this repo (opened as an Obsidian vault; `.obsidian/` is gitignored). Repo is PUBLIC → notes must be born PII-clean. Notes about PEOPLE (interviews, personal assessments) belong in the private Idea_Vault second brain, never here
-- `event.json` is public data by definition — never put personal data in it (no phone numbers, no private contacts); operational personal data (registry) lives only in Google Drive, never in this repo — see `ARCHITECTURE.md`
+- Resource hub only — no app code, no backend/frontend infra setup here
+- Org notes live in this repo (opened as an Obsidian vault; `.obsidian/` is gitignored). Repo is PUBLIC → notes must be born PII-clean. Notes about PEOPLE (interviews, personal assessments) belong in the private Idea_Vault second brain
+- `event.json` is public data by definition — keep personal data out of it (no phone numbers, no private contacts). Operational personal data (registry) lives only in Google Drive — see `ARCHITECTURE.md`
