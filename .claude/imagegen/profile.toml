@@ -6,9 +6,14 @@ default_backend = "cloud"
 file = "anchor.txt"
 
 [cloud]
-provider = "gpt-image-2"
+provider = "gpt-image-2.5-sunburst"                  # ⬆ 2026-09-16 từ gpt-image-2
 env_file = "../../.env"                              # -> Bookie/.env (gitignored; OPENAI_API_KEY)
 size = "1024x1536"                                   # mặc định: nền dọc cho poster 4:5; cover dùng --size 1536x1024
-quality = "low"                                      # ladder: low để explore, high chỉ cho bản chốt
+quality = "explore"                                  # RUNG Ý ĐỊNH (explore|review|final), KHÔNG phải tier của hãng:
+                                                     # explore để dò, `final` chỉ cho bản chốt. Provider tự dịch sang
+                                                     # thang của nó, cùng mức token mỗi rung → đổi `provider` ở trên
+                                                     # đổi chất lượng chứ không đổi hoá đơn. Đừng ghi tier thô ở đây:
+                                                     # gpt-image-2.5 đã dời cả thang xuống một bậc, `quality = "high"`
+                                                     # sẽ âm thầm mất 4× ngân sách token.
 dest_raw = "shared/design-system/backgrounds/raw"    # candidates (gitignored)
 dest_final = "shared/design-system/backgrounds/final" # bản chọn — commit, tái dùng giữa các event
