@@ -12,6 +12,10 @@ fi
 
 [ -z "$COMMAND" ] && exit 0
 
+# `git diff --name-only` prints paths relative to the repo root, so the size
+# check below only finds the files when it runs from there.
+cd "${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null)}" 2>/dev/null || exit 0
+
 # Only check on git add/commit commands
 if echo "$COMMAND" | grep -qE 'git (add|commit)'; then
     # Find staged files larger than 50MB
