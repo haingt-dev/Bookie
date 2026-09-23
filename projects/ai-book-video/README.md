@@ -7,7 +7,7 @@
 > 2. Re-authenticate Google OAuth (Sheets credential)
 > 3. Restart host bridge (`./host-bridge/bridge.sh`)
 >
-> Note: the CLI path (`make` + Claude Code skills) needs no revival — it never depended on n8n.
+> CLI path (`make` + Claude Code skills): move `claude-skills/*` back to `.claude/skills/` (parked here so their descriptions don't load in every Bookie session). It never depended on n8n.
 
 Automated pipeline that turns books into narrated video content for the community. See the [root README](../../README.md) for org context and how this fits into Bookie's other resources.
 

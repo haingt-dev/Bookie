@@ -11,7 +11,7 @@
 
 ## Project Structure
 
-The organization's knowledge home + workspace for sub-projects. Not a codebase — holds knowledge, assets, scripts, and configs.
+The organization's knowledge home + workspace for sub-projects.
 
 ```
 Bookie/
@@ -21,9 +21,9 @@ Bookie/
 │   ├── 01..08-*/       <- history, org structure, playbooks, plans, minutes, brand, partners
 │   └── _meta/          <- PII policy, sources map, scan report (English)
 ├── projects/           <- sub-projects (each gets a folder; 2 structure variants, see below)
-│   ├── ai-book-video/  <- AI book-video pipeline (Paused)
-│   ├── bd-2026/        <- event-type sub-project (BD event kit, Incubating)
-│   └── bt-2026/        <- event-type sub-project (BT revival w/ guest host group, Incubating)
+│   ├── ai-book-video/  <- AI book-video pipeline
+│   ├── bd-2026/        <- event-type sub-project (BD event kit)
+│   └── bt-2026/        <- event-type sub-project (BT revival w/ guest host group)
 ├── site/               <- public website (Astro; spec in site/SPEC.md, code builds at slice S6)
 └── shared/             <- shared resources
     ├── branding/       <- logo, brand assets
@@ -60,6 +60,5 @@ Event-kit content is distilled from the matching `knowledge/03-playbook/<program
 - Config files stay English (instructions to Claude)
 
 ## Boundaries
-- Resource hub only — no app code, no backend/frontend infra setup here
 - Org notes live in this repo (opened as an Obsidian vault; `.obsidian/` is gitignored). Repo is PUBLIC → notes must be born PII-clean. Notes about PEOPLE (interviews, personal assessments) belong in the private Idea_Vault second brain
 - `event.json` is public data by definition — keep personal data out of it (no phone numbers, no private contacts). Operational personal data (registry) lives only in Google Drive — see `ARCHITECTURE.md`

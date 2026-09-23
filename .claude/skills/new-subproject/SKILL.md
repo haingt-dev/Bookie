@@ -1,7 +1,7 @@
 ---
 name: new-subproject
 model: haiku
-description: "Create new Bookie sub-project with standard or event-type structure"
+description: "Scaffold a new Bookie sub-project folder — standard pipeline layout, or --event for a community event (BD/BT/Gala). Use when starting a new project/event under projects/."
 disable-model-invocation: false
 argument-hint: "<project-name> [--event]"
 ---
