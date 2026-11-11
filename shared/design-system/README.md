@@ -79,8 +79,7 @@ Dùng chung tokens brand với poster/cover/web (`tokens/tokens.css`) — 1 ngu�
 ## Nền gen-art
 
 - Profile: `.claude/imagegen/profile.toml` + art-direction trong `.claude/imagegen/anchor.txt`
-  (mọi nền sinh ra tự cùng vibe brand). Key: `OPENAI_API_KEY` trong `Bookie/.env` (gitignored,
-  xem `.env.example`).
+  (mọi nền sinh ra tự cùng vibe brand). Không cần key trong repo: `imagegen` tự đọc key của nó.
 - gpt-image-2 chỉ có 3 khổ → quy ước: **dọc `1024x1536`** cho poster, **ngang `1536x1024`**
   cho cover (template `background-size: cover` tự crop). Sinh mỗi hướng một ảnh, cùng prompt.
 - Ladder: `--quality low` để chọn vibe (2–3 candidates vào `backgrounds/raw/`, gitignored) →
